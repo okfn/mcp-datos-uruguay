@@ -1,0 +1,44 @@
+[project]
+name = "mcp-ckan-datos-uruguay"
+version = "0.1.0"
+description = "Coleccion de herramientas MCP para datasets del portal de datos abiertos de Uruguay"
+readme = "README.md"
+authors = [
+    { name = "OKFN", email = "info@okfn.org" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "pandas>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "flake8>=6.0.0",  # Code linting
+    "flake8-pyproject>=1.2.0",  # Read flake8 config from pyproject.toml
+]
+
+[project.scripts]
+mcp-ckan-datos-uruguay = "mcp_ckan_datos_uruguay:main"
+
+[project.entry-points."mcp_ckan"]
+mcp-ckan-datos-uruguay = "mcp_ckan_datos_uruguay:register_tools"
+
+[build-system]
+requires = ["uv_build>=0.9.10,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.flake8]
+max-line-length = 130
+max-complexity = 16
+count = true
+statistics = true
+show-source = true
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+    "*.egg-info",
+]
