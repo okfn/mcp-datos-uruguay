@@ -4,6 +4,9 @@ Este repositorio contiene definiciones de datasets declarativas para el [portal 
 
 **Nota:** Esto es un trabajo en progreso en etapa Alpha.  
 
+## Pruebas
+![captura-pruebas](/extras/imgs/capture-ia.png)
+
 Esto está listo para ejecutarse con el servidor OKFN MCP definido en https://github.com/okfn/mcp-ckan.  
 
 ## Agregar esto a un servidor OKFN MCP
