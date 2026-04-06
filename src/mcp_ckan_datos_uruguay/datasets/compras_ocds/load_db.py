@@ -28,6 +28,10 @@ DEFAULT_DATA_DIRS = [
 ]
 
 SCHEMA = """
+-- Publicaciones (releases): cada evento dentro de un proceso de contratación pública.
+-- Un proceso (ocid) puede tener múltiples releases (planificación, licitación, adjudicación, etc.).
+-- El campo "tag" indica la etapa del proceso (e.g. "planning", "tender", "award").
+-- buyer_id y buyer_name identifican al organismo comprador.
 CREATE TABLE IF NOT EXISTS releases (
     ocid TEXT,
     release_id TEXT,
@@ -38,6 +42,9 @@ CREATE TABLE IF NOT EXISTS releases (
     source_file TEXT
 );
 
+-- Partes involucradas en cada proceso de contratación.
+-- Incluye compradores, proveedores y cualquier otro actor.
+-- Cada fila es una combinación parte-rol (una parte puede tener múltiples roles).
 CREATE TABLE IF NOT EXISTS parties (
     ocid TEXT,
     party_id TEXT,
@@ -45,6 +52,9 @@ CREATE TABLE IF NOT EXISTS parties (
     role TEXT
 );
 
+-- Adjudicaciones: decisiones de otorgar un contrato dentro de un proceso.
+-- Contiene el monto adjudicado (value_amount) y la moneda (value_currency).
+-- Un proceso puede tener múltiples adjudicaciones (e.g. por lote).
 CREATE TABLE IF NOT EXISTS awards (
     ocid TEXT,
     award_id TEXT,
@@ -54,6 +64,8 @@ CREATE TABLE IF NOT EXISTS awards (
     value_currency TEXT
 );
 
+-- Proveedores ganadores de cada adjudicación.
+-- Una adjudicación puede tener múltiples proveedores (consorcio/unión temporal).
 CREATE TABLE IF NOT EXISTS award_suppliers (
     ocid TEXT,
     award_id TEXT,
@@ -61,6 +73,8 @@ CREATE TABLE IF NOT EXISTS award_suppliers (
     supplier_name TEXT
 );
 
+-- Ítems (bienes/servicios) incluidos en cada adjudicación.
+-- Detalla qué se compró, en qué cantidad, a qué precio unitario y con qué clasificación.
 CREATE TABLE IF NOT EXISTS award_items (
     ocid TEXT,
     award_id TEXT,
@@ -74,6 +88,9 @@ CREATE TABLE IF NOT EXISTS award_items (
     unit_value_currency TEXT
 );
 
+-- Licitaciones/llamados: la convocatoria para recibir ofertas.
+-- procurement_method indica el tipo de compra (open, limited, direct, etc.).
+-- start_date y end_date definen el período de la licitación.
 CREATE TABLE IF NOT EXISTS tenders (
     ocid TEXT,
     tender_id TEXT,
@@ -86,6 +103,8 @@ CREATE TABLE IF NOT EXISTS tenders (
     end_date TEXT
 );
 
+-- Ítems (bienes/servicios) solicitados en cada licitación.
+-- Describe qué se pide comprar, la cantidad y su clasificación.
 CREATE TABLE IF NOT EXISTS tender_items (
     ocid TEXT,
     tender_id TEXT,
