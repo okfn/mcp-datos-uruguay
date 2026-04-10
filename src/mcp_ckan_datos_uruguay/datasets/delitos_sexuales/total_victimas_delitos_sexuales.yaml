@@ -1,0 +1,40 @@
+engine: aggregate
+
+# Fuente: Ministerio del Interior - catalogodatos.gub.uy
+# Preguntas que esta herramienta puede responder:
+# - ¿Cuántas víctimas de delitos sexuales hay en Uruguay?
+# - ¿Cuántas víctimas mujeres de violación hubo en Montevideo?
+# - ¿Cuántas víctimas varones se registraron en todo el país?
+
+dataset:
+  name: total-victimas-delitos-sexuales-uruguay
+  description: "Total de víctimas de delitos sexuales en Uruguay (2018-2024)"
+  source:
+    csv: https://catalogodatos.gub.uy/dataset/5f1aebb0-7f52-4fb9-a2f2-e38f498301f2/resource/b5aaa38d-efae-4227-a6b4-e69602c1cacb/download/victimas-de-delitos-sexuales-2018-2024.csv
+    url: https://catalogodatos.gub.uy/dataset/delitos-sexuales
+    encoding: "latin-1"
+
+tool:
+  name: total_victimas_delitos_sexuales_uy
+  description: >
+    Cantidad total de víctimas de delitos sexuales registradas en Uruguay (2018-2024).
+    Puede filtrarse por departamento, tipo de delito y sexo.
+  column: Departamento
+  aggregation: count
+  format: "{result:,}"
+  filters:
+    - column: Departamento
+      param: departamento
+      description: "Departamento, ej: MONTEVIDEO, CANELONES, MALDONADO"
+      label: "en {value}"
+    - column: Titulo
+      param: tipo_delito
+      description: "Tipo de delito: ABUSO SEXUAL, VIOLACIÓN, ATENTADO VIOLENTO AL PUDOR"
+      label: "de tipo {value}"
+    - column: Sexo
+      param: sexo
+      description: "Sexo de la víctima: MUJER, VARÓN"
+      label: "sexo {value}"
+  response: |
+    Se registraron {result} víctimas de delitos sexuales {filter_label} en Uruguay (2018-2024).
+    Fuente: Ministerio del Interior, Uruguay - {source}

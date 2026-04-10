@@ -1,0 +1,48 @@
+engine: row_list
+
+# Fuente: Ministerio del Interior - catalogodatos.gub.uy
+# Preguntas que esta herramienta puede responder:
+# - ¿Qué denuncias de delitos sexuales hubo en Montevideo en 2023?
+# - ¿Qué casos de violación se registraron en Canelones?
+# - ¿Qué denuncias de abuso sexual hubo en la Comisaría 1 de Paysandú?
+
+dataset:
+  name: eventos-delitos-sexuales-uruguay
+  description: "Denuncias de delitos sexuales registradas en Uruguay (2018-2024)"
+  source:
+    csv: https://catalogodatos.gub.uy/dataset/5f1aebb0-7f52-4fb9-a2f2-e38f498301f2/resource/4de1678e-3faf-4d6e-9e90-eaeae87925a5/download/eventos-de-delitos-sexuales-2018-2024.csv
+    url: https://catalogodatos.gub.uy/dataset/delitos-sexuales
+    encoding: "latin-1"
+
+tool:
+  name: eventos_delitos_sexuales_uy
+  description: >
+    Lista de denuncias de delitos sexuales registradas en Uruguay (2018-2024).
+    Cada evento incluye fecha, tipo de delito, jurisdicción policial y departamento.
+    Puede filtrarse por departamento y tipo de delito.
+  columns:
+    - column: Ingreso
+      label: "Fecha"
+    - column: Título
+      label: "Delito"
+    - column: Jurisdicción
+      label: "Jurisdicción"
+    - column: Departamento
+      label: "Departamento"
+  filters:
+    - column: Departamento
+      param: departamento
+      description: "Departamento, ej: MONTEVIDEO, CANELONES, MALDONADO"
+      label: "en {value}"
+    - column: Título
+      param: tipo_delito
+      description: "Tipo de delito: ABUSO SEXUAL, VIOLACIÓN, ATENTADO VIOLENTO AL PUDOR"
+      label: "de tipo {value}"
+  limit: 40
+  sort:
+    column: Ingreso
+    order: desc
+  response: |
+    Se encontraron {count} denuncias de delitos sexuales {filter_label}:
+    {list}
+    Fuente: Ministerio del Interior, Uruguay - {source}
