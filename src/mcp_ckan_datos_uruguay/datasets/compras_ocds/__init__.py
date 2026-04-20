@@ -16,19 +16,19 @@ En Windows, exportar `MCP_CKAN_DATOS_URUGUAY_DB_PATH` a una ruta bajo
 import os
 from pathlib import Path
 
-_ENV_VAR = "MCP_CKAN_DATOS_URUGUAY_DB_PATH"
-_APP_DIR = "mcp-ckan-datos-uruguay"
-_DB_FILENAME = "compras_ocds.db"
+ENV_VAR = "MCP_CKAN_DATOS_URUGUAY_DB_PATH"
+APP_DIR = "mcp-ckan-datos-uruguay"
+DB_FILENAME = "compras_ocds.db"
 
 
 def get_db_path() -> Path:
-    override = os.environ.get(_ENV_VAR)
+    override = os.environ.get(ENV_VAR)
     if override:
         return Path(override).expanduser()
 
     xdg = os.environ.get("XDG_DATA_HOME")
     base = Path(xdg).expanduser() if xdg else Path.home() / ".local" / "share"
-    return base / _APP_DIR / _DB_FILENAME
+    return base / APP_DIR / DB_FILENAME
 
 
 DB_PATH = get_db_path()
