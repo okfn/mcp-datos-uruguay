@@ -31,6 +31,15 @@ Agrega este repositorio a la configuración de tu servidor MCP en el archivo `de
 
 Puedes definir herramientas manuales en Python o crear archivos `.yaml` que definan un dataset y sus herramientas MCP de manera declarativa.  
 
+## Dataset `compras-ocds`: ubicación de la base de datos
+
+El dataset de compras OCDS usa una base SQLite (~1GB) generada a partir de los
+zips anuales con `src/mcp_ckan_datos_uruguay/datasets/compras_ocds/load_db.py`.
+La base de datos **no se empaqueta**: ambos procesos (carga y consulta)
+resuelven la misma ruta, de modo que la base escrita por `load_db.py` sea la
+que luego lee el servidor MCP tras `pip install`.
+
+
 ## Agregar un nuevo dataset
 
 1. Crea un nuevo archivo `.yaml` en `datasets/`
