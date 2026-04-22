@@ -14,11 +14,12 @@ import sqlite3
 import sys
 from pathlib import Path
 
+from . import DB_PATH
+
 log = logging.getLogger(__name__)
 
 BASE_DIR = Path(__file__).parent
 DATA_DIR = BASE_DIR.parent / "compras-ocds"
-DB_PATH = DATA_DIR / "compras_ocds.db"
 
 DEFAULT_DATA_DIRS = [
     DATA_DIR / "ocds-2022",
@@ -241,6 +242,7 @@ def load_directories(data_dirs=None, db_path=None):
     if db_path is None:
         db_path = DB_PATH
 
+    Path(db_path).parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(db_path)
     drop_all_tables(conn)
     create_schema(conn)

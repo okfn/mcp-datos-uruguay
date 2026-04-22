@@ -11,12 +11,10 @@ import logging
 import sqlite3
 import unicodedata
 import urllib.request
-from pathlib import Path
+
+from . import DB_PATH
 
 log = logging.getLogger(__name__)
-
-DATA_DIR = Path(__file__).parent.parent / "compras-ocds"
-DB_PATH = DATA_DIR / "compras_ocds.db"
 
 _EMPRESAS_CACHE = None
 _PRODUCTOS_CACHE = None
