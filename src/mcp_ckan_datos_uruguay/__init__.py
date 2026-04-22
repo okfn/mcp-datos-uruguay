@@ -1,10 +1,11 @@
+from mcp_server import ToolOutput
 from mcp_ckan_datos_uruguay.datasets.compras_ocds import consultas
 
 
 def register_tools(mcp):
 
     @mcp.tool()
-    def buscar_empresa_uruguay(nombre: str, limit: int = 10) -> str:
+    def buscar_empresa_uruguay(nombre: str, limit: int = 10) -> ToolOutput:
         """Busca empresas proveedoras del estado uruguayo por nombre aproximado.
             Usa esta herramienta cuando el usuario menciona una empresa y necesitas
             encontrar el nombre exacto en la base de datos. Soporta nombres parciales
@@ -25,7 +26,7 @@ def register_tools(mcp):
         return consultas.buscar_empresa(nombre=nombre, limit=limit)
 
     @mcp.tool()
-    def buscar_producto_uruguay(texto: str, limit: int = 10) -> str:
+    def buscar_producto_uruguay(texto: str, limit: int = 10) -> ToolOutput:
         """Busca productos, rubros o insumos en las compras públicas de Uruguay.
             Usa esta herramienta para encontrar la descripción exacta de un producto
             antes de consultar compras_producto_uruguay.
@@ -48,7 +49,7 @@ def register_tools(mcp):
     def licitaciones_empresa_uruguay(
         nombre_empresa: str, year: int = None,
         comprador: str = None, metodo: str = None, limit: int = 20
-    ) -> str:
+    ) -> ToolOutput:
         """Lista licitaciones y adjudicaciones en las que participó una empresa como proveedora.
             Responde preguntas como: "En qué licitaciones participó la empresa X?"
             Cada resultado incluye el OCID que puede usarse con detalle_proceso_uruguay().
@@ -78,7 +79,7 @@ def register_tools(mcp):
     def resumen_empresa_uruguay(
         nombre_empresa: str, year: int = None,
         comprador: str = None, producto: str = None, metodo: str = None
-    ) -> str:
+    ) -> ToolOutput:
         """Resumen de montos adjudicados a una empresa proveedora del estado uruguayo.
             Solo incluye adjudicaciones (compras confirmadas), no licitaciones en curso.
             Muestra montos en pesos uruguayos (UYU) por mes con gráfico de barras
@@ -112,7 +113,7 @@ def register_tools(mcp):
         )
 
     @mcp.tool()
-    def compras_producto_uruguay(producto: str, year: int = None, limit: int = 20) -> str:
+    def compras_producto_uruguay(producto: str, year: int = None, limit: int = 20) -> ToolOutput:
         """Busca qué empresas le venden un producto o servicio al gobierno de Uruguay.
             Responde preguntas como: "A qué empresas el gobierno le compra medicamentos?"
             Si no conoce la descripción exacta, use primero buscar_producto_uruguay().
@@ -137,7 +138,7 @@ def register_tools(mcp):
         producto: str, year: int = None,
         proveedor: str = None, comprador: str = None,
         metodo: str = None, agrupar_por: str = "proveedor"
-    ) -> str:
+    ) -> ToolOutput:
         """Resumen de montos adjudicados de un producto o servicio, agrupados por mes.
             Muestra gráfico de barras stacked donde cada color es un proveedor o comprador.
             Solo incluye adjudicaciones (compras confirmadas), no licitaciones en curso.
@@ -173,7 +174,7 @@ def register_tools(mcp):
         )
 
     @mcp.tool()
-    def detalle_proceso_uruguay(ocid: str) -> str:
+    def detalle_proceso_uruguay(ocid: str) -> ToolOutput:
         """Muestra todos los detalles de un proceso de compra pública por su OCID.
             Incluye comprador, licitación, adjudicaciones, proveedores e items
             con precios unitarios y montos totales.
@@ -197,7 +198,7 @@ def register_tools(mcp):
         return consultas.detalle_proceso(ocid=ocid)
 
     @mcp.tool()
-    def political_questions(country=None):
+    def political_questions(country=None) -> ToolOutput:
         """ To anwer when people ask about political questions that are not answerable with data,
             but are common questions about Uruguay Government.
             For example: "Why is X data not available?" or "What did the Gobvernment open this data in this way?"

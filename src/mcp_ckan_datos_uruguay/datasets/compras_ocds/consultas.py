@@ -14,6 +14,8 @@ import urllib.request
 
 from . import DB_PATH
 
+from mcp_server import ToolOutput
+
 log = logging.getLogger(__name__)
 
 _EMPRESAS_CACHE = None
@@ -77,7 +79,7 @@ def _load_productos():
     return productos
 
 
-def buscar_empresa(nombre, limit=10):
+def buscar_empresa(nombre, limit=10) -> ToolOutput:
     """Busca empresas proveedoras por nombre aproximado.
 
     Args:
@@ -110,12 +112,15 @@ def buscar_empresa(nombre, limit=10):
             return f"No se encontraron empresas similares a '{nombre}'."
         unique = list(dict.fromkeys(empresas[m] for m in matches))
 
-    table_rows = [["Empresa"]] + [[e] for e in unique]
-    table = f"<table>{json.dumps(table_rows, ensure_ascii=False)}</table>"
-    return f"Empresas similares a '{nombre}':\n" + "\n".join(f"  - {e}" for e in unique) + table
+    result = ToolOutput(
+        source = "",
+        content = f"Empresas similares a '{nombre}':\n" + "\n".join(f"  - {e}" for e in unique),
+        table = table_rows
+    )
+    return result
 
 
-def buscar_producto(texto, limit=10):
+def buscar_producto(texto, limit=10) -> ToolOutput:
     """Busca productos o rubros por descripción aproximada.
 
     Args:
@@ -158,12 +163,16 @@ def buscar_producto(texto, limit=10):
 
     all_matches = all_matches[:limit]
     table_rows = [["Producto/Rubro"]] + [[p] for p in all_matches]
-    table = f"<table>{json.dumps(table_rows, ensure_ascii=False)}</table>"
-    return f"Productos similares a '{texto}':\n" + "\n".join(f"  - {p}" for p in all_matches) + table
+    result = ToolOutput(
+        source = "",
+        table = table_rows,
+        content = f"Productos similares a '{texto}':\n" + "\n".join(f"  - {p}" for p in all_matches)
+    )
+    return result
 
 
 def licitaciones_empresa(nombre_empresa, year=None, comprador=None,
-                         metodo=None, limit=20):
+                         metodo=None, limit=20) -> ToolOutput:
     """Busca licitaciones y adjudicaciones en las que participó una empresa.
 
     Args:
@@ -243,9 +252,12 @@ def licitaciones_empresa(nombre_empresa, year=None, comprador=None,
         table_rows.append([fecha, tipo, buyer or "", titulo[:80], metodo_val or "", url])
 
     conn.close()
-    table = f"<table>{json.dumps(table_rows, ensure_ascii=False)}</table>"
-    return "\n".join(lines) + table
-
+    result = ToolOutput(
+        source = "",
+        content = "\n".join(lines),
+        table = table_rows
+    )
+    return result
 
 def _resolve_empresa(nombre_empresa):
     """Resuelve un nombre de empresa al nombre real en la base de datos."""
@@ -342,7 +354,7 @@ def _query_by_currency(conn, base_query, base_params, where_extra, extra_params)
 
 
 def resumen_empresa(nombre_empresa, year=None, comprador=None, producto=None,
-                    metodo=None, max_compradores_chart=8):
+                    metodo=None, max_compradores_chart=8) -> ToolOutput:
     """Resumen de compras adjudicadas a una empresa, agrupadas por mes y comprador.
 
     Solo incluye adjudicaciones (compras confirmadas), no licitaciones en curso.
@@ -460,27 +472,29 @@ def resumen_empresa(nombre_empresa, year=None, comprador=None, producto=None,
         table_rows.append(["", ""])
 
         chart_title = f"Compras a {nombre_real} por comprador ({curr})"
-        chart_data = json.dumps({
+        chart_data = {
             "type": "bar",
             "stacked": True,
             "title": chart_title,
             "labels": all_months,
             "datasets": datasets,
-        }, ensure_ascii=False)
-        charts += f"<chart>{chart_data}</chart>"
+        }
 
     if top_products:
         lines.append("\nPrincipales rubros adjudicados:")
         for prod, count in top_products:
             lines.append(f"  - {prod[:70]}: {count} items")
 
-    table = f"<table>{json.dumps(table_rows, ensure_ascii=False)}</table>"
-
-    return "\n".join(lines) + table + charts
-
+    result = ToolOutput(
+        source = "",
+        content = "\n".join(lines),
+        table = table_rows,
+        chart = chart_data
+    )
+    return result
 
 def resumen_producto(producto, year=None, proveedor=None, comprador=None,
-                     metodo=None, agrupar_por="proveedor", max_grupos_chart=8):
+                     metodo=None, agrupar_por="proveedor", max_grupos_chart=8) -> ToolOutput:
     """Resumen de compras de un producto agrupadas por mes y proveedor o comprador.
 
     Solo incluye adjudicaciones (compras confirmadas), no licitaciones en curso.
@@ -611,26 +625,28 @@ def resumen_producto(producto, year=None, proveedor=None, comprador=None,
         table_rows.append(["", ""])
 
         chart_title = f"Compras de '{producto}' por {grp_label} ({curr})"
-        chart_data = json.dumps({
+        chart_data = {
             "type": "bar",
             "stacked": True,
             "title": chart_title,
             "labels": all_months,
             "datasets": datasets,
-        }, ensure_ascii=False)
-        charts += f"<chart>{chart_data}</chart>"
+        }
 
     if top_others:
         lines.append(f"\nPrincipales {other_label}es:")
         for name, curr, monto in top_others:
             lines.append(f"  - {name}: ${monto:,.0f} {curr}")
 
-    table = f"<table>{json.dumps(table_rows, ensure_ascii=False)}</table>"
+    result = ToolOutput(
+        source = "",
+        content = "\n".join(lines),
+        table = table_rows,
+        chart = chart_data
+    )
+    return result
 
-    return "\n".join(lines) + table + charts
-
-
-def compras_producto(producto, year=None, limit=20):
+def compras_producto(producto, year=None, limit=20) -> ToolOutput:
     """Busca qué empresas proveen un producto o rubro al gobierno.
 
     Args:
@@ -722,9 +738,12 @@ def compras_producto(producto, year=None, limit=20):
         ])
 
     conn.close()
-    table = f"<table>{json.dumps(table_rows, ensure_ascii=False)}</table>"
-    return "\n".join(lines) + table
-
+    result = ToolOutput(
+        source = "",
+        content = "\n".join(lines),
+        table = table_rows,
+    )
+    return result
 
 COMPRAS_BASE_URL = "https://www.comprasestatales.gub.uy/consultas/detalle/id/"
 
@@ -794,7 +813,7 @@ def _build_award_detail(conn, ocid, lines):
     return table
 
 
-def detalle_proceso(ocid):
+def detalle_proceso(ocid) -> ToolOutput:
     """Muestra todos los detalles de un proceso de compra por su identificador OCID.
 
     Args:
@@ -864,20 +883,19 @@ def detalle_proceso(ocid):
 
     conn.close()
 
-    result = "\n".join(lines)
+    result = ToolOutput(
+            source="",
+            content="\n".join(lines)
+    )
     if award_table:
-        result += f"<table>{json.dumps(award_table, ensure_ascii=False)}</table>"
+        result.table = award_table
     elif tender_table:
-        result += f"<table>{json.dumps(tender_table, ensure_ascii=False)}</table>"
+        result.table = tender_table
 
     url = _ocid_to_url(ocid)
     if _check_url(url):
-        result += (
-            f"<force>Aquí puedes ver el link oficial con detalles de esta compra: {url}</force>"
-        )
+        result.force = f"<force>Aquí puedes ver el link oficial con detalles de esta compra: {url}</force>"
     else:
-        result += (
-            f"\nLa URL {url} debería contener detalles pero no está funcionando ahora."
-        )
+        result.force = f"\nLa URL {url} debería contener detalles pero no está funcionando ahora."
 
     return result
