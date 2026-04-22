@@ -47,8 +47,11 @@ def register_tools(mcp):
 
     @mcp.tool()
     def licitaciones_empresa_uruguay(
-        nombre_empresa: str, year: int = None,
-        comprador: str = None, metodo: str = None, limit: int = 20
+        nombre_empresa: str,
+        year: int = None,
+        comprador: str = None,
+        metodo: str = None,
+        limit: int = 20,
     ) -> ToolOutput:
         """Lista licitaciones y adjudicaciones en las que participó una empresa como proveedora.
             Responde preguntas como: "En qué licitaciones participó la empresa X?"
@@ -71,14 +74,20 @@ def register_tools(mcp):
             - licitaciones_empresa_uruguay(nombre_empresa="ANTEL", metodo="Licitación Pública")
         """
         return consultas.licitaciones_empresa(
-            nombre_empresa=nombre_empresa, year=year,
-            comprador=comprador, metodo=metodo, limit=limit
+            nombre_empresa=nombre_empresa,
+            year=year,
+            comprador=comprador,
+            metodo=metodo,
+            limit=limit,
         )
 
     @mcp.tool()
     def resumen_empresa_uruguay(
-        nombre_empresa: str, year: int = None,
-        comprador: str = None, producto: str = None, metodo: str = None
+        nombre_empresa: str,
+        year: int = None,
+        comprador: str = None,
+        producto: str = None,
+        metodo: str = None,
     ) -> ToolOutput:
         """Resumen de montos adjudicados a una empresa proveedora del estado uruguayo.
             Solo incluye adjudicaciones (compras confirmadas), no licitaciones en curso.
@@ -108,12 +117,17 @@ def register_tools(mcp):
             - resumen_empresa_uruguay(nombre_empresa="OLECAR S A", metodo="Licitación Abreviada")
         """
         return consultas.resumen_empresa(
-            nombre_empresa=nombre_empresa, year=year,
-            comprador=comprador, producto=producto, metodo=metodo
+            nombre_empresa=nombre_empresa,
+            year=year,
+            comprador=comprador,
+            producto=producto,
+            metodo=metodo,
         )
 
     @mcp.tool()
-    def compras_producto_uruguay(producto: str, year: int = None, limit: int = 20) -> ToolOutput:
+    def compras_producto_uruguay(
+        producto: str, year: int = None, limit: int = 20
+    ) -> ToolOutput:
         """Busca qué empresas le venden un producto o servicio al gobierno de Uruguay.
             Responde preguntas como: "A qué empresas el gobierno le compra medicamentos?"
             Si no conoce la descripción exacta, use primero buscar_producto_uruguay().
@@ -135,9 +149,12 @@ def register_tools(mcp):
 
     @mcp.tool()
     def resumen_producto_uruguay(
-        producto: str, year: int = None,
-        proveedor: str = None, comprador: str = None,
-        metodo: str = None, agrupar_por: str = "proveedor"
+        producto: str,
+        year: int = None,
+        proveedor: str = None,
+        comprador: str = None,
+        metodo: str = None,
+        agrupar_por: str = "proveedor",
     ) -> ToolOutput:
         """Resumen de montos adjudicados de un producto o servicio, agrupados por mes.
             Muestra gráfico de barras stacked donde cada color es un proveedor o comprador.
@@ -168,9 +185,12 @@ def register_tools(mcp):
             - resumen_producto_uruguay(producto="medicamento", comprador="Hospital Maciel")
         """
         return consultas.resumen_producto(
-            producto=producto, year=year,
-            proveedor=proveedor, comprador=comprador,
-            metodo=metodo, agrupar_por=agrupar_por
+            producto=producto,
+            year=year,
+            proveedor=proveedor,
+            comprador=comprador,
+            metodo=metodo,
+            agrupar_por=agrupar_por,
         )
 
     @mcp.tool()
@@ -199,7 +219,7 @@ def register_tools(mcp):
 
     @mcp.tool()
     def political_questions(country=None) -> ToolOutput:
-        """ To anwer when people ask about political questions that are not answerable with data,
+        """To anwer when people ask about political questions that are not answerable with data,
             but are common questions about Uruguay Government.
             For example: "Why is X data not available?" or "What did the Gobvernment open this data in this way?"
 
