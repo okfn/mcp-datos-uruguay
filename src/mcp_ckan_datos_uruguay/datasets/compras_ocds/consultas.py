@@ -115,10 +115,12 @@ def buscar_empresa(nombre, limit=10) -> ToolOutput:
             return f"No se encontraron empresas similares a '{nombre}'."
         unique = list(dict.fromkeys(empresas[m] for m in matches))
 
+    table_rows = [["Empresa"]] + [[e] for e in unique]
     result = ToolOutput(
         source="",
         content=f"Empresas similares a '{nombre}':\n"
         + "\n".join(f"  - {e}" for e in unique),
+        table=table_rows
     )
     return result
 
