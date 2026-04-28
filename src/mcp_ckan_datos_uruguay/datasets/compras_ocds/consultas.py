@@ -171,15 +171,16 @@ def buscar_producto(texto, limit=10):
         if fuzzy:
             all_matches = [productos[m] for m in fuzzy]
         else:
-            content=TextContent(type="text", text=f"No se encontraron productos similares a '{texto}'.")
+            content = TextContent(type="text", text=f"No se encontraron productos similares a '{texto}'.")
             return CallToolResult(content=[content], structuredContent=structured_content)
 
     all_matches = all_matches[:limit]
     table_rows = [["Producto/Rubro"]] + [[p] for p in all_matches]
     structured_content["table"] = table_rows
 
+    content = f"Productos similares a '{texto}':\n" + "\n".join(f"  - {p}" for p in all_matches)
     return CallToolResult(
-        content=[TextContent(type="text", text=f"Productos similares a '{texto}':\n" + "\n".join(f"  - {p}" for p in all_matches))],
+        content=[TextContent(type="text", text=content)],
         structuredContent=structured_content
             )
 
@@ -773,7 +774,7 @@ def compras_producto(producto, year=None, limit=20):
         conn.close()
 
         if not tender_rows:
-            msg= (
+            msg = (
                 f"No se encontraron compras de '{producto}'"
                 + (f" en {year}" if year else "")
                 + ". "
@@ -801,7 +802,7 @@ def compras_producto(producto, year=None, limit=20):
 
         table = f"<table>{json.dumps(table_rows, ensure_ascii=False)}</table>"
         structured_content["table"] = table
-        content ="\n".join(lines)
+        content = "\n".join(lines)
         return CallToolResult(
                 content=[TextContent(type="text", text=content)],
                 structuredContent=structured_content
