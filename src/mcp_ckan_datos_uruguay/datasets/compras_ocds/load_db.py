@@ -14,7 +14,7 @@ import sqlite3
 import sys
 from pathlib import Path
 
-from . import DB_PATH
+from mcp_ckan_datos_uruguay.datasets.compras_ocds import DB_PATH
 
 log = logging.getLogger(__name__)
 
