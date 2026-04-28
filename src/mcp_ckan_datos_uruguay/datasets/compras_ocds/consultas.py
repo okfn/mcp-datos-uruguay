@@ -12,9 +12,10 @@ import sqlite3
 import unicodedata
 import urllib.request
 
+from mcp.types import CallToolResult, TextContent
+
 from . import DB_PATH
 
-from mcp_server import ToolOutput
 
 log = logging.getLogger(__name__)
 
@@ -82,7 +83,7 @@ def _load_productos():
     return productos
 
 
-def buscar_empresa(nombre, limit=10) -> ToolOutput:
+def buscar_empresa(nombre, limit=10):
     """Busca empresas proveedoras por nombre aproximado.
 
     Args:
@@ -94,6 +95,9 @@ def buscar_empresa(nombre, limit=10) -> ToolOutput:
     """
     empresas = _load_empresas()
     key = normalize(nombre)
+    structured_content = {
+        "sources": ["https://catalogodatos.gub.uy/dataset/arce-datos-historicos-de-compras"]
+    }
 
     # Primero intentar LIKE (funciona bien con palabras parciales como "copernico")
     conn = _get_conn()
@@ -112,17 +116,17 @@ def buscar_empresa(nombre, limit=10) -> ToolOutput:
         # Fallback a difflib para nombres con errores ortográficos
         matches = difflib.get_close_matches(key, empresas.keys(), n=limit, cutoff=0.5)
         if not matches:
-            return f"No se encontraron empresas similares a '{nombre}'."
+            message = f"No se encontraron empresas similares a '{nombre}'."
+            return CallToolResult(
+                content=[TextContent(type="text", text=message)],
+                structuredContent=structured_content,
+                    )
         unique = list(dict.fromkeys(empresas[m] for m in matches))
 
     table_rows = [["Empresa"]] + [[e] for e in unique]
-    result = ToolOutput(
-        source="",
-        content=f"Empresas similares a '{nombre}':\n"
-        + "\n".join(f"  - {e}" for e in unique),
-        table=table_rows
-    )
-    return result
+    structured_content["table"] = table_rows
+    content = TextContent(type="text", text=f"Empresas similares a '{nombre}':\n" + "\n".join(f"  - {e}" for e in unique))
+    return CallToolResult(content=[content], structuredContent=structured_content)
 
 
 def buscar_producto(texto, limit=10) -> ToolOutput:
