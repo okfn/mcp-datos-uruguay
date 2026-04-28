@@ -989,7 +989,7 @@ def detalle_proceso(ocid):
     url = _ocid_to_url(ocid)
     force_msg = ""
     if _check_url(url):
-        force_msg = f"<force>Aquí puedes ver el link oficial con detalles de esta compra: {url}</force>"
+        force_msg = f"Aquí puedes ver el link oficial con detalles de esta compra: {url}"
     else:
         force_msg = (
             f"\nLa URL {url} debería contener detalles pero no está funcionando ahora."
