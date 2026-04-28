@@ -129,7 +129,7 @@ def buscar_empresa(nombre, limit=10):
     return CallToolResult(content=[content], structuredContent=structured_content)
 
 
-def buscar_producto(texto, limit=10) -> ToolOutput:
+def buscar_producto(texto, limit=10):
     """Busca productos o rubros por descripción aproximada.
 
     Args:
@@ -141,6 +141,9 @@ def buscar_producto(texto, limit=10) -> ToolOutput:
     """
     conn = _get_conn()
     pattern = f"%{normalize(texto)}%"
+    structured_content = {
+        "sources": ["https://catalogodatos.gub.uy/dataset/arce-datos-historicos-de-compras"]
+    }
 
     cur = conn.execute(
         "SELECT DISTINCT description FROM tender_items "
@@ -168,22 +171,22 @@ def buscar_producto(texto, limit=10) -> ToolOutput:
         if fuzzy:
             all_matches = [productos[m] for m in fuzzy]
         else:
-            return f"No se encontraron productos similares a '{texto}'."
+            content=TextContent(type="text", text=f"No se encontraron productos similares a '{texto}'.")
+            return CallToolResult(content=[content], structuredContent=structured_content)
 
     all_matches = all_matches[:limit]
     table_rows = [["Producto/Rubro"]] + [[p] for p in all_matches]
-    result = ToolOutput(
-        source="",
-        table=table_rows,
-        content=f"Productos similares a '{texto}':\n"
-        + "\n".join(f"  - {p}" for p in all_matches),
-    )
-    return result
+    structured_content["table"] = table_rows
+
+    return CallToolResult(
+        content=[TextContent(type="text", text=f"Productos similares a '{texto}':\n" + "\n".join(f"  - {p}" for p in all_matches))],
+        structuredContent=structured_content
+            )
 
 
 def licitaciones_empresa(
     nombre_empresa, year=None, comprador=None, metodo=None, limit=20
-) -> ToolOutput:
+):
     """Busca licitaciones y adjudicaciones en las que participó una empresa.
 
     Args:
@@ -198,11 +201,15 @@ def licitaciones_empresa(
         str: Detalle de licitaciones/adjudicaciones de la empresa.
     """
     nombre_real = _resolve_empresa(nombre_empresa)
+    structured_content = {
+        "sources": ["https://catalogodatos.gub.uy/dataset/arce-datos-historicos-de-compras"]
+    }
     if not nombre_real:
-        return (
+        msg = (
             f"Empresa '{nombre_empresa}' no encontrada. "
             f"Use buscar_empresa('{nombre_empresa}') para encontrar el nombre correcto."
         )
+        return CallToolResult(content=[TextContent(type="text", text=msg)], structuredContent=structured_content)
 
     conn = _get_conn()
 
@@ -245,7 +252,8 @@ def licitaciones_empresa(
     if not rows:
         conn.close()
         msg = f"No se encontraron licitaciones para '{nombre_real}'"
-        return f"{msg} ({filtros})." if filtros else f"{msg}."
+        content = f"{msg} ({filtros})." if filtros else f"{msg}."
+        return CallToolResult(content=[TextContent(type="text", text=content)], structuredContent=structured_content)
 
     header = f"Licitaciones/adjudicaciones de '{nombre_real}'"
     header += f" ({len(rows)} resultados):"
@@ -273,8 +281,12 @@ def licitaciones_empresa(
         )
 
     conn.close()
-    result = ToolOutput(source="", content="\n".join(lines), table=table_rows)
-    return result
+    structured_content["table"] = table_rows
+
+    return CallToolResult(
+        content=[TextContent(type="text", text="\n".join(lines))],
+        structuredContent=structured_content
+            )
 
 
 def _resolve_empresa(nombre_empresa):
@@ -378,7 +390,7 @@ def resumen_empresa(
     producto=None,
     metodo=None,
     max_compradores_chart=8,
-) -> ToolOutput:
+):
     """Resumen de compras adjudicadas a una empresa, agrupadas por mes y comprador.
 
     Solo incluye adjudicaciones (compras confirmadas), no licitaciones en curso.
@@ -400,11 +412,15 @@ def resumen_empresa(
         str: Resumen con tabla y gráficos de barras stacked por comprador y mes (uno por moneda).
     """
     nombre_real = _resolve_empresa(nombre_empresa)
+    structured_content = {
+        "sources": ["https://catalogodatos.gub.uy/dataset/arce-datos-historicos-de-compras"]
+    }
     if not nombre_real:
-        return (
+        msg = (
             f"Empresa '{nombre_empresa}' no encontrada. "
             f"Use buscar_empresa('{nombre_empresa}') para encontrar el nombre correcto."
         )
+        return CallToolResult(content=[TextContent(type="text", text=msg)], structuredContent=structured_content)
 
     extra_clauses, extra_params = _build_filters(year, comprador, producto, metodo)
     where_extra = ("AND " + " AND ".join(extra_clauses)) if extra_clauses else ""
@@ -449,7 +465,8 @@ def resumen_empresa(
     filtros = _filter_description(year, comprador, producto, metodo)
     if not by_currency:
         msg = f"No se encontraron adjudicaciones para '{nombre_real}'"
-        return f"{msg} ({filtros})." if filtros else f"{msg}."
+        content = f"{msg} ({filtros})." if filtros else f"{msg}."
+        return CallToolResult(content=[TextContent(type="text", text=content)], structuredContent=structured_content)
 
     # Calcular totales globales
     grand_total_parts = []
@@ -505,16 +522,18 @@ def resumen_empresa(
             "labels": all_months,
             "datasets": datasets,
         }
+        structured_content["charts"] = [chart_data]
 
     if top_products:
         lines.append("\nPrincipales rubros adjudicados:")
         for prod, count in top_products:
             lines.append(f"  - {prod[:70]}: {count} items")
 
-    result = ToolOutput(
-        source="", content="\n".join(lines), table=table_rows, chart=chart_data
-    )
-    return result
+    structured_content["table"] = table_rows
+    return CallToolResult(
+        content=[TextContent(type="text", text="\n".join(lines))],
+        structuredContent=structured_content
+            )
 
 
 def resumen_producto(
@@ -525,7 +544,7 @@ def resumen_producto(
     metodo=None,
     agrupar_por="proveedor",
     max_grupos_chart=8,
-) -> ToolOutput:
+):
     """Resumen de compras de un producto agrupadas por mes y proveedor o comprador.
 
     Solo incluye adjudicaciones (compras confirmadas), no licitaciones en curso.
@@ -551,6 +570,9 @@ def resumen_producto(
     por_comprador = agrupar_por == "comprador"
     grp_col = "r.buyer_name" if por_comprador else "s.supplier_name"
     grp_label = "comprador" if por_comprador else "proveedor"
+    structured_content = {
+        "sources": ["https://catalogodatos.gub.uy/dataset/arce-datos-historicos-de-compras"]
+    }
 
     conn = _get_conn()
     pattern = f"%{normalize(producto)}%"
@@ -585,7 +607,11 @@ def resumen_producto(
         msg = f"No se encontraron compras adjudicadas de '{producto}'"
         if filtros:
             msg += f" ({filtros})"
-        return msg + f". Use buscar_producto('{producto}') para verificar el nombre."
+        msg += f". Use buscar_producto('{producto}') para verificar el nombre."
+        return CallToolResult(
+            content=[TextContent(type="text", text=msg)],
+            structuredContent=structured_content
+                )
 
     # Top del eje secundario (el que NO es el agrupador del gráfico)
     other_col = "s.supplier_name" if por_comprador else "r.buyer_name"
@@ -665,19 +691,22 @@ def resumen_producto(
             "labels": all_months,
             "datasets": datasets,
         }
+        structured_content["charts"] = [chart_data]
 
     if top_others:
         lines.append(f"\nPrincipales {other_label}es:")
         for name, curr, monto in top_others:
             lines.append(f"  - {name}: ${monto:,.0f} {curr}")
 
-    result = ToolOutput(
-        source="", content="\n".join(lines), table=table_rows, chart=chart_data
-    )
-    return result
+    structured_content["tables"] = table_rows
+
+    return CallToolResult(
+        content=[TextContent(type="text", text="\n".join(lines))],
+        structuredContent=structured_content
+            )
 
 
-def compras_producto(producto, year=None, limit=20) -> ToolOutput:
+def compras_producto(producto, year=None, limit=20):
     """Busca qué empresas proveen un producto o rubro al gobierno.
 
     Args:
@@ -691,6 +720,9 @@ def compras_producto(producto, year=None, limit=20) -> ToolOutput:
     """
     conn = _get_conn()
     pattern = f"%{normalize(producto)}%"
+    structured_content = {
+        "sources": ["https://catalogodatos.gub.uy/dataset/arce-datos-historicos-de-compras"]
+    }
 
     year_filter = ""
     if year:
@@ -741,12 +773,16 @@ def compras_producto(producto, year=None, limit=20) -> ToolOutput:
         conn.close()
 
         if not tender_rows:
-            return (
+            msg= (
                 f"No se encontraron compras de '{producto}'"
                 + (f" en {year}" if year else "")
                 + ". "
                 f"Use buscar_producto('{producto}') para verificar el nombre del producto."
             )
+            return CallToolResult(
+                    content=[TextContent(type="text", text=msg)],
+                    structuredContent=structured_content
+                    )
 
         lines = [
             f"Licitaciones de '{producto}'"
@@ -764,7 +800,12 @@ def compras_producto(producto, year=None, limit=20) -> ToolOutput:
             )
 
         table = f"<table>{json.dumps(table_rows, ensure_ascii=False)}</table>"
-        return "\n".join(lines) + table
+        structured_content["table"] = table
+        content ="\n".join(lines)
+        return CallToolResult(
+                content=[TextContent(type="text", text=content)],
+                structuredContent=structured_content
+                )
 
     lines = [
         f"Empresas que proveen '{producto}'"
@@ -784,12 +825,12 @@ def compras_producto(producto, year=None, limit=20) -> ToolOutput:
         )
 
     conn.close()
-    result = ToolOutput(
-        source="",
-        content="\n".join(lines),
-        table=table_rows,
-    )
-    return result
+    structured_content["tables"] = table_rows
+    content = "\n".join(lines)
+    return CallToolResult(
+            content=[TextContent(type="text", text=content)],
+            structuredContent=structured_content
+            )
 
 
 COMPRAS_BASE_URL = "https://www.comprasestatales.gub.uy/consultas/detalle/id/"
@@ -862,7 +903,7 @@ def _build_award_detail(conn, ocid, lines):
     return table
 
 
-def detalle_proceso(ocid) -> ToolOutput:
+def detalle_proceso(ocid):
     """Muestra todos los detalles de un proceso de compra por su identificador OCID.
 
     Args:
@@ -873,6 +914,9 @@ def detalle_proceso(ocid) -> ToolOutput:
              proveedores e items con montos.
     """
     conn = _get_conn()
+    structured_content = {
+        "sources": ["https://catalogodatos.gub.uy/dataset/arce-datos-historicos-de-compras"]
+    }
 
     cur = conn.execute(
         "SELECT ocid, release_id, date, tag, buyer_id, buyer_name "
@@ -882,7 +926,11 @@ def detalle_proceso(ocid) -> ToolOutput:
     releases = cur.fetchall()
     if not releases:
         conn.close()
-        return f"No se encontró el proceso con OCID '{ocid}'."
+        msg = f"No se encontró el proceso con OCID '{ocid}'."
+        return CallToolResult(
+                content=[TextContent(type="text", text=msg)],
+                structuredContent=structured_content
+                )
 
     buyer = next((r[5] for r in releases if r[5]), "Sin identificar")
     lines = [f"Proceso {ocid}:", f"Comprador: {buyer}"]
@@ -932,18 +980,25 @@ def detalle_proceso(ocid) -> ToolOutput:
 
     conn.close()
 
-    result = ToolOutput(source="", content="\n".join(lines))
+    table_rows = []
     if award_table:
-        result.table = award_table
+        table_rows = award_table
     elif tender_table:
-        result.table = tender_table
+        table_rows = tender_table
 
     url = _ocid_to_url(ocid)
+    force_msg = ""
     if _check_url(url):
-        result.force = f"<force>Aquí puedes ver el link oficial con detalles de esta compra: {url}</force>"
+        force_msg = f"<force>Aquí puedes ver el link oficial con detalles de esta compra: {url}</force>"
     else:
-        result.force = (
+        force_msg = (
             f"\nLa URL {url} debería contener detalles pero no está funcionando ahora."
         )
 
-    return result
+    structured_content["table"] = table_rows
+    structured_content["force"] = force_msg
+    content = "\n".join(lines)
+    return CallToolResult(
+            content=[TextContent(type="text", text=content)],
+            structuredContent=structured_content
+            )
