@@ -15,7 +15,7 @@ def register_tools(mcp):
     @mcp.tool()
     def tendencia_anual_delitos_sexuales_uy(
         departamento: str = None, tipo_delito: str = None
-    ) -> str:
+    ) -> DataToolOutput:
         """Tendencia año a año de eventos de delitos sexuales en Uruguay (2018-2024).
             Muestra un gráfico de barras de texto con la cantidad por año.
 
@@ -34,7 +34,7 @@ def register_tools(mcp):
     @mcp.tool()
     def ranking_departamentos_delitos_sexuales_uy(
         anio: int = None, tipo_delito: str = None
-    ) -> str:
+    ) -> DataToolOutput:
         """Ranking de departamentos de Uruguay por cantidad de eventos de delitos sexuales.
             Muestra todos los departamentos ordenados de mayor a menor cantidad.
 
