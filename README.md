@@ -24,7 +24,7 @@ Agrega este repositorio a la configuración de tu servidor MCP en el archivo `de
     # ssh-keygen -t ed25519 -f keys/mcp-datos-uruguay-key -N "" -C "deploy@mcp-server"
     # and then add this public key to the GitHub repo's deploy keys (with read access, it'll be enough)
     # This key must be deployed in the MCP server's filesystem at the path specified below, and the private key file must have permissions set to 600 (read/write for owner only)
-    key: deploy/keys/mcp-datos-uruguay-key
+    # key: deploy/keys/mcp-datos-uruguay-key
 ```
 
 ## Cómo funciona

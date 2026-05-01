@@ -1,0 +1,30 @@
+engine: unique_values
+
+# Fuente: Ministerio del Interior - catalogodatos.gub.uy
+# Preguntas que esta herramienta puede responder:
+# - ¿Qué tipos de delitos sexuales se registran en Uruguay?
+# - ¿Qué tipos de delitos sexuales hay en Montevideo?
+
+dataset:
+  name: tipos-delitos-sexuales-uruguay
+  description: "Tipos de delitos sexuales registrados en Uruguay (2018-2024)"
+  source:
+    csv: https://catalogodatos.gub.uy/dataset/5f1aebb0-7f52-4fb9-a2f2-e38f498301f2/resource/4de1678e-3faf-4d6e-9e90-eaeae87925a5/download/eventos-de-delitos-sexuales-2018-2024.csv
+    url: https://catalogodatos.gub.uy/dataset/delitos-sexuales
+    encoding: "latin-1"
+
+tool:
+  name: tipos_delitos_sexuales_uy
+  description: >
+    Lista de tipos de delitos sexuales registrados en Uruguay (2018-2024).
+    Puede filtrarse por departamento.
+  column: Título
+  filters:
+    - column: Departamento
+      param: departamento
+      description: "Departamento, ej: MONTEVIDEO, CANELONES, MALDONADO"
+      label: "en {value}"
+  response: |
+    Se registran {count} tipos de delitos sexuales {filter_label}:
+    {list}
+    Fuente: Ministerio del Interior, Uruguay - {source}

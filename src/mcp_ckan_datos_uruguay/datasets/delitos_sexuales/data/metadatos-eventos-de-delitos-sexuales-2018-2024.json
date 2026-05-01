@@ -1,0 +1,34 @@
+{
+    "atributos": [
+        {
+            "descripcion": "Es la fecha de ingreso en el Sistema",
+            "informacionAdicional": "",
+            "tipoDeDato": "Date",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Ingreso"
+        },
+        {
+            "descripcion": "Es la titulación del hecho denunciado",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Título"
+        },
+        {
+            "descripcion": "Jurisdicción de ocurrencia del hecho",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Jurisdicción"
+        },
+        {
+            "descripcion": "Departamento del hecho",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Departamento"
+        }
+    ],
+    "titulo": "Recursos de Metadatos",
+    "descripcion": "Descripcion Metadatos"
+}

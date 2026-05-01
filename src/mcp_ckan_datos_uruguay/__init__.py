@@ -1,8 +1,55 @@
 from mcp_server import DataToolOutput
 from mcp_ckan_datos_uruguay.datasets.compras_ocds import consultas
+from mcp_ckan_datos_uruguay.datasets.delitos_sexuales import consultas as delitos
 
 
 def register_tools(mcp):
+
+    # ── Delitos sexuales (2018-2024) — tools Python ─────────────
+    # Fuente: Ministerio del Interior, catalogodatos.gub.uy
+    # Complementan las tools YAML con análisis que requieren lógica:
+    #  - Tendencia anual (requiere extraer año de la fecha)
+    #  - Ranking de departamentos (requiere conteo ordenado con porcentajes)
+    # Las consultas básicas (listar, contar, valores únicos) están en YAML.
+
+    @mcp.tool()
+    def tendencia_anual_delitos_sexuales_uy(
+        departamento: str = None, tipo_delito: str = None
+    ) -> DataToolOutput:
+        """Tendencia año a año de eventos de delitos sexuales en Uruguay (2018-2024).
+            Muestra un gráfico de barras de texto con la cantidad por año.
+
+        Args:
+            departamento: Departamento, e.g. "Montevideo", "Canelones".
+            tipo_delito: Tipo de delito: "Abuso Sexual", "Violación" o "Atentado Violento al Pudor".
+
+        Examples:
+            - tendencia_anual_delitos_sexuales_uy()
+            - tendencia_anual_delitos_sexuales_uy(departamento="Montevideo")
+            - tendencia_anual_delitos_sexuales_uy(tipo_delito="Abuso Sexual")
+        """
+        return delitos.tendencia_anual(departamento=departamento,
+                                       tipo_delito=tipo_delito)
+
+    @mcp.tool()
+    def ranking_departamentos_delitos_sexuales_uy(
+        anio: int = None, tipo_delito: str = None
+    ) -> DataToolOutput:
+        """Ranking de departamentos de Uruguay por cantidad de eventos de delitos sexuales.
+            Muestra todos los departamentos ordenados de mayor a menor cantidad.
+
+        Args:
+            anio: Año para filtrar (2018-2024). None para todos.
+            tipo_delito: Tipo de delito: "Abuso Sexual", "Violación" o "Atentado Violento al Pudor".
+
+        Examples:
+            - ranking_departamentos_delitos_sexuales_uy()
+            - ranking_departamentos_delitos_sexuales_uy(anio=2024)
+            - ranking_departamentos_delitos_sexuales_uy(tipo_delito="Violación")
+        """
+        return delitos.eventos_por_departamento(anio=anio, tipo_delito=tipo_delito)
+
+    # ── Compras públicas OCDS ─────────────────────────────────────
 
     @mcp.tool()
     def buscar_empresa_uruguay(nombre: str, limit: int = 10) -> DataToolOutput:

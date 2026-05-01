@@ -1,0 +1,30 @@
+engine: unique_values
+
+# Fuente: Ministerio del Interior - catalogodatos.gub.uy
+# Preguntas que esta herramienta puede responder:
+# - ¿En qué departamentos se registran delitos sexuales?
+# - ¿Qué departamentos tienen denuncias de violación?
+
+dataset:
+  name: departamentos-delitos-sexuales-uruguay
+  description: "Departamentos con denuncias de delitos sexuales en Uruguay (2018-2024)"
+  source:
+    csv: https://catalogodatos.gub.uy/dataset/5f1aebb0-7f52-4fb9-a2f2-e38f498301f2/resource/4de1678e-3faf-4d6e-9e90-eaeae87925a5/download/eventos-de-delitos-sexuales-2018-2024.csv
+    url: https://catalogodatos.gub.uy/dataset/delitos-sexuales
+    encoding: "latin-1"
+
+tool:
+  name: departamentos_con_delitos_sexuales_uy
+  description: >
+    Lista de departamentos de Uruguay donde se registraron denuncias de delitos sexuales (2018-2024).
+    Puede filtrarse por tipo de delito.
+  column: Departamento
+  filters:
+    - column: Título
+      param: tipo_delito
+      description: "Tipo de delito: ABUSO SEXUAL, VIOLACIÓN, ATENTADO VIOLENTO AL PUDOR"
+      label: "de tipo {value}"
+  response: |
+    Se registraron denuncias de delitos sexuales en {count} departamentos {filter_label}:
+    {list}
+    Fuente: Ministerio del Interior, Uruguay - {source}
