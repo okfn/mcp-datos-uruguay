@@ -3,7 +3,7 @@
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/ben-importacion-y-exportacion-de-electricidad
 **CSV directo:** https://catalogodatos.gub.uy/dataset/b0ab3d1f-4d00-490b-86fc-727238a405cc/resource/dbec6e8f-0202-46dc-8bf5-64ef4018cab9/download/impo_y_expo_electricidad.csv
 **Archivo local:** `impo_y_expo_electricidad.csv` · **Metadata:** `metadatos-impo_y_expo_electricidad.json`
-**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965–2024 (anual)
+**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965-2024 (anual)
 
 ```python
 import pandas as pd

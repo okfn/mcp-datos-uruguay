@@ -3,7 +3,7 @@
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-potencia-instalada-por-fuente
 **CSV directo:** https://catalogodatos.gub.uy/dataset/a3254965-7f67-4c91-b52d-7c50d2192f40/resource/1306f14e-fdf8-4e26-82c6-7e12319ee0ec/download/potencia-instalada-por-fuente.csv
 **Archivo local:** `potencia-instalada-por-fuente.csv` · **Metadata:** `metadatos-potencia-instalada-por-fuente.json`
-**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965–2024 (años con datos: principalmente 2003+)
+**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965-2024 (años con datos: principalmente 2003+)
 
 ```python
 import pandas as pd
@@ -59,7 +59,7 @@ AÑO;TCR_F;TCB_F;M_F;TOTAL_F;TCR_B;M_B;TOTAL_B;TOTAL_H;TOTAL_Eo;TOTAL_S;TOTAL
   tecnología (eólica masiva 2014-2017, solar 2014+).
 
 ## Notas
-- **Cobertura útil real: 2003–2024.** Para series largas de generación
+- **Cobertura útil real: 2003-2024.** Para series largas de generación
   ver `miem-generacion-de-electricidad-por-fuente` (2002+).
 - Capacidad ≠ generación. Una planta hidráulica puede tener gran
   potencia pero generar poco en años secos. Para cuestiones de

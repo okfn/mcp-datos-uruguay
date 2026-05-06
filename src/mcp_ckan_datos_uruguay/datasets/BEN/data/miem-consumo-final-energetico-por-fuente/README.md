@@ -3,7 +3,7 @@
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-consumo-final-energetico-por-fuente
 **CSV directo:** https://catalogodatos.gub.uy/dataset/1737fc66-58b7-4286-a246-f1864533975d/resource/6e6af1ef-15ee-434a-ba11-b091641b292d/download/consumo-final-energetico-por-fuente.csv
 **Archivo local:** `consumo-final-energetico-por-fuente.csv` · **Metadata:** `metadatos-consumo-final-energetico-por-fuente.json`
-**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965–2024 (anual)
+**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965-2024 (anual)
 
 ```python
 import pandas as pd

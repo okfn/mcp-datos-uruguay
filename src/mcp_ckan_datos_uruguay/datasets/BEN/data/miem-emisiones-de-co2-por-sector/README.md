@@ -3,7 +3,7 @@
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-emisiones-de-co2-por-sector
 **CSV directo:** https://catalogodatos.gub.uy/dataset/fded3eeb-2904-43a5-a348-0b31434ef085/resource/0276c0ec-a444-4221-8354-b4909b5bd2d6/download/emisiones-de-co2-por-sector.csv
 **Archivo local:** `emisiones-de-co2-por-sector.csv` · **Metadata:** `metadatos-emisiones-de-co2-por-sector.json`
-**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965–2024 (anual)
+**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965-2024 (anual)
 
 ```python
 import pandas as pd

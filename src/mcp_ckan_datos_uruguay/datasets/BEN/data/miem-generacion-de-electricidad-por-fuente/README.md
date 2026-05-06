@@ -3,7 +3,7 @@
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-generacion-de-electricidad-por-fuente
 **CSV directo:** https://catalogodatos.gub.uy/dataset/91118d5f-11be-4c84-82f0-79370ab7b089/resource/101c92a0-2906-4232-ad8d-34234a5eca17/download/generacion-electricidad-por-fuente.csv
 **Archivo local:** `generacion-electricidad-por-fuente.csv` · **Metadata:** `metadatos-generacion-electricidad-por-fuente.json`
-**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** **2002–2024** (anual, 23 años)
+**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** **2002-2024** (anual, 23 años)
 
 ```python
 import pandas as pd

@@ -3,7 +3,7 @@
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-ben-factor-de-emision-de-co2-del-sin
 **CSV directo:** https://catalogodatos.gub.uy/dataset/10967adb-2b87-4d25-b8e3-7accbcc917f5/resource/79af11a5-a11d-49e8-8e56-b54b5539af0c/download/factor_emision-co2-sin.csv
 **Archivo local:** `factor_emision-co2-sin.csv` · **Metadata:** `metadatos-factor_emision-co2-sin.json`
-**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965–2024 (anual)
+**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965-2024 (anual)
 
 ```python
 import pandas as pd

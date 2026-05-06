@@ -3,7 +3,7 @@
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/ben-importacion-de-petroleo-y-carga-de-refineria
 **CSV directo:** https://catalogodatos.gub.uy/dataset/db244448-da5e-4dff-8bca-8163ed9c8d6d/resource/7efe24ee-b7ee-45fb-8b97-5518b02930fe/download/impo_y_carga_refineria_petroleo.csv
 **Archivo local:** `impo_y_carga_refineria_petroleo.csv` · **Metadata:** `metadatos-impo-y-carga-refineria-petroleo.json`
-**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965–2024 (anual)
+**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965-2024 (anual)
 
 ```python
 import pandas as pd

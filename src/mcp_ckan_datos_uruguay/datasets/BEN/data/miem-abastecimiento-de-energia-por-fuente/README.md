@@ -3,7 +3,7 @@
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-abastecimiento-de-energia-por-fuente
 **CSV directo:** https://catalogodatos.gub.uy/dataset/fc5e7e9c-73cc-4c10-a3b7-6c27848bc095/resource/eb3fadb3-a0b5-4324-8742-5355632f9b24/download/abastecimiento-de-energia-por-fuente.csv
 **Archivo local:** `abastecimiento-de-energia-por-fuente.csv` · **Metadata:** `metadatos-abastecimiento-de-energia-por-fuente.json`
-**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965–2024 (anual)
+**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965-2024 (anual)
 
 ```python
 import pandas as pd

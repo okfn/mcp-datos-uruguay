@@ -3,7 +3,7 @@
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/ben-importacion-de-gas-natural
 **CSV directo:** https://catalogodatos.gub.uy/dataset/61631f9e-03ac-4080-a225-a4ddad8da40f/resource/9690c070-d697-40ff-a848-7f9dc98454ab/download/impo_gas_natural.csv
 **Archivo local:** `impo_gas_natural.csv` · **Metadata:** `metadatos-impo_gas_natural.json`
-**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965–2024 (anual, 60 años) · **Filas de datos:** 60
+**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965-2024 (anual, 60 años) · **Filas de datos:** 60
 
 ```python
 import pandas as pd
