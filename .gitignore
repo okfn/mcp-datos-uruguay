@@ -6,6 +6,15 @@ src/mcp_ckan_datos_uruguay/datasets/BEN/data/**/*.csv
 src/mcp_ckan_datos_uruguay/datasets/BEN/data/**/*.json
 
 CLAUDE.md
+# Data and metadata samples
+src/mcp_ckan_datos_uruguay/datasets/BEN/data/**/*.csv
+src/mcp_ckan_datos_uruguay/datasets/BEN/data/**/*.json
+# Metadata samples
+src/mcp_ckan_datos_uruguay/datasets/BEN/data/*.json
+
+# OCDS data
+src/mcp_ckan_datos_uruguay/datasets/compras-ocds/ocds-20??/*.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
