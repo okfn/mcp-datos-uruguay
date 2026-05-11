@@ -13,8 +13,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "flake8>=6.0.0",  # Code linting
-    "flake8-pyproject>=1.2.0",  # Read flake8 config from pyproject.toml
+    "ruff>=0.15.0",
+    "pydantic>=2.13,<3.0",
 ]
 
 [project.scripts]
@@ -27,13 +27,10 @@ mcp-ckan-datos-uruguay = "mcp_ckan_datos_uruguay:register_tools"
 requires = ["uv_build>=0.9.10,<0.10.0"]
 build-backend = "uv_build"
 
-[tool.flake8]
-max-line-length = 130
-max-complexity = 16
-count = true
-statistics = true
-show-source = true
-exclude = [
+[tool.ruff]
+line-length = 130
+target-version = "py313"
+extend-exclude = [
     ".git",
     "__pycache__",
     ".venv",
@@ -42,3 +39,12 @@ exclude = [
     "dist",
     "*.egg-info",
 ]
+
+[tool.ruff.lint]
+# E/F/W/C90 replace the flake8 + pycodestyle + pyflakes + mccabe defaults.
+# RUF013 catches implicit Optional (`param: int = None`); Pydantic 2.13+
+# rejects null arguments for such parameters at tool-call time.
+select = ["E", "F", "W", "C90", "RUF013"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 16

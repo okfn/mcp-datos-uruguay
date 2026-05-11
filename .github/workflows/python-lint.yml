@@ -26,5 +26,6 @@ jobs:
     - name: Install dependencies
       run: uv pip install .[dev]
 
-    - name: Run flake8
-      run: uv run flake8 src
+    - name: Run ruff
+      # Rule selection lives in pyproject.toml ([tool.ruff.lint] select).
+      run: uv run ruff check src
