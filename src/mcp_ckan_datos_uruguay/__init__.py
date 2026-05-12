@@ -14,7 +14,7 @@ def register_tools(mcp):
 
     @mcp.tool()
     def tendencia_anual_delitos_sexuales_uy(
-        departamento: str = None, tipo_delito: str = None
+        departamento: str | None = None, tipo_delito: str | None = None
     ) -> DataToolOutput:
         """Tendencia año a año de eventos de delitos sexuales en Uruguay (2018-2024).
             Muestra un gráfico de barras de texto con la cantidad por año.
@@ -33,7 +33,7 @@ def register_tools(mcp):
 
     @mcp.tool()
     def ranking_departamentos_delitos_sexuales_uy(
-        anio: int = None, tipo_delito: str = None
+        anio: int | None = None, tipo_delito: str | None = None
     ) -> DataToolOutput:
         """Ranking de departamentos de Uruguay por cantidad de eventos de delitos sexuales.
             Muestra todos los departamentos ordenados de mayor a menor cantidad.
@@ -95,9 +95,9 @@ def register_tools(mcp):
     @mcp.tool()
     def licitaciones_empresa_uruguay(
         nombre_empresa: str,
-        year: int = None,
-        comprador: str = None,
-        metodo: str = None,
+        year: int | None = None,
+        comprador: str | None = None,
+        metodo: str | None = None,
         limit: int = 20,
     ) -> DataToolOutput:
         """Lista licitaciones y adjudicaciones en las que participó una empresa como proveedora.
@@ -131,10 +131,10 @@ def register_tools(mcp):
     @mcp.tool()
     def resumen_empresa_uruguay(
         nombre_empresa: str,
-        year: int = None,
-        comprador: str = None,
-        producto: str = None,
-        metodo: str = None,
+        year: int | None = None,
+        comprador: str | None = None,
+        producto: str | None = None,
+        metodo: str | None = None,
     ) -> DataToolOutput:
         """Resumen de montos adjudicados a una empresa proveedora del estado uruguayo.
             Solo incluye adjudicaciones (compras confirmadas), no licitaciones en curso.
@@ -173,7 +173,7 @@ def register_tools(mcp):
 
     @mcp.tool()
     def compras_producto_uruguay(
-        producto: str, year: int = None, limit: int = 20
+        producto: str, year: int | None = None, limit: int = 20
     ) -> DataToolOutput:
         """Busca qué empresas le venden un producto o servicio al gobierno de Uruguay.
             Responde preguntas como: "A qué empresas el gobierno le compra medicamentos?"
@@ -197,10 +197,10 @@ def register_tools(mcp):
     @mcp.tool()
     def resumen_producto_uruguay(
         producto: str,
-        year: int = None,
-        proveedor: str = None,
-        comprador: str = None,
-        metodo: str = None,
+        year: int | None = None,
+        proveedor: str | None = None,
+        comprador: str | None = None,
+        metodo: str | None = None,
         agrupar_por: str = "proveedor",
     ) -> DataToolOutput:
         """Resumen de montos adjudicados de un producto o servicio, agrupados por mes.
