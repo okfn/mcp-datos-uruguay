@@ -23,6 +23,11 @@ mcp-ckan-datos-uruguay = "mcp_ckan_datos_uruguay:main"
 [project.entry-points."mcp_ckan"]
 mcp-ckan-datos-uruguay = "mcp_ckan_datos_uruguay:register_tools"
 
+[project.urls]
+Homepage = "https://github.com/okfn/mcp-datos-uruguay"
+Repository = "https://github.com/okfn/mcp-datos-uruguay"
+Issues = "https://github.com/okfn/mcp-datos-uruguay/issues"
+
 [build-system]
 requires = ["uv_build>=0.9.10,<0.10.0"]
 build-backend = "uv_build"
