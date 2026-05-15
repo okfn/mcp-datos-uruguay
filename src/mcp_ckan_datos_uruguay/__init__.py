@@ -16,6 +16,31 @@ def _register_ben_tools(mcp):
     generación eléctrica arranca en 2002). Detalle por dataset y mapa
     pregunta → fuente en `datasets/BEN/data/INDEX.md`.
     """
+    mcp.set_plugin_info(
+        description=(
+            "Herramientas sobre datos abiertos del Uruguay (catalogodatos.gub.uy). "
+        ),
+        sample_questions=[
+            "¿Qué empresas le venden medicamentos al gobierno uruguayo?",
+            "Resumen de compras públicas de combustible en 2024",
+            "¿En qué licitaciones participó ANTEL en 2024?",
+            "Resumen de adjudicaciones a TILSOR S A",
+            "Buscar proveedores que contengan la palabra 'laboratorio'",
+            "Compradores que adquirieron licencias de software en 2024",
+            "Tendencia anual de delitos sexuales en Montevideo",
+            "Ranking de departamentos por delitos sexuales de violación en 2024",
+            "¿Cuántas denuncias de abuso sexual hubo en Canelones?",
+            "¿Cuántas víctimas mujeres de delitos sexuales se registraron en 2023?",
+            "Tipos de delitos sexuales registrados en Uruguay",
+        ],
+    )
+
+    # ── Delitos sexuales (2018-2024) — tools Python ─────────────
+    # Fuente: Ministerio del Interior, catalogodatos.gub.uy
+    # Complementan las tools YAML con análisis que requieren lógica:
+    #  - Tendencia anual (requiere extraer año de la fecha)
+    #  - Ranking de departamentos (requiere conteo ordenado con porcentajes)
+    # Las consultas básicas (listar, contar, valores únicos) están en YAML.
 
     @mcp.tool()
     def matriz_generacion_electrica_uy(
