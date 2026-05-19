@@ -1,6 +1,6 @@
 from mcp_server import DataToolOutput
-from mcp_ckan_datos_uruguay.datasets.compras_ocds import consultas
-from mcp_ckan_datos_uruguay.datasets.delitos_sexuales import consultas as delitos
+# from mcp_ckan_datos_uruguay.datasets.compras_ocds import consultas
+# from mcp_ckan_datos_uruguay.datasets.delitos_sexuales import consultas as delitos
 from mcp_ckan_datos_uruguay.datasets.BEN import consultas as ben
 
 
