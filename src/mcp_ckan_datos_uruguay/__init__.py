@@ -6,7 +6,7 @@ from mcp_ckan_datos_uruguay.datasets.BEN import consultas as ben
 
 def register_tools(mcp):
     _register_ben_tools(mcp)
-    _register_other_tools(mcp)
+    # _register_other_tools(mcp)
 
 
 def _register_ben_tools(mcp):
