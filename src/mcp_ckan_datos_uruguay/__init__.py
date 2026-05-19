@@ -19,7 +19,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def matriz_generacion_electrica_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Matriz de generación eléctrica de Uruguay por fuente y por año, en GWh.
             Responde preguntas sobre la **matriz energética eléctrica**, la
@@ -67,7 +67,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def potencia_instalada_electrica_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Capacidad eléctrica instalada en Uruguay por fuente, en MW (megavatios).
             Responde preguntas sobre **capacidad** (potencia físicamente
@@ -101,7 +101,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def factor_emision_electrico_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Intensidad de carbono del sistema eléctrico uruguayo (FE_SIN), en
             **toneladas de CO2 por GWh** generado. Métrica única que resume
@@ -133,7 +133,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def consumo_energetico_por_sector_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Consumo final energético de Uruguay desagregado por sector, en ktep.
             Responde quién consume la energía: industria, transporte,
@@ -165,7 +165,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def consumo_energetico_por_fuente_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Consumo final energético de Uruguay desagregado por fuente, en ktep.
             Responde **qué tipo de energía** consumen los usuarios finales:
@@ -196,7 +196,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def tendencia_demanda_energetica_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Evolución del consumo energético TOTAL de Uruguay, en ktep/año.
             Vista macro: ¿el país aumenta o reduce su demanda? ¿Cuánto creció
@@ -222,7 +222,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def matriz_energetica_primaria_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Oferta primaria de energía total del país por fuente, en ktep.
             Es **la matriz energética** completa (no sólo eléctrica): suma
@@ -255,7 +255,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def dependencia_energetica_externa_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """% de energía importada vs producida localmente, año a año (ktep).
             Indicador de **seguridad energética y dependencia externa**.
@@ -285,7 +285,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def perdidas_transformacion_energetica_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Pérdidas de transformación + autoconsumo del sector energético, en ktep.
             Calcula la diferencia entre **oferta primaria** (lo que entra al
@@ -316,7 +316,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def importacion_petroleo_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Importación de petróleo crudo + carga de la refinería La Teja
             (ANCAP), en ktep.
@@ -346,7 +346,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def importacion_gas_natural_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Serie anual de importaciones de gas natural a Uruguay, en ktep.
             Uruguay no produce gas natural: lo importa desde Argentina por
@@ -374,7 +374,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def intercambio_electrico_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Intercambio eléctrico de Uruguay con Argentina y Brasil — importación,
             exportación y saldo neto, en ktep.
@@ -405,7 +405,7 @@ def _register_ben_tools(mcp):
 
     @mcp.tool()
     def emisiones_co2_por_sector_uy(
-        anio_desde: int = None, anio_hasta: int = None
+        anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Emisiones de CO2 por sector en Uruguay (combustión de combustibles
             fósiles), en **Gg CO2** (gigagramos = kilotoneladas).
