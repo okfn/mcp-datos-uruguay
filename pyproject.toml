@@ -32,6 +32,9 @@ Issues = "https://github.com/okfn/mcp-datos-uruguay/issues"
 requires = ["uv_build>=0.9.10,<0.10.0"]
 build-backend = "uv_build"
 
+[tool.uv.build-backend]
+wheel-exclude = ["datasets/delitos_sexuales/**"]
+
 [tool.ruff]
 line-length = 130
 target-version = "py313"
