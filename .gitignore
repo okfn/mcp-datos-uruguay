@@ -12,6 +12,10 @@ src/mcp_ckan_datos_uruguay/datasets/BEN/data/**/*.json
 # Metadata samples
 src/mcp_ckan_datos_uruguay/datasets/BEN/data/*.json
 
+# Large reference PDFs: served as GitHub Release assets, downloaded lazily
+# by register_resources() into the user's ~/.cache directory.
+src/mcp_ckan_datos_uruguay/resources/*.pdf
+
 # OCDS data
 src/mcp_ckan_datos_uruguay/datasets/compras-ocds/ocds-20??/*.json
 
