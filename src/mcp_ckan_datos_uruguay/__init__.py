@@ -2,11 +2,20 @@ from mcp_server import DataToolOutput
 # from mcp_ckan_datos_uruguay.datasets.compras_ocds import consultas
 # from mcp_ckan_datos_uruguay.datasets.delitos_sexuales import consultas as delitos
 from mcp_ckan_datos_uruguay.datasets.BEN import consultas as ben
+from mcp_ckan_datos_uruguay.resources import register_mcp_resources
 
 
 def register_tools(mcp):
     _register_ben_tools(mcp)
     # _register_other_tools(mcp)
+
+
+def register_resources(mcp):
+    """ Documentos y materiales de referencia citables desde tools.
+        Los recursos no son usados por la IA, lo definimos nosotros para que
+        estén disponibles para la UI o para llamarse desde las tools
+    """
+    register_mcp_resources(mcp)
 
 
 def _register_ben_tools(mcp):
