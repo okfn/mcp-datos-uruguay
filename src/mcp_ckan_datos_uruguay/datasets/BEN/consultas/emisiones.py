@@ -13,7 +13,7 @@ Preguntas del README cubiertas:
 import pandas as pd
 
 from mcp_server import DataToolOutput
-from . import _common as c
+from . import helpers as h
 
 
 # Sectores del inventario nacional. Orden por relevancia esperada.
@@ -41,11 +41,11 @@ EMISIONES_PALETA = {
 
 def emisiones_co2_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """Emisiones de CO2 por sector (combustión de combustibles fósiles)."""
-    df = c.load_dataset("emisiones_sector")
-    df = c.filter_years(df, anio_desde, anio_hasta)
-    src = [c.DATASET_PAGES["emisiones_sector"]]
+    df = h.load_dataset("emisiones_sector")
+    df = h.filter_years(df, anio_desde, anio_hasta)
+    src = [h.DATASET_PAGES["emisiones_sector"]]
     if df.empty:
-        return c.empty_result("de emisiones de CO2 por sector en ese rango", src)
+        return h.empty_result("de emisiones de CO2 por sector en ese rango", src)
 
     ult = df.iloc[-1]
     anio_ult = int(ult["anio"])
@@ -54,13 +54,13 @@ def emisiones_co2_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput
         else f"{int(df['anio'].min())}-{anio_ult}"
     )
 
-    breakdown_lines, _ = c.mix_breakdown_lines(ult, EMISIONES_SECTORES)
+    breakdown_lines, _ = h.mix_breakdown_lines(ult, EMISIONES_SECTORES)
 
     lines = [
         f"Emisiones de CO2 por sector en Uruguay, {rango} (Gg CO2 = "
         f"kilotoneladas).",
         "",
-        f"Mix sectorial {anio_ult} — TOTAL = {c.fmt_num(ult['TOTAL'], 1)} "
+        f"Mix sectorial {anio_ult} — TOTAL = {h.fmt_num(ult['TOTAL'], 1)} "
         f"Gg CO2:",
     ] + breakdown_lines
 
@@ -100,16 +100,19 @@ def emisiones_co2_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput
         "nacional. Sólo cubre CO2 (no CH4/N2O) y sólo combustión de "
         "combustibles fósiles (no procesos industriales como cemento)."
     )
-    lines.append(c.unit_blurb("Gg CO2"))
+    lines.append(h.unit_blurb("Gg CO2"))
+    lines.append(h.definiciones_relevantes("emisiones_co2", "sector_de_consumo"))
     lines.append("")
-    lines.append(c.SOURCE_FOOTER)
+    lines.append(h.ALREADY_TABLE)
+    lines.append(h.ALREADY_CHART)
+    lines.append(h.SOURCE_FOOTER)
 
-    table = c.build_table(df, EMISIONES_SECTORES, total_col="TOTAL")
+    table = h.build_table(df, EMISIONES_SECTORES, total_col="TOTAL")
 
-    chart = c.chart_for_mix(
+    chart = h.chart_for_mix(
         df, EMISIONES_SECTORES,
         f"Emisiones de CO2 por sector ({rango}), Gg CO2",
         palette=EMISIONES_PALETA,
     )
 
-    return c.text_result("\n".join(lines), src, table=table, charts=[chart])
+    return h.text_result("\n".join(lines), src, table=table, charts=[chart])

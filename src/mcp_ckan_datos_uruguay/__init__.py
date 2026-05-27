@@ -44,6 +44,9 @@ def _register_ben_tools(mcp):
             "¿Uruguay importa o exporta electricidad?",
             "¿Cómo evolucionó la posición exportadora del país?",
             "¿En qué años fue exportador / importador neto?",
+            "¿Qué significa 'energía final' en el BEN?",
+            "¿Qué incluye 'residuos de biomasa'?",
+            "¿Cómo define el BEN el ktep?",
         ],
     )
 
@@ -473,6 +476,44 @@ def _register_ben_tools(mcp):
         return ben.emisiones_co2_por_sector(
             anio_desde=anio_desde, anio_hasta=anio_hasta,
         )
+
+    @mcp.tool()
+    def glosario_ben(concepto: str) -> DataToolOutput:
+        """Definición oficial de un concepto del Balance Energético Nacional,
+            tomada **textualmente** del capítulo "8. Metodología" del Libro del
+            BEN 2024 (MIEM). Usar cuando el usuario pregunta qué significa o
+            cómo se define un término del BEN, o qué incluye una fuente de
+            energía. Las tools de datos ya adjuntan las definiciones que les
+            aplican; esta tool es para definiciones pedidas explícitamente o
+            para conceptos que ninguna tool de datos cubre.
+            Útil para preguntas como:
+                - ¿Qué es la energía final / neta / bruta / primaria?
+                - ¿Qué incluye 'residuos de biomasa' / 'residuos industriales'?
+                - ¿Cómo se define el ktep? ¿Y un centro de transformación?
+                - ¿Qué cuenta como renovable en el abastecimiento?
+            Devuelve la definición literal, la sección del libro (§8.x) y cita
+            el recurso del libro (PDF).
+            Usar tambien para ser mas claros en las respuestas. No usar
+            definiciones genéricas.
+
+        Args:
+            concepto: Clave exacta del concepto a definir. Conceptos
+                disponibles:
+                energia_primaria, energia_secundaria, energia_bruta,
+                energia_neta, energia_final, centro_de_transformacion,
+                sector_de_consumo, produccion, importacion, exportacion,
+                perdidas, variacion_de_inventario, energia_no_utilizada,
+                carbon_mineral, gas_natural, energia_solar, residuos_de_biomasa,
+                biomasa_para_biocombustibles, residuos_industriales, ktep,
+                emisiones_co2, matriz_primaria, clasificacion_por_origen,
+                clasificacion_por_tipo.
+
+        Examples:
+            - glosario_ben(concepto="energia_final")
+            - glosario_ben(concepto="residuos_de_biomasa")
+            - glosario_ben(concepto="ktep")
+        """
+        return ben.glosario(concepto=concepto)
 
 
 # def _register_other_tools(mcp):

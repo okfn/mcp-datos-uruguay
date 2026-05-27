@@ -21,7 +21,7 @@ Preguntas del README cubiertas:
 import pandas as pd
 
 from mcp_server import DataToolOutput
-from . import _common as c
+from . import helpers as h
 
 
 # ═══ Consumo final por sector ═════════════════════════════════════════════
@@ -46,11 +46,11 @@ CONSUMO_SECTORES_PALETA = {
 
 def consumo_final_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """Consumo final energético desagregado por sector, en ktep."""
-    df = c.load_dataset("consumo_sector")
-    df = c.filter_years(df, anio_desde, anio_hasta)
-    src = [c.DATASET_PAGES["consumo_sector"]]
+    df = h.load_dataset("consumo_sector")
+    df = h.filter_years(df, anio_desde, anio_hasta)
+    src = [h.DATASET_PAGES["consumo_sector"]]
     if df.empty:
-        return c.empty_result("de consumo final por sector en ese rango", src)
+        return h.empty_result("de consumo final por sector en ese rango", src)
 
     ult = df.iloc[-1]
     anio_ult = int(ult["anio"])
@@ -59,12 +59,12 @@ def consumo_final_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput
         else f"{int(df['anio'].min())}-{anio_ult}"
     )
 
-    breakdown_lines, _ = c.mix_breakdown_lines(ult, CONSUMO_SECTORES)
+    breakdown_lines, _ = h.mix_breakdown_lines(ult, CONSUMO_SECTORES)
 
     lines = [
         f"Consumo final energético de Uruguay por sector, {rango} (ktep).",
         "",
-        f"Mix sectorial {anio_ult} — TOTAL = {c.fmt_num(ult['TOTAL'], 1)} ktep:",
+        f"Mix sectorial {anio_ult} — TOTAL = {h.fmt_num(ult['TOTAL'], 1)} ktep:",
     ] + breakdown_lines
 
     if len(df) >= 2:
@@ -92,23 +92,26 @@ def consumo_final_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput
             )
 
     lines.append("")
+    lines.append(h.ALREADY_TABLE)
+    lines.append(h.ALREADY_CHART)
     lines.append(
         "Nota 1965-1979: la columna 'Comercial/Servicios/Sec.Público' "
         "está incluida dentro de 'Residencial'."
     )
-    lines.append(c.unit_blurb("ktep"))
+    lines.append(h.unit_blurb("ktep"))
+    lines.append(h.definiciones_relevantes("energia_final", "sector_de_consumo"))
     lines.append("")
-    lines.append(c.SOURCE_FOOTER)
+    lines.append(h.SOURCE_FOOTER)
 
-    table = c.build_table(df, CONSUMO_SECTORES)
+    table = h.build_table(df, CONSUMO_SECTORES)
 
-    chart = c.chart_for_mix(
+    chart = h.chart_for_mix(
         df, CONSUMO_SECTORES,
         f"Consumo final energético por sector ({rango}), ktep",
         palette=CONSUMO_SECTORES_PALETA,
     )
 
-    return c.text_result("\n".join(lines), src, table=table, charts=[chart])
+    return h.text_result("\n".join(lines), src, table=table, charts=[chart])
 
 
 # ═══ Consumo final por fuente ═════════════════════════════════════════════
@@ -148,11 +151,11 @@ RENOVABLES_CONSUMO = {
 
 def consumo_final_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """Consumo final energético desagregado por fuente, en ktep."""
-    df = c.load_dataset("consumo_fuente")
-    df = c.filter_years(df, anio_desde, anio_hasta)
-    src = [c.DATASET_PAGES["consumo_fuente"]]
+    df = h.load_dataset("consumo_fuente")
+    df = h.filter_years(df, anio_desde, anio_hasta)
+    src = [h.DATASET_PAGES["consumo_fuente"]]
     if df.empty:
-        return c.empty_result("de consumo final por fuente en ese rango", src)
+        return h.empty_result("de consumo final por fuente en ese rango", src)
 
     ult = df.iloc[-1]
     anio_ult = int(ult["anio"])
@@ -161,7 +164,7 @@ def consumo_final_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolOutput
         else f"{int(df['anio'].min())}-{anio_ult}"
     )
 
-    breakdown_lines, _ = c.mix_breakdown_lines(
+    breakdown_lines, _ = h.mix_breakdown_lines(
         ult, CONSUMO_FUENTES,
         incluye_pct_renov=RENOVABLES_CONSUMO,
     )
@@ -169,7 +172,7 @@ def consumo_final_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolOutput
     lines = [
         f"Consumo final energético de Uruguay por fuente, {rango} (ktep).",
         "",
-        f"Mix por fuente {anio_ult} — TOTAL = {c.fmt_num(ult['TOTAL'], 1)} ktep:",
+        f"Mix por fuente {anio_ult} — TOTAL = {h.fmt_num(ult['TOTAL'], 1)} ktep:",
     ] + breakdown_lines
     lines.append("")
     lines.append(
@@ -177,9 +180,12 @@ def consumo_final_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolOutput
         "biocombustibles y solar térmica. La electricidad se contabiliza "
         "aparte: para ver su mix renovable usar `matriz_generacion_electrica`."
     )
-    lines.append(c.unit_blurb("ktep"))
+    lines.append(h.unit_blurb("ktep"))
+    lines.append(h.definiciones_relevantes("energia_final", "residuos_de_biomasa"))
     lines.append("")
-    lines.append(c.SOURCE_FOOTER)
+    lines.append(h.ALREADY_TABLE)
+    lines.append(h.ALREADY_CHART)
+    lines.append(h.SOURCE_FOOTER)
 
     def _pct_renov(row):
         total = float(row["TOTAL"]) if pd.notna(row["TOTAL"]) else 0.0
@@ -187,29 +193,29 @@ def consumo_final_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolOutput
                     if et in RENOVABLES_CONSUMO and pd.notna(row[col]))
         return f"{(renov / total * 100):.1f}%" if total else "—"
 
-    table = c.build_table(
+    table = h.build_table(
         df, CONSUMO_FUENTES,
         extra_cols=[("% Renov.", _pct_renov)],
     )
 
-    chart = c.chart_for_mix(
+    chart = h.chart_for_mix(
         df, CONSUMO_FUENTES,
         f"Consumo final energético por fuente ({rango}), ktep",
         palette=CONSUMO_FUENTES_PALETA,
     )
 
-    return c.text_result("\n".join(lines), src, table=table, charts=[chart])
+    return h.text_result("\n".join(lines), src, table=table, charts=[chart])
 
 
 # ═══ Tendencia del consumo total (Q1.1, Q1.2, Q1.4) ═══════════════════════
 
 def tendencia_demanda_total(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """Evolución del consumo final energético TOTAL del país, ktep/año."""
-    df = c.load_dataset("consumo_fuente")
-    df = c.filter_years(df, anio_desde, anio_hasta)
-    src = [c.DATASET_PAGES["consumo_fuente"]]
+    df = h.load_dataset("consumo_fuente")
+    df = h.filter_years(df, anio_desde, anio_hasta)
+    src = [h.DATASET_PAGES["consumo_fuente"]]
     if df.empty:
-        return c.empty_result("de consumo total en ese rango", src)
+        return h.empty_result("de consumo total en ese rango", src)
 
     rango = (
         f"{int(df['anio'].iloc[0])}" if len(df) == 1
@@ -222,14 +228,14 @@ def tendencia_demanda_total(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     lines = [
         f"Consumo final energético TOTAL de Uruguay, {rango} (ktep/año).",
         "",
-        f"  - {int(ult['anio'])}: {c.fmt_num(ult['TOTAL'], 1)} ktep "
+        f"  - {int(ult['anio'])}: {h.fmt_num(ult['TOTAL'], 1)} ktep "
         f"(≈ {float(ult['TOTAL']) * 11.63 / 1000:.1f} TWh equivalentes).",
     ]
     if n > 0 and float(prim["TOTAL"]) > 0:
         cagr = ((float(ult["TOTAL"]) / float(prim["TOTAL"])) ** (1 / n) - 1) * 100
         delta_pct = (float(ult["TOTAL"]) / float(prim["TOTAL"]) - 1) * 100
         lines.append(
-            f"  - {int(prim['anio'])}: {c.fmt_num(prim['TOTAL'], 1)} ktep."
+            f"  - {int(prim['anio'])}: {h.fmt_num(prim['TOTAL'], 1)} ktep."
         )
         lines.append(
             f"  - Variación {int(prim['anio'])}→{int(ult['anio'])}: "
@@ -247,24 +253,27 @@ def tendencia_demanda_total(anio_desde=None, anio_hasta=None) -> DataToolOutput:
             )
 
     lines.append("")
+    lines.append(h.ALREADY_TABLE)
+    lines.append(h.ALREADY_CHART)
     lines.append(
         "Recordar: BEN no incluye PIB ni población. Para 'consumo per "
         "cápita' o 'intensidad energética = energía/PIB' hay que cruzar "
         "con datos del INE / BCU."
     )
-    lines.append(c.unit_blurb("ktep"))
+    lines.append(h.unit_blurb("ktep"))
+    lines.append(h.definiciones_relevantes("energia_final"))
     lines.append("")
-    lines.append(c.SOURCE_FOOTER)
+    lines.append(h.SOURCE_FOOTER)
 
     table = [["Año", "Consumo total (ktep)"]]
     for _, row in df.iterrows():
-        table.append([str(int(row["anio"])), c.fmt_num(row["TOTAL"], 1)])
+        table.append([str(int(row["anio"])), h.fmt_num(row["TOTAL"], 1)])
 
-    chart = c.line_chart(
+    chart = h.line_chart(
         f"Consumo final energético total Uruguay ({rango}), ktep",
         df["anio"].tolist(),
         [("Consumo total", df["TOTAL"].tolist())],
         palette={"Consumo total": "#1f77b4"},
     )
 
-    return c.text_result("\n".join(lines), src, table=table, charts=[chart])
+    return h.text_result("\n".join(lines), src, table=table, charts=[chart])

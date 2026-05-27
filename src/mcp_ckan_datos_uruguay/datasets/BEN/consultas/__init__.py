@@ -7,7 +7,8 @@ Submódulos por familia de dataset:
   - abastecimiento (oferta primaria, dependencia externa, pérdidas)
   - importaciones  (gas natural, petróleo, intercambio eléctrico)
   - emisiones      (CO2 por sector)
-  - _common        (loaders, builders de gráficos, helpers de unidades)
+  - glosario       (definición oficial de un concepto del Libro del BEN)
+  - helpers/       (loaders, gráficos, formato, unidades, definiciones)
 
 Cada función pública aquí re-exportada está pensada para ser registrada
 como tool MCP desde `mcp_ckan_datos_uruguay/__init__.py:register_tools`.
@@ -36,6 +37,7 @@ from .importaciones import (
 from .emisiones import (
     emisiones_co2_por_sector,
 )
+from .glosario import glosario
 
 
 __all__ = [
@@ -52,4 +54,5 @@ __all__ = [
     "importacion_gas_natural",
     "intercambio_electricidad",
     "emisiones_co2_por_sector",
+    "glosario",
 ]

@@ -15,18 +15,18 @@ Preguntas del README cubiertas:
 import pandas as pd
 
 from mcp_server import DataToolOutput
-from . import _common as c
+from . import helpers as h
 
 
 # ═══ Importación de petróleo + carga de refinería ═════════════════════════
 
 def importacion_petroleo(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """Importación de petróleo crudo + carga de refinería de ANCAP, en ktep."""
-    df = c.load_dataset("petroleo")
-    df = c.filter_years(df, anio_desde, anio_hasta)
-    src = [c.DATASET_PAGES["petroleo"]]
+    df = h.load_dataset("petroleo")
+    df = h.filter_years(df, anio_desde, anio_hasta)
+    src = [h.DATASET_PAGES["petroleo"]]
     if df.empty:
-        return c.empty_result("de importación de petróleo en ese rango", src)
+        return h.empty_result("de importación de petróleo en ese rango", src)
 
     rango = (
         f"{int(df['anio'].iloc[0])}" if len(df) == 1
@@ -40,8 +40,8 @@ def importacion_petroleo(anio_desde=None, anio_hasta=None) -> DataToolOutput:
         f"ANCAP), {rango} (ktep).",
         "",
         f"  - {anio_ult}: importación = "
-        f"{c.fmt_num(ult['impo_petroleo'], 1)} ktep, "
-        f"carga refinería = {c.fmt_num(ult['carga_refineria'], 1)} ktep.",
+        f"{h.fmt_num(ult['impo_petroleo'], 1)} ktep, "
+        f"carga refinería = {h.fmt_num(ult['carga_refineria'], 1)} ktep.",
     ]
     if len(df) >= 2:
         prim = df.iloc[0]
@@ -61,20 +61,23 @@ def importacion_petroleo(anio_desde=None, anio_hasta=None) -> DataToolOutput:
         "movimientos de stock (acopio o desacopio de crudo). En años con "
         "parada técnica de refinería la carga cae fuerte."
     )
-    lines.append(c.unit_blurb("ktep"))
+    lines.append(h.unit_blurb("ktep"))
+    lines.append(h.definiciones_relevantes("importacion"))
     lines.append("")
-    lines.append(c.SOURCE_FOOTER)
+    lines.append(h.ALREADY_TABLE)
+    lines.append(h.ALREADY_CHART)
+    lines.append(h.SOURCE_FOOTER)
 
     table = [["Año", "Importación (ktep)", "Carga refinería (ktep)"]]
     for _, row in df.iterrows():
         table.append([
             str(int(row["anio"])),
-            c.fmt_num(row["impo_petroleo"], 1),
-            c.fmt_num(row["carga_refineria"], 1),
+            h.fmt_num(row["impo_petroleo"], 1),
+            h.fmt_num(row["carga_refineria"], 1),
         ])
 
     if len(df) == 1:
-        chart = c.grouped_bar_chart(
+        chart = h.grouped_bar_chart(
             f"Importación de petróleo y carga refinería — {anio_ult} (ktep)",
             [anio_ult],
             [
@@ -87,7 +90,7 @@ def importacion_petroleo(anio_desde=None, anio_hasta=None) -> DataToolOutput:
             },
         )
     else:
-        chart = c.line_chart(
+        chart = h.line_chart(
             f"Petróleo: importación vs carga refinería Uruguay ({rango}), ktep",
             df["anio"].tolist(),
             [
@@ -100,19 +103,19 @@ def importacion_petroleo(anio_desde=None, anio_hasta=None) -> DataToolOutput:
             },
         )
 
-    return c.text_result("\n".join(lines), src, table=table, charts=[chart])
+    return h.text_result("\n".join(lines), src, table=table, charts=[chart])
 
 
 # ═══ Importación de gas natural ═══════════════════════════════════════════
 
 def importacion_gas_natural(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """Serie anual de importaciones de gas natural, en ktep."""
-    df = c.load_dataset("gas_natural")
-    df = c.filter_years(df, anio_desde, anio_hasta)
+    df = h.load_dataset("gas_natural")
+    df = h.filter_years(df, anio_desde, anio_hasta)
     df = df[df["impo_gas_natural"].notna()].reset_index(drop=True)
-    src = [c.DATASET_PAGES["gas_natural"]]
+    src = [h.DATASET_PAGES["gas_natural"]]
     if df.empty:
-        return c.empty_result(
+        return h.empty_result(
             "de importación de gas natural en ese rango (la serie arranca "
             "en 1998 con el gasoducto Cruz del Sur)",
             src,
@@ -128,51 +131,54 @@ def importacion_gas_natural(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     lines = [
         f"Importación de gas natural a Uruguay, {rango} (ktep).",
         "",
-        f"  - {anio_ult}: {c.fmt_num(ult['impo_gas_natural'], 1)} ktep.",
-        f"  - Promedio del período: {c.fmt_num(media, 1)} ktep.",
+        f"  - {anio_ult}: {h.fmt_num(ult['impo_gas_natural'], 1)} ktep.",
+        f"  - Promedio del período: {h.fmt_num(media, 1)} ktep.",
         "",
         "Contexto: el gas natural llega a Uruguay desde Argentina por el "
         "gasoducto Cruz del Sur (operativo desde 1998); volúmenes "
         "modestos comparados con petróleo y biomasa.",
     ]
-    lines.append(c.unit_blurb("ktep"))
+    lines.append(h.unit_blurb("ktep"))
+    lines.append(h.definiciones_relevantes("gas_natural", "importacion"))
     lines.append("")
-    lines.append(c.SOURCE_FOOTER)
+    lines.append(h.ALREADY_TABLE)
+    lines.append(h.ALREADY_CHART)
+    lines.append(h.SOURCE_FOOTER)
 
     table = [["Año", "Importación gas natural (ktep)"]]
     for _, row in df.iterrows():
         table.append([
             str(int(row["anio"])),
-            c.fmt_num(row["impo_gas_natural"], 1),
+            h.fmt_num(row["impo_gas_natural"], 1),
         ])
 
     if len(df) == 1:
-        chart = c.grouped_bar_chart(
+        chart = h.grouped_bar_chart(
             f"Importación de gas natural — {anio_ult} (ktep)",
             [anio_ult],
             [("Importación gas natural", [float(ult["impo_gas_natural"])])],
             palette={"Importación gas natural": "#bcbd22"},
         )
     else:
-        chart = c.line_chart(
+        chart = h.line_chart(
             f"Importación de gas natural Uruguay ({rango}), ktep",
             df["anio"].tolist(),
             [("Importación gas natural", df["impo_gas_natural"].tolist())],
             palette={"Importación gas natural": "#bcbd22"},
         )
 
-    return c.text_result("\n".join(lines), src, table=table, charts=[chart])
+    return h.text_result("\n".join(lines), src, table=table, charts=[chart])
 
 
 # ═══ Importación / exportación de electricidad ═══════════════════════════
 
 def intercambio_electricidad(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """Importación, exportación y saldo neto de electricidad con vecinos."""
-    df = c.load_dataset("impo_expo_electricidad")
-    df = c.filter_years(df, anio_desde, anio_hasta)
-    src = [c.DATASET_PAGES["impo_expo_electricidad"]]
+    df = h.load_dataset("impo_expo_electricidad")
+    df = h.filter_years(df, anio_desde, anio_hasta)
+    src = [h.DATASET_PAGES["impo_expo_electricidad"]]
     if df.empty:
-        return c.empty_result("de intercambio eléctrico en ese rango", src)
+        return h.empty_result("de intercambio eléctrico en ese rango", src)
 
     df = df.copy()
     df["impo_electricidad"] = df["impo_electricidad"].fillna(0)
@@ -195,9 +201,9 @@ def intercambio_electricidad(anio_desde=None, anio_hasta=None) -> DataToolOutput
         f"Intercambio eléctrico de Uruguay con Argentina y Brasil, "
         f"{rango} (ktep).",
         "",
-        f"  - {anio_ult}: importación = {c.fmt_num(ult['impo_electricidad'], 1)} "
-        f"ktep, exportación = {c.fmt_num(ult['expo_electricidad'], 1)} "
-        f"ktep, saldo neto = {c.fmt_num(ult['saldo_neto'], 1)} ktep "
+        f"  - {anio_ult}: importación = {h.fmt_num(ult['impo_electricidad'], 1)} "
+        f"ktep, exportación = {h.fmt_num(ult['expo_electricidad'], 1)} "
+        f"ktep, saldo neto = {h.fmt_num(ult['saldo_neto'], 1)} ktep "
         f"({posicion}).",
     ]
     if len(df) >= 2:
@@ -216,21 +222,24 @@ def intercambio_electricidad(anio_desde=None, anio_hasta=None) -> DataToolOutput
         "**positivas** (no usar signo): el saldo se calcula como "
         "exportación - importación."
     )
-    lines.append(c.unit_blurb("ktep"))
+    lines.append(h.unit_blurb("ktep"))
+    lines.append(h.definiciones_relevantes("exportacion", "importacion"))
     lines.append("")
-    lines.append(c.SOURCE_FOOTER)
+    lines.append(h.ALREADY_TABLE)
+    lines.append(h.ALREADY_CHART)
+    lines.append(h.SOURCE_FOOTER)
 
     table = [["Año", "Importación (ktep)", "Exportación (ktep)", "Saldo neto (ktep)"]]
     for _, row in df.iterrows():
         table.append([
             str(int(row["anio"])),
-            c.fmt_num(row["impo_electricidad"], 1),
-            c.fmt_num(row["expo_electricidad"], 1),
-            c.fmt_num(row["saldo_neto"], 1),
+            h.fmt_num(row["impo_electricidad"], 1),
+            h.fmt_num(row["expo_electricidad"], 1),
+            h.fmt_num(row["saldo_neto"], 1),
         ])
 
     if len(df) == 1:
-        chart = c.grouped_bar_chart(
+        chart = h.grouped_bar_chart(
             f"Intercambio eléctrico Uruguay — {anio_ult} (ktep)",
             [anio_ult],
             [
@@ -240,7 +249,7 @@ def intercambio_electricidad(anio_desde=None, anio_hasta=None) -> DataToolOutput
             palette={"Importación": "#d62728", "Exportación": "#2ca02c"},
         )
     else:
-        chart = c.grouped_bar_chart(
+        chart = h.grouped_bar_chart(
             f"Intercambio eléctrico Uruguay ({rango}), ktep",
             df["anio"].tolist(),
             [
@@ -250,4 +259,4 @@ def intercambio_electricidad(anio_desde=None, anio_hasta=None) -> DataToolOutput
             palette={"Importación": "#d62728", "Exportación": "#2ca02c"},
         )
 
-    return c.text_result("\n".join(lines), src, table=table, charts=[chart])
+    return h.text_result("\n".join(lines), src, table=table, charts=[chart])
