@@ -1,4 +1,4 @@
-# BEN — Abastecimiento de energía por fuente
+# BEN - Abastecimiento de energía por fuente
 
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-abastecimiento-de-energia-por-fuente
 **CSV directo:** https://catalogodatos.gub.uy/dataset/fc5e7e9c-73cc-4c10-a3b7-6c27848bc095/resource/eb3fadb3-a0b5-4324-8742-5355632f9b24/download/abastecimiento-de-energia-por-fuente.csv
@@ -31,7 +31,7 @@ agregables.
 | `C_C` | ktep | Carbón mineral + coque (importado) |
 | `B` | ktep | Biomasa (leña, residuos, biocombustibles, carbón vegetal) |
 | `RI` | ktep | Residuos industriales |
-| `TOTAL` | ktep | Suma — abastecimiento total |
+| `TOTAL` | ktep | Suma - abastecimiento total |
 
 ## Head (primeras 10 líneas)
 ```
@@ -51,12 +51,12 @@ AÑO;EE_i;EE_H;EE_Eo;S;GN;P_D;C_C;B;RI;TOTAL
 / residuos ind. 9.1.
 
 ## Preguntas que ayuda a responder
-- **1. Visión macro** — fuentes que predominan en la matriz energética.
-- **2. Matriz energética** — % renovables vs no renovables, evolución de la
+- **1. Visión macro** - fuentes que predominan en la matriz energética.
+- **2. Matriz energética** - % renovables vs no renovables, evolución de la
   participación, diversificación.
-- **3. Dependencia externa** — combinar `EE_i + GN + P_D + C_C` (todo
+- **3. Dependencia externa** - combinar `EE_i + GN + P_D + C_C` (todo
   importado) versus producción local (`EE_H + EE_Eo + S + B`).
-- **6. Eficiencia / transformación** — comparar `TOTAL` (oferta primaria)
+- **6. Eficiencia / transformación** - comparar `TOTAL` (oferta primaria)
   con consumo final (`miem-consumo-final-energetico-por-fuente.TOTAL`); la
   diferencia son pérdidas de transformación, distribución y consumo propio
   del sector energético.

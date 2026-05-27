@@ -91,8 +91,8 @@ DEFINICIONES_BEN = {
             "procesos que modifican sus propiedades o su naturaleza original "
             "mediante cambios físico-químicos y cuyo objetivo es convertirla en "
             "otra forma de energía más adecuada para el consumo. Se clasifican "
-            "en “primarios”, si solamente procesan fuentes primarias y "
-            "“secundarios”, si al centro de transformación ingresan fuentes "
+            "en 'primarios', si solamente procesan fuentes primarias y "
+            "'secundarios', si al centro de transformación ingresan fuentes "
             "primarias y/o secundarias."
         ),
         "seccion": "§8.1",
@@ -155,11 +155,11 @@ DEFINICIONES_BEN = {
             "pérdidas de energía originadas durante el transporte, "
             "almacenamiento, transmisión y distribución (pérdidas técnicas). "
             "Hasta 2005 las pérdidas no técnicas del sector eléctrico se "
-            "computaron como “pérdidas”; a partir de 2006 se contabilizaron "
-            "como “consumo final energético”. Las pérdidas sociales se "
+            "computaron como 'pérdidas'; a partir de 2006 se contabilizaron "
+            "como 'consumo final energético'. Las pérdidas sociales se "
             "incluyeron en el sector residencial y el resto de las pérdidas no "
             "técnicas se distribuyeron en proporción de consumo. Desde 2023 "
-            "estas últimas se integraron al sector “No identificado”."
+            "estas últimas se integraron al sector 'No identificado'."
         ),
         "seccion": "§8.2",
         "tools": ["perdidas_transformacion_energetica_uy"],
@@ -168,7 +168,7 @@ DEFINICIONES_BEN = {
         "termino": "Variación de inventario",
         "definicion": (
             "diferencia entre las existencias de una fuente energética al 31 "
-            "de diciembre del año i−1 y al 31 de diciembre del año i."
+            "de diciembre del año i-1 y al 31 de diciembre del año i."
         ),
         "seccion": "§8.2",
         "tools": [],
@@ -287,10 +287,10 @@ DEFINICIONES_BEN = {
     "matriz_primaria": {
         "termino": "Matriz primaria (abastecimiento)",
         "definicion": (
-            "En la “matriz primaria”, o también llamada “matriz de "
-            "abastecimiento”, se representa el aprovisionamiento de energía al "
-            "país con la siguiente apertura: “electricidad”, “solar”, “petróleo "
-            "y derivados”, “gas natural”, “biomasa” y “carbón/coque”. Como "
+            "En la 'matriz primaria', o también llamada 'matriz de "
+            "abastecimiento', se representa el aprovisionamiento de energía al "
+            "país con la siguiente apertura: 'electricidad', 'solar', 'petróleo "
+            "y derivados', 'gas natural', 'biomasa' y 'carbón/coque'. Como "
             "metodología general, para su elaboración se consideran las "
             "actividades de oferta que correspondan para cada energético "
             "(producción, importación, exportación y búnker internacional). En "
@@ -337,7 +337,7 @@ def definiciones_relevantes(*conceptos):
     al contexto de la IA. Cita el recurso del libro para que la IA pueda
     indicar que usó parte del libro. Conceptos desconocidos se ignoran.
     """
-    lines = ["", "Atención — definiciones relevantes del Libro del BEN 2024 (MIEM):"]
+    lines = ["", "Atención - definiciones relevantes del Libro del BEN 2024 (MIEM):"]
     for concepto in conceptos:
         d = DEFINICIONES_BEN.get(concepto)
         if d is None:

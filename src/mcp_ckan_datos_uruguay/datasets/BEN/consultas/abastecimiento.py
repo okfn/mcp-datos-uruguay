@@ -1,5 +1,5 @@
 """
-Tools BEN — Abastecimiento de energía primaria (lado oferta).
+Tools BEN - Abastecimiento de energía primaria (lado oferta).
 
 Cubre el dataset MIEM `miem-abastecimiento-de-energia-por-fuente` (ktep,
 1965-2024) y construye un derivado para 'pérdidas de transformación'
@@ -21,10 +21,10 @@ from mcp_server import DataToolOutput
 from . import helpers as h
 
 
-# Columnas del dataset abastecimiento — todas en ktep.
+# Columnas del dataset abastecimiento - todas en ktep.
 # Renovables locales: EE_H, EE_Eo, S, B
 # Importadas (no renovables): EE_i, GN, P_D, C_C
-# Otros: RI (residuos industriales — locales pero no renovables)
+# Otros: RI (residuos industriales - locales pero no renovables)
 ABAST_FUENTES = [
     ("P_D", "Petróleo + derivados"),
     ("B", "Biomasa"),
@@ -86,7 +86,7 @@ def matriz_abastecimiento_primario(anio_desde=None, anio_hasta=None) -> DataTool
     lines = [
         f"Oferta primaria de energía de Uruguay, {rango} (ktep).",
         "",
-        f"Mix primario {anio_ult} — TOTAL = {h.fmt_num(ult['TOTAL'], 1)} ktep:",
+        f"Mix primario {anio_ult} - TOTAL = {h.fmt_num(ult['TOTAL'], 1)} ktep:",
     ] + breakdown_lines
     lines.append(
         f"  → Diversificación (Herfindahl normalizado): {diversidad:.2f} "
@@ -127,7 +127,7 @@ def matriz_abastecimiento_primario(anio_desde=None, anio_hasta=None) -> DataTool
         total_r = float(row["TOTAL"]) if pd.notna(row["TOTAL"]) else 0.0
         renov = sum(float(row[col]) for col, et in ABAST_FUENTES
                     if et in RENOVABLES_ABAST and pd.notna(row[col]))
-        return f"{(renov / total_r * 100):.1f}%" if total_r else "—"
+        return f"{(renov / total_r * 100):.1f}%" if total_r else "-"
 
     table = h.build_table(
         df, ABAST_FUENTES,
@@ -213,7 +213,7 @@ def dependencia_energetica_externa(anio_desde=None, anio_hasta=None) -> DataTool
 
     if len(df) == 1:
         chart = h.pie_chart(
-            f"Importado vs producción local — {anio_ult}",
+            f"Importado vs producción local - {anio_ult}",
             [
                 ("Importado", float(ult["importado"])),
                 ("Local", float(ult["local"])),
@@ -304,7 +304,7 @@ def perdidas_transformacion(anio_desde=None, anio_hasta=None) -> DataToolOutput:
 
     if len(merged) == 1:
         chart = h.grouped_bar_chart(
-            f"Oferta vs consumo final — {anio_ult} (ktep)",
+            f"Oferta vs consumo final - {anio_ult} (ktep)",
             [anio_ult],
             [
                 ("Oferta primaria", [float(ult["oferta"])]),

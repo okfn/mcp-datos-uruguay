@@ -1,5 +1,5 @@
 """
-Tools BEN — Emisiones de CO2.
+Tools BEN - Emisiones de CO2.
 
 Cubre el dataset MIEM `miem-emisiones-de-co2-por-sector` (Gg CO2,
 1965-2024). Para la intensidad del SIN ver `electricidad.factor_emision_electrico`.
@@ -60,7 +60,7 @@ def emisiones_co2_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput
         f"Emisiones de CO2 por sector en Uruguay, {rango} (Gg CO2 = "
         f"kilotoneladas).",
         "",
-        f"Mix sectorial {anio_ult} — TOTAL = {h.fmt_num(ult['TOTAL'], 1)} "
+        f"Mix sectorial {anio_ult} - TOTAL = {h.fmt_num(ult['TOTAL'], 1)} "
         f"Gg CO2:",
     ] + breakdown_lines
 

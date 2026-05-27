@@ -24,7 +24,7 @@ DATASET_PAGES = {
     "potencia":               PORTAL + "miem-potencia-instalada-por-fuente",
 }
 
-# Cada entrada es (dataset_uuid, resource_uuid, filename) — verificada
+# Cada entrada es (dataset_uuid, resource_uuid, filename) - verificada
 # contra los snapshots `_meta_*.json` de `package_show`. El CSV directo
 # se compone debajo en `DATASET_URLS`.
 _DATASET_PARTS = {

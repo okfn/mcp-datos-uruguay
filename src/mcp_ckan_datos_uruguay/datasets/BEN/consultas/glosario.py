@@ -1,5 +1,5 @@
 """
-Tool BEN — Glosario.
+Tool BEN - Glosario.
 
 Devuelve la definición oficial de un concepto del Balance Energético Nacional,
 tomada literal del Libro del BEN (ver `helpers/metodologia.py`). El título, la
@@ -26,7 +26,7 @@ def glosario(concepto) -> DataToolOutput:
         return h.text_result(texto, [libro_url])
 
     texto = (
-        f"{d['termino']} — definición oficial del Libro del BEN 2024 (MIEM), "
+        f"{d['termino']} - definición oficial del Libro del BEN 2024 (MIEM), "
         f"{d['seccion']}:\n\n"
         f"«{d['definicion']}»\n\n"
         f"Fuente textual oficial: {libro['name']} (recurso {libro['uri']})."

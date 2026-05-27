@@ -1,7 +1,7 @@
 """
 Explicación de unidades del BEN para concatenar al texto de respuesta.
 
-`unit_blurb(*units)` arma el bloque '💡 Unidades' para que el lector no técnico
+`unit_blurb(*units)` arma el bloque ' Unidades' para que el lector no técnico
 entienda ktep, GWh, MW, Gg CO2 y t CO2/GWh.
 """
 
@@ -31,8 +31,8 @@ UNIT_BLURB = {
 
 
 def unit_blurb(*units):
-    """Bloque '💡 Unidades' para concatenar al texto de respuesta."""
-    lines = ["", "💡 Unidades:"]
+    """Bloque ' Unidades' para concatenar al texto de respuesta."""
+    lines = ["", "Unidades:"]
     for u in units:
         if u in UNIT_BLURB:
             lines.append(f"  - {UNIT_BLURB[u]}")

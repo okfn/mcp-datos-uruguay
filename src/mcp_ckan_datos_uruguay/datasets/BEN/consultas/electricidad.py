@@ -1,5 +1,5 @@
 """
-Tools BEN — Electricidad.
+Tools BEN - Electricidad.
 
 Cubre tres datasets MIEM:
   - `miem-generacion-de-electricidad-por-fuente` (GWh, 2002-2024)
@@ -8,7 +8,7 @@ Cubre tres datasets MIEM:
 
 Preguntas del README cubiertas: 1.5 (fuentes predominantes en eléctrico),
 2.3 (principal fuente), 2.4 (fuentes que más crecen, vía capacidad), 2.5
-(diversificación), 6 (transición — entrada de eólica/solar y caída del
+(diversificación), 6 (transición - entrada de eólica/solar y caída del
 factor de emisión).
 """
 
@@ -56,7 +56,7 @@ def matriz_generacion_electrica(anio_desde=None, anio_hasta=None) -> DataToolOut
     lines = [
         f"Generación eléctrica de Uruguay, {rango} (GWh por año).",
         "",
-        f"Mix {anio_ult} — TOTAL = {h.fmt_num(ult['TOTAL'])} GWh:",
+        f"Mix {anio_ult} - TOTAL = {h.fmt_num(ult['TOTAL'])} GWh:",
     ] + breakdown_lines
     lines.append(h.unit_blurb("GWh"))
     lines.append(h.definiciones_relevantes("clasificacion_por_tipo", "energia_solar"))
@@ -69,7 +69,7 @@ def matriz_generacion_electrica(anio_desde=None, anio_hasta=None) -> DataToolOut
         total = float(row["TOTAL"])
         renov = sum(float(row[col]) for col, et in GENERACION_FUENTES
                     if et in RENOVABLES_GEN and pd.notna(row[col]))
-        return f"{(renov / total * 100):.1f}%" if total else "—"
+        return f"{(renov / total * 100):.1f}%" if total else "-"
 
     table = h.build_table(
         df, GENERACION_FUENTES,
@@ -126,7 +126,7 @@ def potencia_instalada_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolO
         f"Potencia (capacidad) eléctrica instalada en Uruguay, "
         f"{rango} (MW al cierre de cada año).",
         "",
-        f"Mix de capacidad {anio_ult} — TOTAL = {h.fmt_num(ult['TOTAL'])} MW:",
+        f"Mix de capacidad {anio_ult} - TOTAL = {h.fmt_num(ult['TOTAL'])} MW:",
     ] + breakdown_lines
     lines.append("")
     lines.append(
@@ -144,7 +144,7 @@ def potencia_instalada_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolO
         total = float(row["TOTAL"])
         renov = sum(float(row[col]) for col, et in POTENCIA_FUENTES
                     if et in RENOVABLES_POT and pd.notna(row[col]))
-        return f"{(renov / total * 100):.1f}%" if total else "—"
+        return f"{(renov / total * 100):.1f}%" if total else "-"
 
     table = h.build_table(
         df, POTENCIA_FUENTES,
@@ -199,7 +199,7 @@ def factor_emision_electrico(anio_desde=None, anio_hasta=None) -> DataToolOutput
         f"  - Máximo histórico en el rango: {fe_max:.1f} t CO2/GWh ({anio_max}).",
         "",
         "Lectura: cuanto menor el FE_SIN, más limpio el sistema. La "
-        "volatilidad anual la marca el régimen hidráulico — años secos "
+        "volatilidad anual la marca el régimen hidráulico - años secos "
         "obligan a despachar térmica fósil.",
         "Referencias: térmica a gas ciclo combinado ≈ 350-400; térmica a "
         "carbón ≈ 800-1.000; renovables (en operación) ≈ 0 t CO2/GWh.",
@@ -223,7 +223,7 @@ def factor_emision_electrico(anio_desde=None, anio_hasta=None) -> DataToolOutput
     if len(df) == 1:
         # Una sola medida: barra simple comparando con referencias visuales.
         chart = h.grouped_bar_chart(
-            f"Factor de emisión del SIN — {anio_ult} vs referencias técnicas",
+            f"Factor de emisión del SIN - {anio_ult} vs referencias técnicas",
             [anio_ult],
             [
                 (f"SIN Uruguay {anio_ult}", [fe_ult]),

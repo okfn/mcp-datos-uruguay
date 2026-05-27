@@ -1,4 +1,4 @@
-# BEN — Importación de gas natural
+# BEN - Importación de gas natural
 
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/ben-importacion-de-gas-natural
 **CSV directo:** https://catalogodatos.gub.uy/dataset/61631f9e-03ac-4080-a225-a4ddad8da40f/resource/9690c070-d697-40ff-a848-7f9dc98454ab/download/impo_gas_natural.csv
@@ -50,7 +50,7 @@ AÑO;impo_gas_natural
 Últimos años (referencia 2024 = 67.8 ktep).
 
 ## Preguntas que ayuda a responder
-- **3. Dependencia externa** — qué tipo de energía se importa, evolución de
+- **3. Dependencia externa** - qué tipo de energía se importa, evolución de
   las importaciones de gas natural.
-- **2. Matriz energética** — peso del gas natural en la oferta primaria
+- **2. Matriz energética** - peso del gas natural en la oferta primaria
   (combinar con `miem-abastecimiento-de-energia-por-fuente`).

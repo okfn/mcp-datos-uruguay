@@ -1,5 +1,5 @@
 """
-Tools BEN — Consumo final energético (lado demanda).
+Tools BEN - Consumo final energético (lado demanda).
 
 Cubre dos datasets MIEM:
   - `miem-consumo-final-energetico-por-fuente` (ktep, 1965-2024)
@@ -64,7 +64,7 @@ def consumo_final_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput
     lines = [
         f"Consumo final energético de Uruguay por sector, {rango} (ktep).",
         "",
-        f"Mix sectorial {anio_ult} — TOTAL = {h.fmt_num(ult['TOTAL'], 1)} ktep:",
+        f"Mix sectorial {anio_ult} - TOTAL = {h.fmt_num(ult['TOTAL'], 1)} ktep:",
     ] + breakdown_lines
 
     if len(df) >= 2:
@@ -172,7 +172,7 @@ def consumo_final_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolOutput
     lines = [
         f"Consumo final energético de Uruguay por fuente, {rango} (ktep).",
         "",
-        f"Mix por fuente {anio_ult} — TOTAL = {h.fmt_num(ult['TOTAL'], 1)} ktep:",
+        f"Mix por fuente {anio_ult} - TOTAL = {h.fmt_num(ult['TOTAL'], 1)} ktep:",
     ] + breakdown_lines
     lines.append("")
     lines.append(
@@ -191,7 +191,7 @@ def consumo_final_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolOutput
         total = float(row["TOTAL"]) if pd.notna(row["TOTAL"]) else 0.0
         renov = sum(float(row[col]) for col, et in CONSUMO_FUENTES
                     if et in RENOVABLES_CONSUMO and pd.notna(row[col]))
-        return f"{(renov / total * 100):.1f}%" if total else "—"
+        return f"{(renov / total * 100):.1f}%" if total else "-"
 
     table = h.build_table(
         df, CONSUMO_FUENTES,
