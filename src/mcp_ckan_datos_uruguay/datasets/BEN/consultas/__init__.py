@@ -1,5 +1,5 @@
 """
-Paquete de consultas BEN — Balance Energético Nacional de Uruguay (MIEM).
+Paquete de consultas BEN - Balance Energético Nacional de Uruguay (MIEM).
 
 Submódulos por familia de dataset:
   - electricidad   (generación, capacidad instalada, factor emisión SIN)

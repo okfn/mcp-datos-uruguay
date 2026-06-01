@@ -23,18 +23,18 @@ ALREADY_CHART = (
 )
 
 SOURCE_FOOTER = (
-    "Fuente: MIEM — Balance Energético Nacional, Uruguay "
+    "Fuente: MIEM - Balance Energético Nacional, Uruguay "
     "(catalogodatos.gub.uy)."
 )
 
 
 def fmt_num(v, dec=0):
-    """Formato '1,234' (locale C) o '—' si NaN/None."""
+    """Formato '1,234' (locale C) o '-' si NaN/None."""
     if v is None:
-        return "—"
+        return "-"
     try:
         if pd.isna(v):
-            return "—"
+            return "-"
     except (TypeError, ValueError):
         pass
     return f"{float(v):,.{dec}f}"

@@ -1,4 +1,4 @@
-# BEN — Consumo final energético por sector
+# BEN - Consumo final energético por sector
 
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-consumo-final-energetico-por-sector
 **CSV directo:** https://catalogodatos.gub.uy/dataset/9beed8c2-b881-4e9b-a3d8-9412e48b9554/resource/11142183-96cb-4309-8f90-2b368f8eb99c/download/consumo-final-energetico-por-sector.csv
@@ -20,12 +20,12 @@ quién está consumiendo la energía.
 | Columna | Unidad | Descripción |
 |---|---|---|
 | `AÑO` | año | Año del registro |
-| `R` | ktep | Residencial — hogares (no incluye transporte vehicular). En 1965-1979 incluye también Comercial/Servicios/Sector Público |
+| `R` | ktep | Residencial - hogares (no incluye transporte vehicular). En 1965-1979 incluye también Comercial/Servicios/Sector Público |
 | `C_S_SP` | ktep | Comercial / Servicios / Sector público (CIIU Rev. 4 secciones D-U excepto F + alumbrado público). Vacío 1965-1979 |
 | `T` | ktep | Transporte (aéreo, terrestre, fluvial; individual y colectivo). No incluye búnker internacional ni transporte interno de empresas |
-| `I` | ktep | Industrial — manufactura + construcción (CIIU Rev. 4 secciones C y F), incluye agroindustria y pesca industrial |
-| `AP` | ktep | Actividades primarias — agropecuaria, forestal, pesca, minería |
-| `NI` | ktep | No identificado — consumos sin sector asignable |
+| `I` | ktep | Industrial - manufactura + construcción (CIIU Rev. 4 secciones C y F), incluye agroindustria y pesca industrial |
+| `AP` | ktep | Actividades primarias - agropecuaria, forestal, pesca, minería |
+| `NI` | ktep | No identificado - consumos sin sector asignable |
 | `TOTAL` | ktep | Consumo final energético total |
 
 ## Head (primeras 10 líneas)
@@ -46,15 +46,15 @@ AÑO;R;C_S_SP;T;I;AP;NI;TOTAL
 184.2 (3%).
 
 ## Preguntas que ayuda a responder
-- **5. Consumo por sector** — toda la sección. Sector con mayor consumo,
+- **5. Consumo por sector** - toda la sección. Sector con mayor consumo,
   evolución, sector que más crece.
-- **1. Evolución de la demanda** — vía `TOTAL`.
+- **1. Evolución de la demanda** - vía `TOTAL`.
 
 ## Notas
 - **Quiebre 1980:** entre 1965-1979 el consumo Comercial/Servicios/Sector
   Público está incluido dentro de Residencial; tratar el ratio R/C_S_SP
   con cuidado en series largas.
 - El **sub-consumo de transporte** (auto vs ómnibus vs aviación etc.) NO
-  está disponible en este dataset — la pregunta del README "¿cómo se
+  está disponible en este dataset - la pregunta del README "¿cómo se
   distribuye el consumo dentro del sector transporte?" **no se puede
   responder con BEN**, requiere otra fuente.

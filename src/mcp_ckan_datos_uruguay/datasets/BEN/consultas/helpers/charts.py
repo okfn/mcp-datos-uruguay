@@ -114,7 +114,7 @@ def chart_for_mix(df, fuentes, title, palette=None):
     if len(df) == 1:
         row = df.iloc[0]
         slices = [(label, row[col]) for col, label in fuentes]
-        return pie_chart(f"{title} — {int(row['anio'])}", slices, palette)
+        return pie_chart(f"{title} - {int(row['anio'])}", slices, palette)
     return stacked_bar_chart(
         title,
         df["anio"].tolist(),

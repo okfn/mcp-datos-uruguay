@@ -2,11 +2,11 @@
 Helpers compartidos de las consultas BEN, reunidos en un único namespace.
 
 Cada submódulo agrupa una responsabilidad:
-  - `data`        — URLs de datasets, `load_dataset`, `filter_years`.
-  - `charts`      — constructores de gráficos Chart.js.
-  - `format`      — `fmt_num`, builders de `CallToolResult`, tablas, notas fijas.
-  - `units`       — explicación de unidades (`unit_blurb`).
-  - `metodologia` — definiciones literales del Libro del BEN (`definiciones_relevantes`).
+  - `data`        - URLs de datasets, `load_dataset`, `filter_years`.
+  - `charts`      - constructores de gráficos Chart.js.
+  - `format`      - `fmt_num`, builders de `CallToolResult`, tablas, notas fijas.
+  - `units`       - explicación de unidades (`unit_blurb`).
+  - `metodologia` - definiciones literales del Libro del BEN (`definiciones_relevantes`).
 
 Este `__init__` los re-exporta para que las tools llamen `h.load_dataset(...)`,
 `h.text_result(...)`, `h.unit_blurb(...)`, `h.definiciones_relevantes(...)`, etc.,

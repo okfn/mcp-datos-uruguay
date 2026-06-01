@@ -1,4 +1,4 @@
-# BEN — Potencia instalada por fuente
+# BEN - Potencia instalada por fuente
 
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-potencia-instalada-por-fuente
 **CSV directo:** https://catalogodatos.gub.uy/dataset/a3254965-7f67-4c91-b52d-7c50d2192f40/resource/1306f14e-fdf8-4e26-82c6-7e12319ee0ec/download/potencia-instalada-por-fuente.csv
@@ -22,12 +22,12 @@ serie operativa empieza en 2003.
 | Columna | Unidad | Descripción |
 |---|---|---|
 | `AÑO` | año | Año del registro |
-| `TCR_F` | MW | Turbinas Ciclo Rankine (vapor) — fósil |
-| `TCB_F` | MW | Turbinas Ciclo Brayton (gas) — fósil |
-| `M_F` | MW | Motores — fósil |
+| `TCR_F` | MW | Turbinas Ciclo Rankine (vapor) - fósil |
+| `TCB_F` | MW | Turbinas Ciclo Brayton (gas) - fósil |
+| `M_F` | MW | Motores - fósil |
 | `TOTAL_F` | MW | **Total fósil** = TCR_F + TCB_F + M_F |
-| `TCR_B` | MW | Turbinas Ciclo Rankine — biomasa |
-| `M_B` | MW | Motores — biomasa |
+| `TCR_B` | MW | Turbinas Ciclo Rankine - biomasa |
+| `M_B` | MW | Motores - biomasa |
 | `TOTAL_B` | MW | **Total biomasa** = TCR_B + M_B |
 | `TOTAL_H` | MW | Total hidráulica |
 | `TOTAL_Eo` | MW | Total eólica |
@@ -47,15 +47,15 @@ AÑO;TCR_F;TCB_F;M_F;TOTAL_F;TCR_B;M_B;TOTAL_B;TOTAL_H;TOTAL_Eo;TOTAL_S;TOTAL
 2023;180.0;925.7;70.96;1176.66;728.5;2.62;731.12;1538.0;1516.4875;300.7188748;5262.9863748
 2024;180.0;925.7;70.96;1176.66;728.5;2.62;731.12;1538.0;1516.4875;336.3258828;5298.5933828
 ```
-(filas iniciales totalmente vacías — datos reales empiezan en 2003).
+(filas iniciales totalmente vacías - datos reales empiezan en 2003).
 
 2024: TOTAL = 5298.6 MW. Mix: Hidro 1538, Eólica 1516, Solar 336, Fósil
 1177 (Rankine 180 + Brayton 926 + Motores 71), Biomasa 731.
 
 ## Preguntas que ayuda a responder
-- **2. Matriz energética** — diversificación de tecnologías, dependencia
+- **2. Matriz energética** - diversificación de tecnologías, dependencia
   histórica de hidro vs nuevas renovables.
-- **6. Transición energética** — fechas de incorporación de cada
+- **6. Transición energética** - fechas de incorporación de cada
   tecnología (eólica masiva 2014-2017, solar 2014+).
 
 ## Notas

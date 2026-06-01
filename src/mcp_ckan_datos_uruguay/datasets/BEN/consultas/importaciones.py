@@ -1,5 +1,5 @@
 """
-Tools BEN — Importaciones / intercambio externo de energía.
+Tools BEN - Importaciones / intercambio externo de energía.
 
 Cubre tres datasets MIEM:
   - `ben-importacion-de-gas-natural` (ktep, 1965-2024)
@@ -77,7 +77,7 @@ def importacion_petroleo(anio_desde=None, anio_hasta=None) -> DataToolOutput:
 
     if len(df) == 1:
         chart = h.grouped_bar_chart(
-            f"Importación de petróleo y carga refinería — {anio_ult} (ktep)",
+            f"Importación de petróleo y carga refinería - {anio_ult} (ktep)",
             [anio_ult],
             [
                 ("Importación", [float(ult["impo_petroleo"])]),
@@ -152,7 +152,7 @@ def importacion_gas_natural(anio_desde=None, anio_hasta=None) -> DataToolOutput:
 
     if len(df) == 1:
         chart = h.grouped_bar_chart(
-            f"Importación de gas natural — {anio_ult} (ktep)",
+            f"Importación de gas natural - {anio_ult} (ktep)",
             [anio_ult],
             [("Importación gas natural", [float(ult["impo_gas_natural"])])],
             palette={"Importación gas natural": "#bcbd22"},
@@ -237,7 +237,7 @@ def intercambio_electricidad(anio_desde=None, anio_hasta=None) -> DataToolOutput
 
     if len(df) == 1:
         chart = h.grouped_bar_chart(
-            f"Intercambio eléctrico Uruguay — {anio_ult} (ktep)",
+            f"Intercambio eléctrico Uruguay - {anio_ult} (ktep)",
             [anio_ult],
             [
                 ("Importación", [float(ult["impo_electricidad"])]),
