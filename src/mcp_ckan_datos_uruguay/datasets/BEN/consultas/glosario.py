@@ -20,7 +20,7 @@ def glosario(concepto) -> DataToolOutput:
     if d is None:
         disponibles = ", ".join(h.CONCEPTOS_DISPONIBLES)
         texto = (
-            f"No hay una definición «{concepto}» en el glosario del BEN. "
+            f"No hay una definición '{concepto}' en el glosario del BEN. "
             f"Conceptos disponibles: {disponibles}."
         )
         return h.text_result(texto, [libro_url])
@@ -28,7 +28,7 @@ def glosario(concepto) -> DataToolOutput:
     texto = (
         f"{d['termino']} - definición oficial del Libro del BEN 2024 (MIEM), "
         f"{d['seccion']}:\n\n"
-        f"«{d['definicion']}»\n\n"
+        f"'{d['definicion']}'\n\n"
         f"Fuente textual oficial: {libro['name']} (recurso {libro['uri']})."
     )
     return h.text_result(texto, [libro_url])

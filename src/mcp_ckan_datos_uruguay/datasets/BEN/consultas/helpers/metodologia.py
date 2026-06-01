@@ -18,7 +18,7 @@ re-extraer el texto y revisar cada definición literal antes de actualizarla.
 """
 
 
-# concepto → {termino, definicion (literal del §8), seccion, tools}
+# concepto -> {termino, definicion (literal del §8), seccion, tools}
 # `tools` documenta qué tools de datos inyectan esta definición en su respuesta.
 DEFINICIONES_BEN = {
     # ── §8.1 Definiciones generales ──────────────────────────────────────
