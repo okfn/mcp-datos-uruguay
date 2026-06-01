@@ -1,4 +1,4 @@
-# BEN — Importación de petróleo y carga de refinería
+# BEN - Importación de petróleo y carga de refinería
 
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/ben-importacion-de-petroleo-y-carga-de-refineria
 **CSV directo:** https://catalogodatos.gub.uy/dataset/db244448-da5e-4dff-8bca-8163ed9c8d6d/resource/7efe24ee-b7ee-45fb-8b97-5518b02930fe/download/impo_y_carga_refineria_petroleo.csv
@@ -14,7 +14,7 @@ df = pd.read_csv(URL, sep=";", encoding="latin-1")
 ## Descripción
 Serie anual con dos magnitudes complementarias:
 1. Volumen de petróleo crudo importado al país.
-2. Carga de la refinería (La Teja, ANCAP) — petróleo efectivamente procesado.
+2. Carga de la refinería (La Teja, ANCAP) - petróleo efectivamente procesado.
 Ambas en ktep. La diferencia entre importación y carga refleja stocks y
 movimientos de inventario.
 
@@ -41,5 +41,5 @@ AÑO;impo_petroleo;carga_refineria
 Últimos años: 2023 = 1354.3 / 1474.8 ; 2024 = 1447.9 / 1338.0.
 
 ## Preguntas que ayuda a responder
-- **3. Dependencia externa y seguridad energética** — toda la sección.
-- **6. Vulnerabilidad ante shock del precio del petróleo** — input clave.
+- **3. Dependencia externa y seguridad energética** - toda la sección.
+- **6. Vulnerabilidad ante shock del precio del petróleo** - input clave.

@@ -1,5 +1,5 @@
 """
-Tools BEN — Abastecimiento de energía primaria (lado oferta).
+Tools BEN - Abastecimiento de energía primaria (lado oferta).
 
 Cubre el dataset MIEM `miem-abastecimiento-de-energia-por-fuente` (ktep,
 1965-2024) y construye un derivado para 'pérdidas de transformación'
@@ -18,13 +18,13 @@ Preguntas del README cubiertas:
 import pandas as pd
 
 from mcp_server import DataToolOutput
-from . import _common as c
+from . import helpers as h
 
 
-# Columnas del dataset abastecimiento — todas en ktep.
+# Columnas del dataset abastecimiento - todas en ktep.
 # Renovables locales: EE_H, EE_Eo, S, B
 # Importadas (no renovables): EE_i, GN, P_D, C_C
-# Otros: RI (residuos industriales — locales pero no renovables)
+# Otros: RI (residuos industriales - locales pero no renovables)
 ABAST_FUENTES = [
     ("P_D", "Petróleo + derivados"),
     ("B", "Biomasa"),
@@ -54,11 +54,11 @@ IMPORTADAS_ABAST = {"Electricidad importada", "Gas natural",
 
 def matriz_abastecimiento_primario(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """Oferta primaria de energía total del país, desagregada por fuente."""
-    df = c.load_dataset("abastecimiento")
-    df = c.filter_years(df, anio_desde, anio_hasta)
-    src = [c.DATASET_PAGES["abastecimiento"]]
+    df = h.load_dataset("abastecimiento")
+    df = h.filter_years(df, anio_desde, anio_hasta)
+    src = [h.DATASET_PAGES["abastecimiento"]]
     if df.empty:
-        return c.empty_result("de oferta primaria en ese rango", src)
+        return h.empty_result("de oferta primaria en ese rango", src)
 
     ult = df.iloc[-1]
     anio_ult = int(ult["anio"])
@@ -67,7 +67,7 @@ def matriz_abastecimiento_primario(anio_desde=None, anio_hasta=None) -> DataTool
         else f"{int(df['anio'].min())}-{anio_ult}"
     )
 
-    breakdown_lines, _ = c.mix_breakdown_lines(
+    breakdown_lines, _ = h.mix_breakdown_lines(
         ult, ABAST_FUENTES,
         incluye_pct_renov=RENOVABLES_ABAST,
     )
@@ -86,7 +86,7 @@ def matriz_abastecimiento_primario(anio_desde=None, anio_hasta=None) -> DataTool
     lines = [
         f"Oferta primaria de energía de Uruguay, {rango} (ktep).",
         "",
-        f"Mix primario {anio_ult} — TOTAL = {c.fmt_num(ult['TOTAL'], 1)} ktep:",
+        f"Mix primario {anio_ult} - TOTAL = {h.fmt_num(ult['TOTAL'], 1)} ktep:",
     ] + breakdown_lines
     lines.append(
         f"  → Diversificación (Herfindahl normalizado): {diversidad:.2f} "
@@ -114,39 +114,43 @@ def matriz_abastecimiento_primario(anio_desde=None, anio_hasta=None) -> DataTool
                 f"({pct_ult - pct_prim:+.1f} pp)."
             )
 
-    lines.append(c.unit_blurb("ktep"))
+    lines.append(h.ALREADY_TABLE)
+    lines.append(h.ALREADY_CHART)
+    lines.append(h.definiciones_relevantes(
+        "ktep", "matriz_primaria", "clasificacion_por_tipo", "energia_primaria",
+    ))
     lines.append("")
-    lines.append(c.SOURCE_FOOTER)
+    lines.append(h.SOURCE_FOOTER)
 
     def _pct_renov(row):
         total_r = float(row["TOTAL"]) if pd.notna(row["TOTAL"]) else 0.0
         renov = sum(float(row[col]) for col, et in ABAST_FUENTES
                     if et in RENOVABLES_ABAST and pd.notna(row[col]))
-        return f"{(renov / total_r * 100):.1f}%" if total_r else "—"
+        return f"{(renov / total_r * 100):.1f}%" if total_r else "-"
 
-    table = c.build_table(
+    table = h.build_table(
         df, ABAST_FUENTES,
         extra_cols=[("% Renov.", _pct_renov)],
     )
 
-    chart = c.chart_for_mix(
+    chart = h.chart_for_mix(
         df, ABAST_FUENTES,
         f"Oferta primaria de energía Uruguay ({rango}), ktep",
         palette=ABAST_PALETA,
     )
 
-    return c.text_result("\n".join(lines), src, table=table, charts=[chart])
+    return h.text_result("\n".join(lines), src, table=table, charts=[chart])
 
 
 # ═══ Dependencia externa ══════════════════════════════════════════════════
 
 def dependencia_energetica_externa(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """% de energía importada vs producida localmente, año a año."""
-    df = c.load_dataset("abastecimiento")
-    df = c.filter_years(df, anio_desde, anio_hasta)
-    src = [c.DATASET_PAGES["abastecimiento"]]
+    df = h.load_dataset("abastecimiento")
+    df = h.filter_years(df, anio_desde, anio_hasta)
+    src = [h.DATASET_PAGES["abastecimiento"]]
     if df.empty:
-        return c.empty_result("para calcular dependencia externa", src)
+        return h.empty_result("para calcular dependencia externa", src)
 
     df = df.copy()
     df["importado"] = df[["EE_i", "GN", "P_D", "C_C"]].sum(axis=1, skipna=True)
@@ -164,10 +168,10 @@ def dependencia_energetica_externa(anio_desde=None, anio_hasta=None) -> DataTool
         f"Dependencia energética externa de Uruguay, {rango}.",
         "",
         f"  - {anio_ult}: {ult['pct_importado']:.1f}% importado "
-        f"({c.fmt_num(ult['importado'], 1)} ktep) "
+        f"({h.fmt_num(ult['importado'], 1)} ktep) "
         f"vs {(100 - ult['pct_importado']):.1f}% local "
-        f"({c.fmt_num(ult['local'], 1)} ktep). "
-        f"Total = {c.fmt_num(ult['TOTAL'], 1)} ktep.",
+        f"({h.fmt_num(ult['local'], 1)} ktep). "
+        f"Total = {h.fmt_num(ult['TOTAL'], 1)} ktep.",
     ]
     if len(df) >= 2:
         prim = df.iloc[0]
@@ -183,29 +187,31 @@ def dependencia_energetica_externa(anio_desde=None, anio_hasta=None) -> DataTool
         )
 
     lines.append("")
+    lines.append(h.ALREADY_TABLE)
+    lines.append(h.ALREADY_CHART)
     lines.append(
         "Definición: 'importado' = electricidad importada (EE_i) + gas "
         "natural (GN) + petróleo y derivados (P_D) + carbón y coque (C_C). "
         "'Local' = el resto (renovables locales + biomasa + residuos "
         "industriales)."
     )
-    lines.append(c.unit_blurb("ktep"))
+    lines.append(h.definiciones_relevantes("ktep", "clasificacion_por_origen", "importacion"))
     lines.append("")
-    lines.append(c.SOURCE_FOOTER)
+    lines.append(h.SOURCE_FOOTER)
 
     table = [["Año", "Importado (ktep)", "Local (ktep)", "Total (ktep)", "% Importado"]]
     for _, row in df.iterrows():
         table.append([
             str(int(row["anio"])),
-            c.fmt_num(row["importado"], 1),
-            c.fmt_num(row["local"], 1),
-            c.fmt_num(row["TOTAL"], 1),
+            h.fmt_num(row["importado"], 1),
+            h.fmt_num(row["local"], 1),
+            h.fmt_num(row["TOTAL"], 1),
             f"{row['pct_importado']:.1f}%",
         ])
 
     if len(df) == 1:
-        chart = c.pie_chart(
-            f"Importado vs producción local — {anio_ult}",
+        chart = h.pie_chart(
+            f"Importado vs producción local - {anio_ult}",
             [
                 ("Importado", float(ult["importado"])),
                 ("Local", float(ult["local"])),
@@ -213,7 +219,7 @@ def dependencia_energetica_externa(anio_desde=None, anio_hasta=None) -> DataTool
             palette={"Importado": "#d62728", "Local": "#2ca02c"},
         )
     else:
-        chart = c.stacked_bar_chart(
+        chart = h.stacked_bar_chart(
             f"Abastecimiento Uruguay: importado vs local ({rango}), ktep",
             df["anio"].tolist(),
             [
@@ -223,23 +229,23 @@ def dependencia_energetica_externa(anio_desde=None, anio_hasta=None) -> DataTool
             palette={"Importado": "#d62728", "Local": "#2ca02c"},
         )
 
-    return c.text_result("\n".join(lines), src, table=table, charts=[chart])
+    return h.text_result("\n".join(lines), src, table=table, charts=[chart])
 
 
 # ═══ Pérdidas de transformación ═══════════════════════════════════════════
 
 def perdidas_transformacion(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """Diferencia entre oferta primaria y consumo final = pérdidas + autoconsumo."""
-    abast = c.load_dataset("abastecimiento")
-    cons = c.load_dataset("consumo_fuente")
-    abast = c.filter_years(abast, anio_desde, anio_hasta)
-    cons = c.filter_years(cons, anio_desde, anio_hasta)
+    abast = h.load_dataset("abastecimiento")
+    cons = h.load_dataset("consumo_fuente")
+    abast = h.filter_years(abast, anio_desde, anio_hasta)
+    cons = h.filter_years(cons, anio_desde, anio_hasta)
     src = [
-        c.DATASET_PAGES["abastecimiento"],
-        c.DATASET_PAGES["consumo_fuente"],
+        h.DATASET_PAGES["abastecimiento"],
+        h.DATASET_PAGES["consumo_fuente"],
     ]
     if abast.empty or cons.empty:
-        return c.empty_result("para calcular pérdidas en ese rango", src)
+        return h.empty_result("para calcular pérdidas en ese rango", src)
 
     merged = pd.merge(
         abast[["anio", "TOTAL"]].rename(columns={"TOTAL": "oferta"}),
@@ -248,7 +254,7 @@ def perdidas_transformacion(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     ).sort_values("anio").reset_index(drop=True)
 
     if merged.empty:
-        return c.empty_result("para calcular pérdidas en ese rango", src)
+        return h.empty_result("para calcular pérdidas en ese rango", src)
 
     merged["perdidas"] = merged["oferta"] - merged["consumo"]
     merged["pct_perdidas"] = (merged["perdidas"] / merged["oferta"] * 100).round(2)
@@ -263,9 +269,9 @@ def perdidas_transformacion(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     lines = [
         f"Pérdidas de transformación + autoconsumo del sector energético, {rango}.",
         "",
-        f"  - {anio_ult}: oferta primaria {c.fmt_num(ult['oferta'], 1)} ktep, "
-        f"consumo final {c.fmt_num(ult['consumo'], 1)} ktep, "
-        f"pérdidas {c.fmt_num(ult['perdidas'], 1)} ktep "
+        f"  - {anio_ult}: oferta primaria {h.fmt_num(ult['oferta'], 1)} ktep, "
+        f"consumo final {h.fmt_num(ult['consumo'], 1)} ktep, "
+        f"pérdidas {h.fmt_num(ult['perdidas'], 1)} ktep "
         f"({ult['pct_perdidas']:.1f}%).",
         "",
         "Definición: 'pérdidas' incluyen pérdidas físicas en transporte y "
@@ -274,23 +280,28 @@ def perdidas_transformacion(anio_desde=None, anio_hasta=None) -> DataToolOutput:
         "electricidad). No es desperdicio puro: una buena parte es "
         "termodinámica.",
     ]
-    lines.append(c.unit_blurb("ktep"))
+    lines.append(h.ALREADY_TABLE)
+    lines.append(h.ALREADY_CHART)
+
+    lines.append(h.definiciones_relevantes(
+        "ktep", "perdidas", "centro_de_transformacion", "energia_neta",
+    ))
     lines.append("")
-    lines.append(c.SOURCE_FOOTER)
+    lines.append(h.SOURCE_FOOTER)
 
     table = [["Año", "Oferta (ktep)", "Consumo (ktep)", "Pérdidas (ktep)", "% Pérdidas"]]
     for _, row in merged.iterrows():
         table.append([
             str(int(row["anio"])),
-            c.fmt_num(row["oferta"], 1),
-            c.fmt_num(row["consumo"], 1),
-            c.fmt_num(row["perdidas"], 1),
+            h.fmt_num(row["oferta"], 1),
+            h.fmt_num(row["consumo"], 1),
+            h.fmt_num(row["perdidas"], 1),
             f"{row['pct_perdidas']:.1f}%",
         ])
 
     if len(merged) == 1:
-        chart = c.grouped_bar_chart(
-            f"Oferta vs consumo final — {anio_ult} (ktep)",
+        chart = h.grouped_bar_chart(
+            f"Oferta vs consumo final - {anio_ult} (ktep)",
             [anio_ult],
             [
                 ("Oferta primaria", [float(ult["oferta"])]),
@@ -304,7 +315,7 @@ def perdidas_transformacion(anio_desde=None, anio_hasta=None) -> DataToolOutput:
             },
         )
     else:
-        chart = c.line_chart(
+        chart = h.line_chart(
             f"Oferta vs consumo vs pérdidas Uruguay ({rango}), ktep",
             merged["anio"].tolist(),
             [
@@ -319,4 +330,4 @@ def perdidas_transformacion(anio_desde=None, anio_hasta=None) -> DataToolOutput:
             },
         )
 
-    return c.text_result("\n".join(lines), src, table=table, charts=[chart])
+    return h.text_result("\n".join(lines), src, table=table, charts=[chart])

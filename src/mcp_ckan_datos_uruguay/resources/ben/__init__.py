@@ -1,8 +1,8 @@
-"""BEN area — Balance Energético Nacional resources.
+"""BEN area - Balance Energético Nacional resources.
 
 Each resource is one `<name>.py` file with a `data` dict that gets unpacked
 into `@mcp.resource(**data)`. The metadata dict is the single source of
-truth — URLs live inside `data["annotations"]["github_release_url"]`, not
+truth - URLs live inside `data["annotations"]["github_release_url"]`, not
 duplicated as module constants.
 """
 from mcp_ckan_datos_uruguay.resources import fetch_cached_url

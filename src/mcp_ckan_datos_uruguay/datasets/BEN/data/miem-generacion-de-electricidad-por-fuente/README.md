@@ -1,4 +1,4 @@
-# BEN — Generación de electricidad por fuente
+# BEN - Generación de electricidad por fuente
 
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-generacion-de-electricidad-por-fuente
 **CSV directo:** https://catalogodatos.gub.uy/dataset/91118d5f-11be-4c84-82f0-79370ab7b089/resource/101c92a0-2906-4232-ad8d-34234a5eca17/download/generacion-electricidad-por-fuente.csv
@@ -42,21 +42,21 @@ AÑO;EE_F;EE_B;EE_H;EE_Eo;EE_S;TOTAL
 2010;1165.081;1089.849;8407.154;69.914;;10731.998
 ```
 2024: Total = 17204 GWh. Mix: hidro 7331 (43%), eólica 4751 (28%),
-biomasa 4419 (26%), solar 518 (3%), fósil 185 (1%) — año excelente para
+biomasa 4419 (26%), solar 518 (3%), fósil 185 (1%) - año excelente para
 renovables.
 
 ## Preguntas que ayuda a responder
-- **2. Matriz energética eléctrica** — fuente principal de generación,
+- **2. Matriz energética eléctrica** - fuente principal de generación,
   fuentes que más crecen, % renovables eléctricas.
-- **4. Análisis temporal** — variación inter-anual (sólo anual, no estacional).
-- **6. Transición** — entrada de eólica desde 2008, solar desde ~2014,
+- **4. Análisis temporal** - variación inter-anual (sólo anual, no estacional).
+- **6. Transición** - entrada de eólica desde 2008, solar desde ~2014,
   caída de fósil.
 
 ## Notas
 - **Diferencia con `abastecimiento-de-energia-por-fuente`:** allí la
   electricidad está en ktep (energía contenida); aquí en GWh (energía
   efectivamente entregada). No multiplicar por factores de conversión a
-  la ligera — usar la columna `EE_CE_SP` del dataset
+  la ligera - usar la columna `EE_CE_SP` del dataset
   `miem-ben-factor-de-emision-de-co2-del-sin` como referencia.
-- Sin granularidad mensual / horaria — no se pueden responder preguntas
+- Sin granularidad mensual / horaria - no se pueden responder preguntas
   de pico horario o estacional.

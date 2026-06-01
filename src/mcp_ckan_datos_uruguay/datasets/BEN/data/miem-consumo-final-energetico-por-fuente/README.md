@@ -1,4 +1,4 @@
-# BEN — Consumo final energético por fuente
+# BEN - Consumo final energético por fuente
 
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-consumo-final-energetico-por-fuente
 **CSV directo:** https://catalogodatos.gub.uy/dataset/1737fc66-58b7-4286-a246-f1864533975d/resource/6e6af1ef-15ee-434a-ba11-b091641b292d/download/consumo-final-energetico-por-fuente.csv
@@ -27,9 +27,9 @@ abastecimiento.
 | `L_CV` | ktep | Leña y carbón vegetal |
 | `RB` | ktep | Residuos de biomasa (cáscara de arroz/girasol, bagazo, licor negro, etc.) |
 | `RI` | ktep | Residuos industriales (neumáticos, aceites usados, etc.) |
-| `DP` | ktep | Derivados del petróleo (GLP, naftas, gasoil, fueloil, queroseno…) — incluye gas manufacturado 1978-2005 |
+| `DP` | ktep | Derivados del petróleo (GLP, naftas, gasoil, fueloil, queroseno...) - incluye gas manufacturado 1978-2005 |
 | `Bc` | ktep | Biocombustibles (bioetanol, biodiésel) |
-| `DC` | ktep | Derivados del carbón (coque) — hasta 1977 incluye gas manufacturado |
+| `DC` | ktep | Derivados del carbón (coque) - hasta 1977 incluye gas manufacturado |
 | `EE` | ktep | Energía eléctrica |
 | `TOTAL` | ktep | Consumo final energético total |
 
@@ -50,17 +50,17 @@ AÑO;CM;GN;S;L_CV;RB;RI;DP;Bc;DC;EE;TOTAL
 residuos de biomasa 2222.4, electricidad 1136.6, leña/carbón vegetal 471.9.
 
 ## Preguntas que ayuda a responder
-- **1. Visión macro** — consumo total y su evolución; fuentes
+- **1. Visión macro** - consumo total y su evolución; fuentes
   predominantes del lado demanda.
-- **2. Matriz energética (consumo)** — % renovables = `(S + L_CV + RB +
+- **2. Matriz energética (consumo)** - % renovables = `(S + L_CV + RB +
   Bc) / TOTAL` (residuos industriales son recuperación, no estrictamente
   renovables).
-- **6. Pérdidas de transformación** — comparar `TOTAL` aquí con
+- **6. Pérdidas de transformación** - comparar `TOTAL` aquí con
   `miem-abastecimiento-de-energia-por-fuente.TOTAL`. Diferencia 2024 ≈
   6842.4 - 6076.4 = 766 ktep (≈11%) son pérdidas + autoconsumo del sector
   energético.
 
 ## Notas
 - TOTAL coincide con el TOTAL de `miem-consumo-final-energetico-por-sector`
-  (cross-check: 2024 ambos = 6076.4) — son la misma magnitud
+  (cross-check: 2024 ambos = 6076.4) - son la misma magnitud
   desagregada por dos dimensiones distintas.

@@ -1,4 +1,4 @@
-# BEN — Emisiones de CO2 por sector
+# BEN - Emisiones de CO2 por sector
 
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-emisiones-de-co2-por-sector
 **CSV directo:** https://catalogodatos.gub.uy/dataset/fded3eeb-2904-43a5-a348-0b31434ef085/resource/0276c0ec-a444-4221-8354-b4909b5bd2d6/download/emisiones-de-co2-por-sector.csv
@@ -32,8 +32,8 @@ final.
 | `NI` | Gg CO2 | No identificado |
 | `S_C` | Gg CO2 | **Subtotal Sectores de Consumo** = R+C_S_SP+T+I+AP+NI |
 | `TOTAL` | Gg CO2 | Total = I_E + S_C |
-| `Q_B` | Gg CO2 | Quema de biomasa — **partida informativa, NO se suma al TOTAL** |
-| `BI` | Gg CO2 | Búnkers internacionales — **partida informativa, NO se suma al TOTAL** |
+| `Q_B` | Gg CO2 | Quema de biomasa - **partida informativa, NO se suma al TOTAL** |
+| `BI` | Gg CO2 | Búnkers internacionales - **partida informativa, NO se suma al TOTAL** |
 
 ## Head (primeras 10 líneas)
 ```
@@ -52,10 +52,10 @@ AÑO;CE_SP;CP;I_E;R;C_S_SP;T;I;AP;NI;S_C;TOTAL;Q_B;BI
 Residencial 349, C/S/SP 256, Primarias 446.
 
 ## Preguntas que ayuda a responder
-- **2. Matriz energética** — emisiones del sector eléctrico (vía CE_SP)
+- **2. Matriz energética** - emisiones del sector eléctrico (vía CE_SP)
   son el "termómetro" de la transición.
-- **5. Consumo por sector** — qué sectores son los grandes emisores.
-- **6. Eficiencia / transición** — emisiones / consumo final = intensidad
+- **5. Consumo por sector** - qué sectores son los grandes emisores.
+- **6. Eficiencia / transición** - emisiones / consumo final = intensidad
   de carbono.
 
 ## Notas

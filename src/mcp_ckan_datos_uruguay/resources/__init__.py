@@ -32,7 +32,7 @@ def fetch_cached_url(url: str) -> bytes:
         return cache_path.read_bytes()
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     req = urllib.request.Request(url, headers={"User-Agent": "mcp-ckan-datos-uruguay"})
-    with urllib.request.urlopen(req) as resp:  # noqa: S310 — fixed https URLs we control
+    with urllib.request.urlopen(req) as resp:  # noqa: S310 - fixed https URLs we control
         data = resp.read()
     cache_path.write_bytes(data)
     return data

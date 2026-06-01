@@ -1,4 +1,4 @@
-# BEN — Importación y exportación de electricidad
+# BEN - Importación y exportación de electricidad
 
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/ben-importacion-y-exportacion-de-electricidad
 **CSV directo:** https://catalogodatos.gub.uy/dataset/b0ab3d1f-4d00-490b-86fc-727238a405cc/resource/dbec6e8f-0202-46dc-8bf5-64ef4018cab9/download/impo_y_expo_electricidad.csv
@@ -38,10 +38,10 @@ AÑO;impo_electricidad;expo_electricidad
 1973;2.3;
 ```
 Últimos años: 2023 = 120.2 / 21 ; 2024 = 0.6 / 174.3 (Uruguay exportador
-neto en años secos invertidos / húmedos). Atención: signos no negativos —
+neto en años secos invertidos / húmedos). Atención: signos no negativos -
 las dos columnas son magnitudes positivas.
 
 ## Preguntas que ayuda a responder
-- **3. Dependencia externa** — saldo importador/exportador eléctrico.
-- **2. Matriz energética** — Uruguay como exportador eléctrico es
+- **3. Dependencia externa** - saldo importador/exportador eléctrico.
+- **2. Matriz energética** - Uruguay como exportador eléctrico es
   consecuencia del crecimiento de renovables (cruzar con generación).

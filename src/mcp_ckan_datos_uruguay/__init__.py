@@ -19,7 +19,7 @@ def register_resources(mcp):
 
 
 def _register_ben_tools(mcp):
-    """BEN — Balance Energético Nacional (MIEM).
+    """BEN - Balance Energético Nacional (MIEM).
 
     Fuente: catalogodatos.gub.uy. Datos anuales desde 1965 (la serie de
     generación eléctrica arranca en 2002). Detalle por dataset y mapa
@@ -44,10 +44,13 @@ def _register_ben_tools(mcp):
             "¿Uruguay importa o exporta electricidad?",
             "¿Cómo evolucionó la posición exportadora del país?",
             "¿En qué años fue exportador / importador neto?",
+            "¿Qué significa 'energía final' en el BEN?",
+            "¿Qué incluye 'residuos de biomasa'?",
+            "¿Cómo define el BEN el ktep?",
         ],
     )
 
-    # ── Delitos sexuales (2018-2024) — tools Python ─────────────
+    # ── Delitos sexuales (2018-2024) - tools Python ─────────────
     # Fuente: Ministerio del Interior, catalogodatos.gub.uy
     # Complementan las tools YAML con análisis que requieren lógica:
     #  - Tendencia anual (requiere extraer año de la fecha)
@@ -73,9 +76,9 @@ def _register_ben_tools(mcp):
             tabla año-por-año con todas las fuentes, y un gráfico: **pie
             chart** si se pide un único año (mix de ese año), o **barras
             apiladas (stacked)** si se piden varios años (evolución).
-            Datos del Ministerio de Industria, Energía y Minería (MIEM) — Balance
+            Datos del Ministerio de Industria, Energía y Minería (MIEM) - Balance
             Energético Nacional, publicados en catalogodatos.gub.uy. Unidad: GWh
-            (gigavatios-hora) — energía eléctrica efectivamente generada,
+            (gigavatios-hora) - energía eléctrica efectivamente generada,
             incluye servicio público + autoproducción industrial entregada al
             SIN. **No** confundir con `MW` (potencia instalada / capacidad) ni
             con `ktep` (que es la convención de balance energético usada en
@@ -108,7 +111,7 @@ def _register_ben_tools(mcp):
     ) -> DataToolOutput:
         """Capacidad eléctrica instalada en Uruguay por fuente, en MW (megavatios).
             Responde preguntas sobre **capacidad** (potencia físicamente
-            instalada) — no confundir con generación. Cuándo se incorporó cada
+            instalada) - no confundir con generación. Cuándo se incorporó cada
             tecnología, cuánto MW de eólica/solar/hidro/biomasa/fósil hay,
             % renovables del parque generador.
             Útil para preguntas como:
@@ -182,9 +185,9 @@ def _register_ben_tools(mcp):
             Cobertura: 1965-2024 (anual). Limitación: no hay sub-segmentación
             del transporte (auto/ómnibus/aviación no se distinguen). Para
             'intensidad energética industrial' (energía/VAB) hay que cruzar
-            con BCU — no está en BEN.
+            con BCU - no está en BEN.
             Pie chart si se pide 1 año, stacked bar si se piden varios.
-            **ktep ≈ 11.63 GWh** — unidad estándar de balance energético.
+            **ktep ≈ 11.63 GWh** - unidad estándar de balance energético.
 
         Args:
             anio_desde: Año inicial del rango (incluido). Default: 1965.
@@ -216,7 +219,7 @@ def _register_ben_tools(mcp):
             (misma magnitud, dos desagregaciones).
             Cobertura: 1965-2024 (anual). Pie chart si se pide 1 año,
             stacked bar si se piden varios.
-            **ktep ≈ 11.63 GWh** — unidad estándar de balance energético.
+            **ktep ≈ 11.63 GWh** - unidad estándar de balance energético.
 
         Args:
             anio_desde: Año inicial del rango (incluido). Default: 1965.
@@ -264,7 +267,7 @@ def _register_ben_tools(mcp):
         """Oferta primaria de energía total del país por fuente, en ktep.
             Es **la matriz energética** completa (no sólo eléctrica): suma
             todas las fuentes que ingresan al sistema (importación +
-            producción local) — petróleo y derivados, biomasa, hidráulica,
+            producción local) - petróleo y derivados, biomasa, hidráulica,
             eólica, solar, gas natural, carbón/coque, electricidad importada,
             residuos industriales.
             Útil para:
@@ -413,7 +416,7 @@ def _register_ben_tools(mcp):
     def intercambio_electrico_uy(
         anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
-        """Intercambio eléctrico de Uruguay con Argentina y Brasil — importación,
+        """Intercambio eléctrico de Uruguay con Argentina y Brasil - importación,
             exportación y saldo neto, en ktep.
             Las dos columnas son **magnitudes positivas** (no usar signo):
             el saldo neto se calcula como exportación menos importación. Con
@@ -474,6 +477,44 @@ def _register_ben_tools(mcp):
             anio_desde=anio_desde, anio_hasta=anio_hasta,
         )
 
+    @mcp.tool()
+    def glosario_ben(concepto: str) -> DataToolOutput:
+        """Definición oficial de un concepto del Balance Energético Nacional,
+            tomada **textualmente** del capítulo "8. Metodología" del Libro del
+            BEN 2024 (MIEM). Usar cuando el usuario pregunta qué significa o
+            cómo se define un término del BEN, o qué incluye una fuente de
+            energía. Las tools de datos ya adjuntan las definiciones que les
+            aplican; esta tool es para definiciones pedidas explícitamente o
+            para conceptos que ninguna tool de datos cubre.
+            Útil para preguntas como:
+                - ¿Qué es la energía final / neta / bruta / primaria?
+                - ¿Qué incluye 'residuos de biomasa' / 'residuos industriales'?
+                - ¿Cómo se define el ktep? ¿Y un centro de transformación?
+                - ¿Qué cuenta como renovable en el abastecimiento?
+            Devuelve la definición literal, la sección del libro (§8.x) y cita
+            el recurso del libro (PDF).
+            Usar tambien para ser mas claros en las respuestas. No usar
+            definiciones genéricas.
+
+        Args:
+            concepto: Clave exacta del concepto a definir. Conceptos
+                disponibles:
+                energia_primaria, energia_secundaria, energia_bruta,
+                energia_neta, energia_final, centro_de_transformacion,
+                sector_de_consumo, produccion, importacion, exportacion,
+                perdidas, variacion_de_inventario, energia_no_utilizada,
+                carbon_mineral, gas_natural, energia_solar, residuos_de_biomasa,
+                biomasa_para_biocombustibles, residuos_industriales, ktep,
+                emisiones_co2, matriz_primaria, clasificacion_por_origen,
+                clasificacion_por_tipo.
+
+        Examples:
+            - glosario_ben(concepto="energia_final")
+            - glosario_ben(concepto="residuos_de_biomasa")
+            - glosario_ben(concepto="ktep")
+        """
+        return ben.glosario(concepto=concepto)
+
 
 # def _register_other_tools(mcp):
 #     """Tools no-BEN: delitos sexuales, compras públicas, misc."""
@@ -491,7 +532,7 @@ def _register_ben_tools(mcp):
 #             no cubierto por los datasets de Uruguay (energía, compras
 #             públicas, delitos sexuales).
 #             **Nunca** la uses si hay una tool real que pueda contribuir,
-#             aunque sea parcialmente — siempre preferí la tool específica.
+#             aunque sea parcialmente - siempre preferí la tool específica.
 #             Esta tool sólo emite un mensaje estándar diciéndole al usuario
 #             que no hay datos disponibles para esa pregunta en el sistema.
 
@@ -519,7 +560,7 @@ def _register_ben_tools(mcp):
 #         )
 #         return msg
 
-#     # ── Delitos sexuales (2018-2024) — tools Python ─────────────
+#     # ── Delitos sexuales (2018-2024) - tools Python ─────────────
 #     # Fuente: Ministerio del Interior, catalogodatos.gub.uy
 #     # Complementan las tools YAML con análisis que requieren lógica:
 #     #  - Tendencia anual (requiere extraer año de la fecha)
