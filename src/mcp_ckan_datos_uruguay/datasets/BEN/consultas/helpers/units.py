@@ -6,11 +6,7 @@ entienda ktep, GWh, MW, Gg CO2 y t CO2/GWh.
 """
 
 UNIT_BLURB = {
-    "ktep": (
-        "ktep = kilotonelada equivalente de petróleo. Unidad estándar de "
-        "balances energéticos: permite sumar fuentes muy distintas "
-        "(electricidad, gas, leña, etc.). 1 ktep ≈ 11.63 GWh."
-    ),
+    # "ktep": Already defined in glosario
     "GWh": (
         "GWh = gigavatio-hora = 1 millón de kWh. Energía eléctrica "
         "efectivamente entregada en un período."

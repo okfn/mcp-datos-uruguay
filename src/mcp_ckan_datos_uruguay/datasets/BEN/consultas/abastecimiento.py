@@ -116,9 +116,8 @@ def matriz_abastecimiento_primario(anio_desde=None, anio_hasta=None) -> DataTool
 
     lines.append(h.ALREADY_TABLE)
     lines.append(h.ALREADY_CHART)
-    lines.append(h.unit_blurb("ktep"))
     lines.append(h.definiciones_relevantes(
-        "matriz_primaria", "clasificacion_por_tipo", "energia_primaria",
+        "ktep", "matriz_primaria", "clasificacion_por_tipo", "energia_primaria",
     ))
     lines.append("")
     lines.append(h.SOURCE_FOOTER)
@@ -196,8 +195,7 @@ def dependencia_energetica_externa(anio_desde=None, anio_hasta=None) -> DataTool
         "'Local' = el resto (renovables locales + biomasa + residuos "
         "industriales)."
     )
-    lines.append(h.unit_blurb("ktep"))
-    lines.append(h.definiciones_relevantes("clasificacion_por_origen", "importacion"))
+    lines.append(h.definiciones_relevantes("ktep", "clasificacion_por_origen", "importacion"))
     lines.append("")
     lines.append(h.SOURCE_FOOTER)
 
@@ -285,9 +283,8 @@ def perdidas_transformacion(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     lines.append(h.ALREADY_TABLE)
     lines.append(h.ALREADY_CHART)
 
-    lines.append(h.unit_blurb("ktep"))
     lines.append(h.definiciones_relevantes(
-        "perdidas", "centro_de_transformacion", "energia_neta",
+        "ktep", "perdidas", "centro_de_transformacion", "energia_neta",
     ))
     lines.append("")
     lines.append(h.SOURCE_FOOTER)

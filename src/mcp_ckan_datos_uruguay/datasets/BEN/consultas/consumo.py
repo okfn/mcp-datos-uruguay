@@ -98,8 +98,7 @@ def consumo_final_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput
         "Nota 1965-1979: la columna 'Comercial/Servicios/Sec.Público' "
         "está incluida dentro de 'Residencial'."
     )
-    lines.append(h.unit_blurb("ktep"))
-    lines.append(h.definiciones_relevantes("energia_final", "sector_de_consumo"))
+    lines.append(h.definiciones_relevantes("ktep", "energia_final", "sector_de_consumo"))
     lines.append("")
     lines.append(h.SOURCE_FOOTER)
 
@@ -180,8 +179,7 @@ def consumo_final_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolOutput
         "biocombustibles y solar térmica. La electricidad se contabiliza "
         "aparte: para ver su mix renovable usar `matriz_generacion_electrica`."
     )
-    lines.append(h.unit_blurb("ktep"))
-    lines.append(h.definiciones_relevantes("energia_final", "residuos_de_biomasa"))
+    lines.append(h.definiciones_relevantes("ktep", "energia_final", "residuos_de_biomasa"))
     lines.append("")
     lines.append(h.ALREADY_TABLE)
     lines.append(h.ALREADY_CHART)
@@ -260,8 +258,7 @@ def tendencia_demanda_total(anio_desde=None, anio_hasta=None) -> DataToolOutput:
         "cápita' o 'intensidad energética = energía/PIB' hay que cruzar "
         "con datos del INE / BCU."
     )
-    lines.append(h.unit_blurb("ktep"))
-    lines.append(h.definiciones_relevantes("energia_final"))
+    lines.append(h.definiciones_relevantes("ktep", "energia_final"))
     lines.append("")
     lines.append(h.SOURCE_FOOTER)
 

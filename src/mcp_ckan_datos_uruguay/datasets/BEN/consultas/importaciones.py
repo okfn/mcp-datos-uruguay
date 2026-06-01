@@ -61,8 +61,7 @@ def importacion_petroleo(anio_desde=None, anio_hasta=None) -> DataToolOutput:
         "movimientos de stock (acopio o desacopio de crudo). En años con "
         "parada técnica de refinería la carga cae fuerte."
     )
-    lines.append(h.unit_blurb("ktep"))
-    lines.append(h.definiciones_relevantes("importacion"))
+    lines.append(h.definiciones_relevantes("ktep", "importacion"))
     lines.append("")
     lines.append(h.ALREADY_TABLE)
     lines.append(h.ALREADY_CHART)
@@ -138,8 +137,7 @@ def importacion_gas_natural(anio_desde=None, anio_hasta=None) -> DataToolOutput:
         "gasoducto Cruz del Sur (operativo desde 1998); volúmenes "
         "modestos comparados con petróleo y biomasa.",
     ]
-    lines.append(h.unit_blurb("ktep"))
-    lines.append(h.definiciones_relevantes("gas_natural", "importacion"))
+    lines.append(h.definiciones_relevantes("ktep", "gas_natural", "importacion"))
     lines.append("")
     lines.append(h.ALREADY_TABLE)
     lines.append(h.ALREADY_CHART)
@@ -222,8 +220,7 @@ def intercambio_electricidad(anio_desde=None, anio_hasta=None) -> DataToolOutput
         "**positivas** (no usar signo): el saldo se calcula como "
         "exportación - importación."
     )
-    lines.append(h.unit_blurb("ktep"))
-    lines.append(h.definiciones_relevantes("exportacion", "importacion"))
+    lines.append(h.definiciones_relevantes("ktep", "exportacion", "importacion"))
     lines.append("")
     lines.append(h.ALREADY_TABLE)
     lines.append(h.ALREADY_CHART)
