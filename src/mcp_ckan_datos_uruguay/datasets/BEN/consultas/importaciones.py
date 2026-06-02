@@ -21,7 +21,7 @@ from . import helpers as h
 # ═══ Importación de petróleo + carga de refinería ═════════════════════════
 
 def importacion_petroleo(anio_desde=None, anio_hasta=None) -> DataToolOutput:
-    """Importación de petróleo crudo + carga de refinería de ANCAP, en ktep."""
+    """Importación de petróleo crudo + carga de refinería, en ktep."""
     df = h.load_dataset("petroleo")
     df = h.filter_years(df, anio_desde, anio_hasta)
     src = [h.DATASET_PAGES["petroleo"]]
@@ -36,8 +36,8 @@ def importacion_petroleo(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     anio_ult = int(ult["anio"])
 
     lines = [
-        f"Importación de petróleo crudo y carga de refinería (La Teja, "
-        f"ANCAP), {rango} (ktep).",
+        f"Importación de petróleo crudo y carga de refinería, "
+        f"{rango} (ktep).",
         "",
         f"  - {anio_ult}: importación = "
         f"{h.fmt_num(ult['impo_petroleo'], 1)} ktep, "
@@ -58,8 +58,7 @@ def importacion_petroleo(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     lines.append("")
     lines.append(
         "Lectura: la diferencia entre importación y carga refleja "
-        "movimientos de stock (acopio o desacopio de crudo). En años con "
-        "parada técnica de refinería la carga cae fuerte."
+        "movimientos de stock (acopio o desacopio de crudo)."
     )
     lines.append(h.definiciones_relevantes("ktep", "importacion"))
     lines.append("")

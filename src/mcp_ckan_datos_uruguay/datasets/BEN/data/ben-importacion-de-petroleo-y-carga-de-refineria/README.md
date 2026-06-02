@@ -14,7 +14,7 @@ df = pd.read_csv(URL, sep=";", encoding="latin-1")
 ## Descripción
 Serie anual con dos magnitudes complementarias:
 1. Volumen de petróleo crudo importado al país.
-2. Carga de la refinería (La Teja, ANCAP) - petróleo efectivamente procesado.
+2. Carga de la refinería - petróleo efectivamente procesado.
 Ambas en ktep. La diferencia entre importación y carga refleja stocks y
 movimientos de inventario.
 
