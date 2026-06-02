@@ -40,7 +40,7 @@ def _register_ben_tools(mcp):
             "¿Cuándo entró la primera planta solar?",
             "¿Qué tan limpia es la matriz eléctrica de Uruguay?",
             "¿Cómo evolucionó la 'limpieza' del SIN con la transición?",
-            "¿En qué años fue más sucio (sequía hidráulica)?",
+            "¿En qué años fue más alta la intensidad de CO2 del SIN?",
             "¿Uruguay importa o exporta electricidad?",
             "¿Cómo evolucionó la posición exportadora del país?",
             "¿En qué años fue exportador / importador neto?",
@@ -145,15 +145,15 @@ def _register_ben_tools(mcp):
     ) -> DataToolOutput:
         """Intensidad de carbono del sistema eléctrico uruguayo (FE_SIN), en
             **toneladas de CO2 por GWh** generado. Métrica única que resume
-            qué tan limpio es el SIN: cae fuerte cuando entra eólica/solar y
-            sube en años hidráulicos secos donde toca despachar térmica fósil.
+            qué tan limpio es el SIN: baja cuando crece la generación
+            renovable y sube cuando aumenta el despacho de térmica fósil.
             Útil para responder:
                 - ¿Qué tan limpia es la matriz eléctrica de Uruguay?
                 - ¿Cómo evolucionó la 'limpieza' del SIN con la transición?
-                - ¿En qué años fue más sucio (sequía hidráulica)?
+                - ¿En qué años fue más alta la intensidad de CO2 del SIN?
             Referencias: térmica gas ciclo combinado ≈ 350-400 t CO2/GWh,
-            térmica carbón ≈ 800-1000, renovables ≈ 0. Uruguay 2024 = 6.3
-            (año hidráulico excelente). Cobertura: 1965-2024 anual.
+            térmica carbón ≈ 800-1000, renovables ≈ 0. Uruguay 2024 = 6.3.
+            Cobertura: 1965-2024 anual.
             Devuelve gráfico de líneas (varios años) o de barras vs
             referencias técnicas (un solo año).
 
@@ -358,11 +358,9 @@ def _register_ben_tools(mcp):
     def importacion_petroleo_uy(
         anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
-        """Importación de petróleo crudo + carga de la refinería La Teja
-            (ANCAP), en ktep.
+        """Importación de petróleo crudo + carga de refinería, en ktep.
             Dos magnitudes: cuánto crudo se importó y cuánto efectivamente
-            se procesó en refinería. La diferencia refleja stocks. En años
-            con parada técnica de refinería la carga cae fuerte.
+            se procesó en refinería. La diferencia refleja stocks.
             Útil para:
                 - ¿Cuánto petróleo importa Uruguay?
                 - ¿Cómo evolucionaron las importaciones de petróleo?
@@ -389,9 +387,8 @@ def _register_ben_tools(mcp):
         anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
         """Serie anual de importaciones de gas natural a Uruguay, en ktep.
-            Uruguay no produce gas natural: lo importa desde Argentina por
-            el gasoducto Cruz del Sur (operativo desde 1998). Volúmenes
-            modestos comparados con petróleo y biomasa.
+            Volúmenes modestos comparados con petróleo y biomasa. La serie
+            tiene datos desde 1998 (años previos vacíos).
             Útil para:
                 - ¿Cuánto gas natural importa Uruguay?
                 - ¿Cómo evolucionaron las importaciones de gas?
@@ -416,13 +413,12 @@ def _register_ben_tools(mcp):
     def intercambio_electrico_uy(
         anio_desde: int | None = None, anio_hasta: int | None = None
     ) -> DataToolOutput:
-        """Intercambio eléctrico de Uruguay con Argentina y Brasil - importación,
-            exportación y saldo neto, en ktep.
+        """Intercambio eléctrico de Uruguay - importación, exportación y
+            saldo neto, en ktep.
             Las dos columnas son **magnitudes positivas** (no usar signo):
-            el saldo neto se calcula como exportación menos importación. Con
-            la entrada masiva de eólica desde 2014, Uruguay pasó de
-            importador estructural a exportador neto en años hidráulicos
-            buenos.
+            el saldo neto se calcula como exportación menos importación. La
+            serie muestra el paso de una posición importadora a una
+            exportadora neta en varios años de la última década.
             Útil para:
                 - ¿Uruguay importa o exporta electricidad?
                 - ¿Cómo evolucionó la posición exportadora del país?

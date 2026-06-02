@@ -114,8 +114,8 @@ def importacion_gas_natural(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     src = [h.DATASET_PAGES["gas_natural"]]
     if df.empty:
         return h.empty_result(
-            "de importación de gas natural en ese rango (la serie arranca "
-            "en 1998 con el gasoducto Cruz del Sur)",
+            "de importación de gas natural en ese rango (la serie tiene "
+            "datos desde 1998)",
             src,
         )
 
@@ -132,9 +132,8 @@ def importacion_gas_natural(anio_desde=None, anio_hasta=None) -> DataToolOutput:
         f"  - {anio_ult}: {h.fmt_num(ult['impo_gas_natural'], 1)} ktep.",
         f"  - Promedio del período: {h.fmt_num(media, 1)} ktep.",
         "",
-        "Contexto: el gas natural llega a Uruguay desde Argentina por el "
-        "gasoducto Cruz del Sur (operativo desde 1998); volúmenes "
-        "modestos comparados con petróleo y biomasa.",
+        "Contexto: volúmenes modestos comparados con petróleo y biomasa; "
+        "la serie tiene datos desde 1998.",
     ]
     lines.append(h.definiciones_relevantes("ktep", "gas_natural", "importacion"))
     lines.append("")
@@ -170,7 +169,7 @@ def importacion_gas_natural(anio_desde=None, anio_hasta=None) -> DataToolOutput:
 # ═══ Importación / exportación de electricidad ═══════════════════════════
 
 def intercambio_electricidad(anio_desde=None, anio_hasta=None) -> DataToolOutput:
-    """Importación, exportación y saldo neto de electricidad con vecinos."""
+    """Importación, exportación y saldo neto de electricidad."""
     df = h.load_dataset("impo_expo_electricidad")
     df = h.filter_years(df, anio_desde, anio_hasta)
     src = [h.DATASET_PAGES["impo_expo_electricidad"]]
@@ -195,8 +194,8 @@ def intercambio_electricidad(anio_desde=None, anio_hasta=None) -> DataToolOutput
     )
 
     lines = [
-        f"Intercambio eléctrico de Uruguay con Argentina y Brasil, "
-        f"{rango} (ktep).",
+        f"Intercambio eléctrico de Uruguay (importación, exportación y "
+        f"saldo neto), {rango} (ktep).",
         "",
         f"  - {anio_ult}: importación = {h.fmt_num(ult['impo_electricidad'], 1)} "
         f"ktep, exportación = {h.fmt_num(ult['expo_electricidad'], 1)} "
