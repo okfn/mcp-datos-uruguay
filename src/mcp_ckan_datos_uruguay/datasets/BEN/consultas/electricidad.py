@@ -130,8 +130,9 @@ def potencia_instalada_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolO
     ] + breakdown_lines
     lines.append("")
     lines.append(
-        "Nota: capacidad ≠ generación. Una hidro de 1.500 MW puede generar "
-        "poco en un año seco. Para uso efectivo cruzar con generación."
+        "Nota: capacidad no es generación. La potencia instalada es el máximo "
+        "disponible, no lo efectivamente generado. Para uso efectivo cruzar "
+        "con la generación (GWh)."
     )
     lines.append(h.unit_blurb("MW"))
     lines.append(h.definiciones_relevantes("clasificacion_por_tipo", "energia_solar"))
@@ -198,9 +199,10 @@ def factor_emision_electrico(anio_desde=None, anio_hasta=None) -> DataToolOutput
         f"  - Mínimo histórico en el rango: {fe_min:.1f} t CO2/GWh ({anio_min}).",
         f"  - Máximo histórico en el rango: {fe_max:.1f} t CO2/GWh ({anio_max}).",
         "",
-        "Lectura: cuanto menor el FE_SIN, más limpio el sistema. La "
-        "volatilidad anual la marca el régimen hidráulico - años secos "
-        "obligan a despachar térmica fósil.",
+        "Lectura: cuanto menor el FE_SIN, más limpio el sistema. El factor "
+        "sube en los años con mayor despacho de térmica fósil y baja cuando "
+        "crece la generación renovable; ese reparto se ve en la matriz de "
+        "generación por fuente (GWh).",
         "Referencias: térmica a gas ciclo combinado ≈ 350-400; térmica a "
         "carbón ≈ 800-1.000; renovables (en operación) ≈ 0 t CO2/GWh.",
     ]

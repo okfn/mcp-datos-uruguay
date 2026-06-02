@@ -27,6 +27,19 @@ SOURCE_FOOTER = (
     "(catalogodatos.gub.uy)."
 )
 
+# Guardrails para la IA: se appendea automáticamente a toda respuesta de BEN
+# desde `text_result`. Evita que el modelo invente nombres de empresas y que
+# atribuya las variaciones a causas (clima, lluvias) que no están en los datos.
+SIN_ESPECULAR = (
+    "Responde únicamente con los datos presentes en esta respuesta y en los "
+    "datasets del BEN (producción y consumo energético). NO menciones nombres "
+    "de empresas, compañías ni operadores que no aparezcan explícitamente en "
+    "los datos. NO atribuyas las variaciones (por ejemplo, suba o baja de la "
+    "generación hidráulica) a causas como clima, lluvias, sequía o nivel de "
+    "embalses: el BEN de Uruguay no contiene datos meteorológicos ni "
+    "hidrológicos. Limítate a describir qué muestran los números."
+)
+
 
 def fmt_num(v, dec=0):
     """Formato '1,234' (locale C) o '-' si NaN/None."""
@@ -46,6 +59,7 @@ def text_result(text, sources, table=None, charts=None):
         sc["table"] = table
     if charts:
         sc["charts"] = charts
+    text = f"{text}\n\n{SIN_ESPECULAR}"
     return CallToolResult(
         content=[TextContent(type="text", text=text)],
         structuredContent=sc,
