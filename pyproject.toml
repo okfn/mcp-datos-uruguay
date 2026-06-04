@@ -6,8 +6,9 @@ readme = "README.md"
 authors = [
     { name = "OKFN", email = "info@okfn.org" }
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 dependencies = [
+    "mcp-server @ git+https://github.com/okfn/mcp-server",
     "pandas>=2.0.0",
 ]
 
@@ -20,7 +21,7 @@ dev = [
 [project.scripts]
 mcp-ckan-datos-uruguay = "mcp_ckan_datos_uruguay:main"
 
-[project.entry-points."mcp_ckan"]
+[project.entry-points."mcp_server"]
 mcp-ckan-datos-uruguay = "mcp_ckan_datos_uruguay:register_tools"
 
 [project.urls]
