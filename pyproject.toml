@@ -10,6 +10,7 @@ requires-python = ">=3.14"
 dependencies = [
     "mcp-server @ git+https://github.com/okfn/mcp-server",
     "pandas>=2.0.0",
+    "requests>=2.34.2",
 ]
 
 [project.optional-dependencies]

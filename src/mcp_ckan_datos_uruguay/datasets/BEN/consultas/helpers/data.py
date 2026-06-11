@@ -4,6 +4,8 @@ Carga y filtrado de los datasets BEN (catalogodatos.gub.uy).
 URLs de los 10 datasets (página del portal CKAN + CSV directo), loader
 cacheado (`load_dataset`) que normaliza la columna AÑO → anio, y `filter_years`.
 """
+import io
+import requests
 
 import pandas as pd
 
@@ -97,7 +99,14 @@ def load_dataset(key):
     if key in _caches:
         return _caches[key]
     url = DATASET_URLS[key]
-    df = pd.read_csv(url, sep=";", encoding="latin-1")
+
+    # El 09 de Junio, el catálogo se desplegó con un Self-Signed certificate y
+    # las llamadas programáticas ya no funcionan. Como controlamos las URLs que
+    # se llaman y confiamos en el servidor, esquivamos la validación SSL.
+    # TODO: Hablar con el equipo de infraestructura y revisar este fix que ponemos
+    # para poder desplegar en el entorno de pruebas.
+    response = requests.get(url, verify=False)
+    df = pd.read_csv(io.StringIO(response.text), sep=";", encoding="latin-1")
     if "AÑO" in df.columns:
         df = df.rename(columns={"AÑO": "anio"})
     df["anio"] = df["anio"].astype(int)
