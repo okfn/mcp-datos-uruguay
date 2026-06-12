@@ -82,10 +82,7 @@ def importacion_petroleo(anio_desde=None, anio_hasta=None) -> DataToolOutput:
                 ("Importación", [float(ult["impo_petroleo"])]),
                 ("Carga refinería", [float(ult["carga_refineria"])]),
             ],
-            palette={
-                "Importación": "#7f7f7f",
-                "Carga refinería": "#1f77b4",
-            },
+            palette=h.COLORES_BEN,
         )
     else:
         chart = h.line_chart(
@@ -95,10 +92,7 @@ def importacion_petroleo(anio_desde=None, anio_hasta=None) -> DataToolOutput:
                 ("Importación", df["impo_petroleo"].tolist()),
                 ("Carga refinería", df["carga_refineria"].tolist()),
             ],
-            palette={
-                "Importación": "#7f7f7f",
-                "Carga refinería": "#1f77b4",
-            },
+            palette=h.COLORES_BEN,
         )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])
@@ -153,14 +147,14 @@ def importacion_gas_natural(anio_desde=None, anio_hasta=None) -> DataToolOutput:
             f"Importación de gas natural - {anio_ult} (ktep)",
             [anio_ult],
             [("Importación gas natural", [float(ult["impo_gas_natural"])])],
-            palette={"Importación gas natural": "#bcbd22"},
+            palette=h.COLORES_BEN,
         )
     else:
         chart = h.line_chart(
             f"Importación de gas natural Uruguay ({rango}), ktep",
             df["anio"].tolist(),
             [("Importación gas natural", df["impo_gas_natural"].tolist())],
-            palette={"Importación gas natural": "#bcbd22"},
+            palette=h.COLORES_BEN,
         )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])
@@ -241,7 +235,7 @@ def intercambio_electricidad(anio_desde=None, anio_hasta=None) -> DataToolOutput
                 ("Importación", [float(ult["impo_electricidad"])]),
                 ("Exportación", [float(ult["expo_electricidad"])]),
             ],
-            palette={"Importación": "#d62728", "Exportación": "#2ca02c"},
+            palette=h.COLORES_BEN,
         )
     else:
         chart = h.grouped_bar_chart(
@@ -251,7 +245,7 @@ def intercambio_electricidad(anio_desde=None, anio_hasta=None) -> DataToolOutput
                 ("Importación", df["impo_electricidad"].tolist()),
                 ("Exportación", df["expo_electricidad"].tolist()),
             ],
-            palette={"Importación": "#d62728", "Exportación": "#2ca02c"},
+            palette=h.COLORES_BEN,
         )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])

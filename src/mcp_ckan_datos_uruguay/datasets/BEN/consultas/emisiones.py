@@ -27,18 +27,6 @@ EMISIONES_SECTORES = [
     ("CP", "Consumo propio sector energético"),
     ("NI", "No identificado"),
 ]
-EMISIONES_PALETA = {
-    "Transporte": "#ff7f0e",
-    "Industrial": "#1f77b4",
-    "Centrales eléctricas (servicio público)": "#7f7f7f",
-    "Residencial": "#2ca02c",
-    "Actividades primarias": "#8c564b",
-    "Comercial/Servicios/Sec.Público": "#9467bd",
-    "Consumo propio sector energético": "#bcbd22",
-    "No identificado": "#17becf",
-}
-
-
 def emisiones_co2_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """Emisiones de CO2 por sector (combustión de combustibles fósiles)."""
     df = h.load_dataset("emisiones_sector")
@@ -112,7 +100,7 @@ def emisiones_co2_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput
     chart = h.chart_for_mix(
         df, EMISIONES_SECTORES,
         f"Emisiones de CO2 por sector ({rango}), Gg CO2",
-        palette=EMISIONES_PALETA,
+        palette=h.COLORES_BEN,
     )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])
