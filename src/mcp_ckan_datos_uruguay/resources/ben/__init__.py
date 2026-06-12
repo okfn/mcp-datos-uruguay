@@ -2,12 +2,13 @@
 
 Each resource is one `<name>.py` file with a `data` dict that gets unpacked
 into `@mcp.resource(**data)`. The metadata dict is the single source of
-truth - URLs live inside `data["annotations"]["github_release_url"]`, not
-duplicated as module constants.
+truth - URLs live inside `data["annotations"]`, not duplicated as module
+constants.
 """
 from mcp_ckan_datos_uruguay.resources import fetch_cached_url
 from mcp_ckan_datos_uruguay.resources.ben.libro import data as ben_libro_res_data
 from mcp_ckan_datos_uruguay.resources.ben.book import data as ben_book_res_data
+from mcp_ckan_datos_uruguay.resources.ben.visualizador_ben import data as ben_visualizador_res_data
 
 
 def register_ben_resources(mcp):
@@ -19,3 +20,9 @@ def register_ben_resources(mcp):
     @mcp.resource(**ben_book_res_data)
     def ben_book_2024() -> bytes:
         return fetch_cached_url(ben_book_res_data["annotations"]["github_release_url"])
+
+    @mcp.resource(**ben_visualizador_res_data)
+    def ben_visualizador() -> str:
+        # Not a file: a text/uri-list with the single link to the online
+        # BEN visualizer.
+        return ben_visualizador_res_data["annotations"]["showcase_url"] + "\n"
