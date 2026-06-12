@@ -4,6 +4,8 @@ Helpers compartidos de las consultas BEN, reunidos en un único namespace.
 Cada submódulo agrupa una responsabilidad:
   - `data`        - URLs de datasets, `load_dataset`, `filter_years`.
   - `charts`      - constructores de gráficos Chart.js.
+  - `ben_palette` - paleta oficial completa MIEM/DNE (xlsx volcado a dict).
+  - `colores`     - `COLORES_BEN`: etiqueta de serie → color oficial BEN.
   - `format`      - `fmt_num`, builders de `CallToolResult`, tablas, notas fijas.
   - `units`       - explicación de unidades (`unit_blurb`).
   - `metodologia` - definiciones literales del Libro del BEN (`definiciones_relevantes`).
@@ -30,6 +32,8 @@ from .charts import (
     line_chart,
     chart_for_mix,
 )
+from .ben_palette import BEN_PALETTE
+from .colores import COLORES_BEN, ben_color
 from .format import (
     ALREADY_TABLE,
     ALREADY_CHART,
@@ -55,6 +59,8 @@ __all__ = [
     # charts
     "PALETTE_DEFAULT", "pie_chart", "stacked_bar_chart", "grouped_bar_chart",
     "line_chart", "chart_for_mix",
+    # colores oficiales BEN
+    "BEN_PALETTE", "COLORES_BEN", "ben_color",
     # format
     "ALREADY_TABLE", "ALREADY_CHART", "SOURCE_FOOTER", "fmt_num",
     "text_result", "empty_result", "mix_breakdown_lines", "build_table",
