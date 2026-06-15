@@ -36,17 +36,6 @@ ABAST_FUENTES = [
     ("EE_i", "Electricidad importada"),
     ("RI", "Residuos industriales"),
 ]
-ABAST_PALETA = {
-    "Petróleo + derivados": "#7f7f7f",
-    "Biomasa": "#8c564b",
-    "Hidráulica": "#1f77b4",
-    "Eólica": "#2ca02c",
-    "Solar": "#ff7f0e",
-    "Gas natural": "#bcbd22",
-    "Carbón + coque": "#5a3a26",
-    "Electricidad importada": "#17becf",
-    "Residuos industriales": "#9467bd",
-}
 RENOVABLES_ABAST = {"Hidráulica", "Eólica", "Solar", "Biomasa"}
 IMPORTADAS_ABAST = {"Electricidad importada", "Gas natural",
                     "Petróleo + derivados", "Carbón + coque"}
@@ -136,7 +125,7 @@ def matriz_abastecimiento_primario(anio_desde=None, anio_hasta=None) -> DataTool
     chart = h.chart_for_mix(
         df, ABAST_FUENTES,
         f"Oferta primaria de energía Uruguay ({rango}), ktep",
-        palette=ABAST_PALETA,
+        palette=h.COLORES_BEN,
     )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])
@@ -216,7 +205,7 @@ def dependencia_energetica_externa(anio_desde=None, anio_hasta=None) -> DataTool
                 ("Importado", float(ult["importado"])),
                 ("Local", float(ult["local"])),
             ],
-            palette={"Importado": "#d62728", "Local": "#2ca02c"},
+            palette=h.COLORES_BEN,
         )
     else:
         chart = h.stacked_bar_chart(
@@ -226,7 +215,7 @@ def dependencia_energetica_externa(anio_desde=None, anio_hasta=None) -> DataTool
                 ("Local", df["local"].tolist()),
                 ("Importado", df["importado"].tolist()),
             ],
-            palette={"Importado": "#d62728", "Local": "#2ca02c"},
+            palette=h.COLORES_BEN,
         )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])
@@ -308,11 +297,7 @@ def perdidas_transformacion(anio_desde=None, anio_hasta=None) -> DataToolOutput:
                 ("Consumo final", [float(ult["consumo"])]),
                 ("Pérdidas + autoconsumo", [float(ult["perdidas"])]),
             ],
-            palette={
-                "Oferta primaria": "#1f77b4",
-                "Consumo final": "#2ca02c",
-                "Pérdidas + autoconsumo": "#d62728",
-            },
+            palette=h.COLORES_BEN,
         )
     else:
         chart = h.line_chart(
@@ -323,11 +308,7 @@ def perdidas_transformacion(anio_desde=None, anio_hasta=None) -> DataToolOutput:
                 ("Consumo final", merged["consumo"].tolist()),
                 ("Pérdidas + autoconsumo", merged["perdidas"].tolist()),
             ],
-            palette={
-                "Oferta primaria": "#1f77b4",
-                "Consumo final": "#2ca02c",
-                "Pérdidas + autoconsumo": "#d62728",
-            },
+            palette=h.COLORES_BEN,
         )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])

@@ -27,10 +27,6 @@ GENERACION_FUENTES = [
     ("EE_B", "Biomasa"),
     ("EE_F", "Fósil"),
 ]
-GENERACION_PALETA = {
-    "Hidráulica": "#1f77b4", "Eólica": "#2ca02c", "Solar": "#ff7f0e",
-    "Biomasa": "#8c564b", "Fósil": "#7f7f7f",
-}
 RENOVABLES_GEN = {"Hidráulica", "Eólica", "Solar", "Biomasa"}
 
 
@@ -79,7 +75,7 @@ def matriz_generacion_electrica(anio_desde=None, anio_hasta=None) -> DataToolOut
     chart = h.chart_for_mix(
         df, GENERACION_FUENTES,
         f"Matriz de generación eléctrica Uruguay ({rango}), GWh",
-        palette=GENERACION_PALETA,
+        palette=h.COLORES_BEN,
     )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])
@@ -97,7 +93,6 @@ POTENCIA_FUENTES = [
     ("TOTAL_B", "Biomasa"),
     ("TOTAL_F", "Fósil"),
 ]
-POTENCIA_PALETA = GENERACION_PALETA
 RENOVABLES_POT = {"Hidráulica", "Eólica", "Solar", "Biomasa"}
 
 
@@ -155,7 +150,7 @@ def potencia_instalada_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolO
     chart = h.chart_for_mix(
         df, POTENCIA_FUENTES,
         f"Capacidad instalada Uruguay ({rango}), MW",
-        palette=POTENCIA_PALETA,
+        palette=h.COLORES_BEN,
     )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])
@@ -232,13 +227,18 @@ def factor_emision_electrico(anio_desde=None, anio_hasta=None) -> DataToolOutput
                 ("Térmica gas ciclo combinado", [375.0]),
                 ("Térmica carbón", [900.0]),
             ],
+            palette={
+                f"SIN Uruguay {anio_ult}": h.COLORES_BEN["FE_SIN"],
+                "Térmica gas ciclo combinado": h.COLORES_BEN["Gas natural"],
+                "Térmica carbón": h.COLORES_BEN["Carbón mineral"],
+            },
         )
     else:
         chart = h.line_chart(
             f"Factor de emisión del SIN ({rango}), t CO2/GWh",
             df["anio"].tolist(),
             [("FE_SIN", df["FE_SIN"].tolist())],
-            palette={"FE_SIN": "#d62728"},
+            palette=h.COLORES_BEN,
         )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])

@@ -34,16 +34,6 @@ CONSUMO_SECTORES = [
     ("AP", "Actividades primarias"),
     ("NI", "No identificado"),
 ]
-CONSUMO_SECTORES_PALETA = {
-    "Industrial": "#1f77b4",
-    "Transporte": "#ff7f0e",
-    "Residencial": "#2ca02c",
-    "Comercial/Servicios/Sec.Público": "#9467bd",
-    "Actividades primarias": "#8c564b",
-    "No identificado": "#bcbd22",
-}
-
-
 def consumo_final_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """Consumo final energético desagregado por sector, en ktep."""
     df = h.load_dataset("consumo_sector")
@@ -107,7 +97,7 @@ def consumo_final_por_sector(anio_desde=None, anio_hasta=None) -> DataToolOutput
     chart = h.chart_for_mix(
         df, CONSUMO_SECTORES,
         f"Consumo final energético por sector ({rango}), ktep",
-        palette=CONSUMO_SECTORES_PALETA,
+        palette=h.COLORES_BEN,
     )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])
@@ -127,18 +117,6 @@ CONSUMO_FUENTES = [
     ("DC", "Derivados del carbón"),
     ("RI", "Residuos industriales"),
 ]
-CONSUMO_FUENTES_PALETA = {
-    "Derivados del petróleo": "#7f7f7f",
-    "Residuos de biomasa": "#8c564b",
-    "Electricidad": "#1f77b4",
-    "Leña / carbón vegetal": "#2ca02c",
-    "Gas natural": "#bcbd22",
-    "Biocombustibles": "#17becf",
-    "Solar térmica": "#ff7f0e",
-    "Carbón mineral": "#7c4f33",
-    "Derivados del carbón": "#5a3a26",
-    "Residuos industriales": "#9467bd",
-}
 # Renovables/limpias del lado consumo (Bc, leña, biomasa, solar térmica).
 # Electricidad y residuos industriales no se cuentan como renovables aquí
 # (electricidad arrastra mix variable; RI es recuperación, no renovable).
@@ -199,7 +177,7 @@ def consumo_final_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolOutput
     chart = h.chart_for_mix(
         df, CONSUMO_FUENTES,
         f"Consumo final energético por fuente ({rango}), ktep",
-        palette=CONSUMO_FUENTES_PALETA,
+        palette=h.COLORES_BEN,
     )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])
@@ -270,7 +248,7 @@ def tendencia_demanda_total(anio_desde=None, anio_hasta=None) -> DataToolOutput:
         f"Consumo final energético total Uruguay ({rango}), ktep",
         df["anio"].tolist(),
         [("Consumo total", df["TOTAL"].tolist())],
-        palette={"Consumo total": "#1f77b4"},
+        palette=h.COLORES_BEN,
     )
 
     return h.text_result("\n".join(lines), src, table=table, charts=[chart])
