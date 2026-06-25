@@ -3,7 +3,7 @@
 **Página del dataset:** https://catalogodatos.gub.uy/dataset/miem-potencia-instalada-por-fuente
 **CSV directo:** https://catalogodatos.gub.uy/dataset/a3254965-7f67-4c91-b52d-7c50d2192f40/resource/1306f14e-fdf8-4e26-82c6-7e12319ee0ec/download/potencia-instalada-por-fuente.csv
 **Archivo local:** `potencia-instalada-por-fuente.csv` · **Metadata:** `metadatos-potencia-instalada-por-fuente.json`
-**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965-2024 (años con datos: principalmente 2003+)
+**Encoding:** ISO-8859-1 · **Separador:** `;` · **Cobertura:** 1965-2024 (años con datos: 1990+)
 
 ```python
 import pandas as pd
@@ -15,8 +15,8 @@ df = pd.read_csv(URL, sep=";", encoding="latin-1")
 Potencia eléctrica instalada (capacidad) en MW al cierre de cada año,
 abierta por tecnología y fuente energética. **Diferencia clave** vs
 generación: aquí se mide **capacidad** (instalada físicamente),
-no producción. Las primeras décadas tienen muchas celdas vacías porque la
-serie operativa empieza en 2003.
+no producción. Las filas 1965-1989 vienen vacías; la serie con datos
+empieza en 1990.
 
 ## Diccionario de columnas
 | Columna | Unidad | Descripción |
@@ -47,7 +47,7 @@ AÑO;TCR_F;TCB_F;M_F;TOTAL_F;TCR_B;M_B;TOTAL_B;TOTAL_H;TOTAL_Eo;TOTAL_S;TOTAL
 2023;180.0;925.7;70.96;1176.66;728.5;2.62;731.12;1538.0;1516.4875;300.7188748;5262.9863748
 2024;180.0;925.7;70.96;1176.66;728.5;2.62;731.12;1538.0;1516.4875;336.3258828;5298.5933828
 ```
-(filas iniciales totalmente vacías - datos reales empiezan en 2003).
+(filas 1965-1989 totalmente vacías - los datos reales empiezan en 1990).
 
 2024: TOTAL = 5298.6 MW. Mix: Hidro 1538, Eólica 1516, Solar 336, Fósil
 1177 (Rankine 180 + Brayton 926 + Motores 71), Biomasa 731.
@@ -59,7 +59,7 @@ AÑO;TCR_F;TCB_F;M_F;TOTAL_F;TCR_B;M_B;TOTAL_B;TOTAL_H;TOTAL_Eo;TOTAL_S;TOTAL
   tecnología (eólica masiva 2014-2017, solar 2014+).
 
 ## Notas
-- **Cobertura útil real: 2003-2024.** Para series largas de generación
+- **Cobertura útil real: 1990-2024.** Para series largas de generación
   ver `miem-generacion-de-electricidad-por-fuente` (2002+).
 - Capacidad ≠ generación. Una planta hidráulica puede tener gran
   potencia pero generar poco en años secos. Para cuestiones de
