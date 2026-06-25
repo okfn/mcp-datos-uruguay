@@ -3,7 +3,7 @@ Tools BEN - Electricidad.
 
 Cubre tres datasets MIEM:
   - `miem-generacion-de-electricidad-por-fuente` (GWh, 2002-2024)
-  - `miem-potencia-instalada-por-fuente` (MW, datos útiles 2003-2024)
+  - `miem-potencia-instalada-por-fuente` (MW, 1990-2024)
   - `miem-ben-factor-de-emision-de-co2-del-sin` (t CO2/GWh, 1965-2024)
 
 Preguntas del README cubiertas: 1.5 (fuentes predominantes en eléctrico),
@@ -83,9 +83,12 @@ def matriz_generacion_electrica(anio_desde=None, anio_hasta=None) -> DataToolOut
 
 # ═══ Potencia instalada por fuente (MW) ═══════════════════════════════════
 
-# La potencia tiene un nivel adicional: las fósil/biomasa tienen subtotales
-# por tecnología. Usamos los TOTAL_X para mantenernos al mismo nivel que
-# generación.
+# La potencia tiene un nivel adicional: fósil y biomasa se abren por
+# tecnología (Rankine / Brayton / Motores). `POTENCIA_FUENTES` se queda al
+# nivel de fuente (mismo nivel que generación) para el mix y el gráfico;
+# `POTENCIA_TECNOLOGIAS` baja al nivel hoja para la tabla y el desglose, de
+# modo que la IA reciba TODAS las columnas del CSV con su significado
+# (p. ej. TCR_F = Turbinas Ciclo Rankine vapor - fósil).
 POTENCIA_FUENTES = [
     ("TOTAL_H", "Hidráulica"),
     ("TOTAL_Eo", "Eólica"),
@@ -95,12 +98,38 @@ POTENCIA_FUENTES = [
 ]
 RENOVABLES_POT = {"Hidráulica", "Eólica", "Solar", "Biomasa"}
 
+# Columnas hoja que suman exactamente TOTAL (sin subtotales redundantes):
+# las 5 tecnologías térmicas + las 3 renovables que no se subdividen.
+POTENCIA_TECNOLOGIAS = [
+    ("TCR_F", "Turbinas Ciclo Rankine (vapor) - fósil"),
+    ("TCB_F", "Turbinas Ciclo Brayton (gas) - fósil"),
+    ("M_F", "Motores - fósil"),
+    ("TCR_B", "Turbinas Ciclo Rankine (vapor) - biomasa"),
+    ("M_B", "Motores - biomasa"),
+    ("TOTAL_H", "Hidráulica"),
+    ("TOTAL_Eo", "Eólica"),
+    ("TOTAL_S", "Solar"),
+]
+# Descripción de cada código de columna, para inyectar al contexto de la IA.
+POTENCIA_DICC_COLUMNAS = (
+    "Significado de las columnas de tecnología (todas en MW):\n"
+    "  - TCR_F: Turbinas Ciclo Rankine (vapor) - fósil.\n"
+    "  - TCB_F: Turbinas Ciclo Brayton (gas) - fósil.\n"
+    "  - M_F: Motores - fósil.\n"
+    "  - TOTAL_F: total fósil = TCR_F + TCB_F + M_F.\n"
+    "  - TCR_B: Turbinas Ciclo Rankine (vapor) - biomasa.\n"
+    "  - M_B: Motores - biomasa.\n"
+    "  - TOTAL_B: total biomasa = TCR_B + M_B.\n"
+    "  - TOTAL_H / TOTAL_Eo / TOTAL_S: hidráulica / eólica / solar fotovoltaica."
+)
+
 
 def potencia_instalada_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolOutput:
     """Capacidad instalada por fuente, en MW (total al cierre de cada año)."""
     df = h.load_dataset("potencia")
     df = h.filter_years(df, anio_desde, anio_hasta)
-    # Los años pre-2003 vienen vacíos; descartar filas donde TOTAL es NaN.
+    # La serie tiene datos desde 1990; los años previos (1965-1989) vienen
+    # vacíos. Descartar filas donde TOTAL es NaN para no devolver años sin dato.
     df = df[df["TOTAL"].notna()].reset_index(drop=True)
     src = [h.DATASET_PAGES["potencia"]]
     if df.empty:
@@ -117,12 +146,20 @@ def potencia_instalada_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolO
         incluye_pct_renov=RENOVABLES_POT,
     )
 
+    # Desglose hoja (por tecnología) del último año: expone TCR_F, TCB_F, etc.
+    tech_lines, _ = h.mix_breakdown_lines(ult, POTENCIA_TECNOLOGIAS)
+
     lines = [
         f"Potencia (capacidad) eléctrica instalada en Uruguay, "
         f"{rango} (MW al cierre de cada año).",
         "",
         f"Mix de capacidad {anio_ult} - TOTAL = {h.fmt_num(ult['TOTAL'])} MW:",
     ] + breakdown_lines
+    lines.append("")
+    lines.append(f"Desglose por tecnología {anio_ult} (MW):")
+    lines += tech_lines
+    lines.append("")
+    lines.append(POTENCIA_DICC_COLUMNAS)
     lines.append("")
     lines.append(
         "Nota: capacidad no es generación. La potencia instalada es el máximo "
@@ -142,8 +179,10 @@ def potencia_instalada_por_fuente(anio_desde=None, anio_hasta=None) -> DataToolO
                     if et in RENOVABLES_POT and pd.notna(row[col]))
         return f"{(renov / total * 100):.1f}%" if total else "-"
 
+    # Tabla a nivel hoja (incluye TCR_F, TCB_F, M_F, TCR_B, M_B) para que cada
+    # valor anual por tecnología quede disponible en todo el rango pedido.
     table = h.build_table(
-        df, POTENCIA_FUENTES,
+        df, POTENCIA_TECNOLOGIAS,
         extra_cols=[("% Renov.", _pct_renov)],
     )
 
